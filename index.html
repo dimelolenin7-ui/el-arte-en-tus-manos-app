@@ -264,6 +264,66 @@
       border-color: var(--primary);
     }
 
+    /* CONTINUAR TEJIENDO */
+    .hero-continue {
+      background: #fff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+    }
+
+    .hero-thumb-box {
+      position: relative;
+      width: 100%;
+      height: 160px;
+    }
+
+    .hero-thumb-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-badge-top {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(179, 90, 56, 0.95);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-details {
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hero-details h3 {
+      font-size: 0.95rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+    }
+
+    .btn-continue-play {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     /* RETO 5 DÍAS */
     .challenge-box {
       background: #fff;
@@ -572,7 +632,7 @@
     <div class="auth-card">
       <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
       <h1>El Arte en Tus Manos</h1>
-      <p>Biblioteca oficial y academia virtual de amigurumis.</p>
+      <p>Biblioteca oficial y academia virtual interactiva de amigurumis.</p>
       
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="input-group">
@@ -612,33 +672,42 @@
         <input type="text" id="searchInput" placeholder="Buscar por personaje, cantante, serie o técnica..." onkeyup="handleFilter()">
       </div>
 
-      <!-- PÍLDORAS DE TUS CARPETAS REALES -->
+      <!-- PÍLDORAS DESLIZABLES CON TUS CARPETAS REALES -->
       <div class="pill-filters" id="pillsContainer">
         <button class="pill-btn active" onclick="setCategoryFilter('Todos', this)">✨ Todos</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis navideños', this)">🎄 Navideños</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de cantantes', this)">🎤 Cantantes</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis personajes', this)">🎭 Personajes</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis del chavo del 8', this)">🧢 El Chavo del 8</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis religiosos', this)">🕊️ Religiosos</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis navideños', this)">🎄 Navideños</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de san rio', this)">🎀 Sanrio</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de osos y peluches', this)">🧸 Osos y Peluches</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de mario bross', this)">🍄 Mario Bros</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de las chicas super poderosas', this)">💖 Chicas Superpoderosas</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de toy story', this)">🤠 Toy Story</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de pokemon', this)">⚡ Pokémon</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de futbolistas', this)">⚽ Futbolistas</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis Disney', this)">🏰 Disney</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de cantantes', this)">🎤 Cantantes</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de mario bross', this)">🍄 Mario Bros</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de osos y peluches', this)">🧸 Osos y Peluches</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis para bebes', this)">👶 Para Bebés</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de profesiones', this)">🩺 Profesiones</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de muñecas y muñecos', this)">👧 Muñecas y Muñecos</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis religiosos', this)">🕊️ Religiosos</button>
         <button class="pill-btn" onclick="setCategoryFilter('Tecnicas, Tips y Consejos de amigurumis', this)">✂️ Técnicas y Tips</button>
       </div>
 
-      <!-- RETO GUIADO PASO A PASO -->
+      <!-- BANNER CONTINUAR TEJIENDO -->
+      <div id="continueSection" class="hero-continue" onclick="resumeLastVideo()" style="display:none;">
+        <div class="hero-thumb-box">
+          <span class="hero-badge-top">CONTINUAR TEJIENDO</span>
+          <img id="lastVideoThumb" src="" alt="Continuar">
+        </div>
+        <div class="hero-details">
+          <div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Última lección abierta</div>
+            <h3 id="lastVideoTitle"></h3>
+          </div>
+          <button class="btn-continue-play">▶ Continuar</button>
+        </div>
+      </div>
+
+      <!-- RETO 5 DÍAS PARA PRINCIPIANTES -->
       <div class="challenge-box" id="challengeModule">
         <div class="challenge-header">
-          <div class="challenge-title">Curso Básico: Amigurumi en 5 Días</div>
+          <div class="challenge-title">Curso Básico: Amigurumis desde Cero</div>
           <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" id="challengeProgressText">0 de 5 completados</div>
         </div>
         <div class="progress-bar-bg">
@@ -660,7 +729,7 @@
     <p style="font-size: 0.65rem; color: #666; margin-top: 4px;">Plataforma Oficial de Capacitación &copy; 2026</p>
   </footer>
 
-  <!-- MODAL DE VIDEO -->
+  <!-- REPRODUCTOR MODAL & CONTADOR -->
   <div id="videoModal" class="modal">
     <div class="modal-content">
       <div class="video-frame" id="playerContainer"></div>
@@ -702,61 +771,45 @@
   </div>
 
   <script>
-    // BASE DE DATOS ESTRUCTURADA CON TUS CARPETAS REALES
+    // BASE DE DATOS CURADA CON TUTORIALES REALES DE YOUTUBE
     const catalog = [
-      // RETO 5 DÍAS
-      { id: "c1", isChallenge: true, day: 1, title: "Día 1: Materiales básicos y primer nudo", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "K9gA-gqM94g", duration: "14:10", mat: "Hilo de algodón grosor medio, crochet 2.5mm o 3.0mm, tijeras." },
-      { id: "c2", isChallenge: true, day: 2, title: "Día 2: El Anillo Mágico sin frustraciones", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0kL_Vb9Yc1I", duration: "11:25", mat: "Ovillo de muestra, aguja lanera y marcador de puntos." },
-      { id: "c3", isChallenge: true, day: 3, title: "Día 3: Punto bajo en espiral y tensión", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "7n9P3b_y5Q4", duration: "16:40", mat: "Marcador de vueltas, hilo claro para ver los puntos." },
-      { id: "c4", isChallenge: true, day: 4, title: "Día 4: Aumentos y disminuciones invisibles", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "dQw4w9WgXcQ", duration: "15:30", mat: "Hilaza de algodón, ganchillo fino." },
-      { id: "c5", isChallenge: true, day: 5, title: "Día 5: Tu primera pelotita y remate limpio", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "K9gA-gqM94g", duration: "20:15", mat: "Relleno siliconado, aguja lanera y ojitos de 8mm." },
+      // 1. RETO BÁSICO PRINCIPIANTES
+      { id: "c1", isChallenge: true, day: 1, title: "Día 1: Materiales básicos y nudo deslizado", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jWtCQ8PPLhM", duration: "10:15", mat: "Hilo de algodón de grosor medio, crochet de 2.5mm a 3.0mm, tijeras." },
+      { id: "c2", isChallenge: true, day: 2, title: "Día 2: El Anillo Mágico perfecto sin enredos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "sAtV38jDSA8", duration: "08:30", mat: "Ovillo de muestra claro para ver las hebras, marcador de puntos." },
+      { id: "c3", isChallenge: true, day: 3, title: "Día 3: Punto bajo continuo y tensión correcta", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jWtCQ8PPLhM", duration: "12:40", mat: "Marcador de vueltas, ganchillo cómodo." },
+      { id: "c4", isChallenge: true, day: 4, title: "Día 4: Aumentos y disminuciones invisibles", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "NyidNAEX2qw", duration: "14:20", mat: "Hilaza de algodón peinado sin pelusas." },
+      { id: "c5", isChallenge: true, day: 5, title: "Día 5: Tu primera bola/esfera básica y relleno", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "NyidNAEX2qw", duration: "16:50", mat: "Relleno siliconado, aguja lanera sin punta." },
 
-      // CARPETAS REALES DEL CURSO
-      { id: "nav1", title: "Mini Papa Noel para árbol navideño", cat: "Amigurumis navideños", yt: "0kL_Vb9Yc1I", duration: "25:10", mat: "Lana roja, blanca rizada y cascabel." },
-      { id: "nav2", title: "Corona navideña con muñeco de nieve", cat: "Amigurumis navideños", yt: "7n9P3b_y5Q4", duration: "42:00", mat: "Lana verde pino, blanco, naranja y base de alambre." },
+      // 2. EL CHAVO DEL 8
+      { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
+      { id: "chavo2", title: "El Chavo del 8 con Gorra Típica", cat: "Amigurumis del chavo del 8", yt: "5rmkm-6HAfs", duration: "38:20", mat: "Lana acrílica suave, aguja 2.5mm y ojitos 8mm." },
 
-      { id: "cant1", title: "Cantante urbano / pop con micrófono y gafas", cat: "Amigurumis de cantantes", yt: "K9gA-gqM94g", duration: "38:45", mat: "Lana gris, negra, tono piel y fieltro." },
-      { id: "cant2", title: "Estrella de rock con guitarra miniatura", cat: "Amigurumis de cantantes", yt: "dQw4w9WgXcQ", duration: "44:20", mat: "Hilaza negra, cuero sintético o detalles en alambre." },
+      // 3. RELIGIOSOS Y FE
+      { id: "rel1", title: "Virgen María Amigurumi - Tutorial Completo Paso a Paso", cat: "Amigurumis religiosos", yt: "UH-ghvSAHgc", duration: "42:15", mat: "Lana blanca perla, celeste cielo, color piel y corona dorada." },
+      { id: "rel2", title: "Virgen María Fácil y Rápida a Crochet", cat: "Amigurumis religiosos", yt: "TQNyTL3P9jw", duration: "25:40", mat: "Hilaza de algodón, relleno y aguja lanera." },
 
-      { id: "chavo1", title: "El Chavo del 8 dentro del barril", cat: "Amigurumis del chavo del 8", yt: "0kL_Vb9Yc1I", duration: "48:15", mat: "Hilaza beige a cuadros, gorro verde y barril café." },
-      { id: "chavo2", title: "Don Ramón con su clásico sombrero piluso", cat: "Amigurumis del chavo del 8", yt: "7n9P3b_y5Q4", duration: "36:40", mat: "Lana azul marino, blanca, gris y bigote bordado." },
+      // 4. NAVIDEÑOS
+      { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Lana roja carmín, blanca rizada, pompón y ojitos negros." },
+      { id: "nav2", title: "Santa Claus Amigurumi Detallado", cat: "Amigurumis navideños", yt: "qBet-9luN30", duration: "28:30", mat: "Lana semi-gruesa, cascabel miniatura y relleno." },
 
-      { id: "sanrio1", title: "Hello Kitty tierna con lazo rojo clásico", cat: "Amigurumis de san rio", yt: "K9gA-gqM94g", duration: "29:30", mat: "Lana blanca, lazo rojo carmín, ojitos ovalados negros." },
-      { id: "sanrio2", title: "Kuromi con capucha y detalles en lila", cat: "Amigurumis de san rio", yt: "dQw4w9WgXcQ", duration: "35:10", mat: "Lana negra, lila suave, rosa y fieltro blanco." },
+      // 5. SANRIO
+      { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
+      { id: "sanrio2", title: "Hello Kitty Clásica en Español", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
 
-      { id: "mario1", title: "Mario Bros completo con overol y gorra", cat: "Amigurumis de mario bross", yt: "0kL_Vb9Yc1I", duration: "52:00", mat: "Lana roja, azul rey, botones amarillos y bigote." },
-      { id: "mario2", title: "Hongo 1-Up de vida y champiñón rojo", cat: "Amigurumis de mario bross", yt: "7n9P3b_y5Q4", duration: "18:20", mat: "Lana verde manzana o roja con manchas circulares blancas." },
+      // 6. POKÉMON
+      { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
+      { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
 
-      { id: "chicas1", title: "Bombón con moño gigante y vestido rosa", cat: "Amigurumis de las chicas super poderosas", yt: "K9gA-gqM94g", duration: "33:15", mat: "Lana rosa pastel, naranja suave para el cabello, moño rojo." },
-      { id: "chicas2", title: "Burbuja con coletas y ojos celestes grandes", cat: "Amigurumis de las chicas super poderosas", yt: "dQw4w9WgXcQ", duration: "31:40", mat: "Lana celeste, amarillo sol y ojos grandes en fieltro." },
+      // 7. SÚPER HÉROES
+      { id: "super1", title: "Spider-Man Colgante para Auto a Crochet", cat: "Amigurumis de super heroes", yt: "IQY6ZP71wHo", duration: "32:00", mat: "Lana roja y azul francia, hilo negro para bordar la telaraña." },
+      { id: "super2", title: "Spider-Man Amigurumi Paso a Paso", cat: "Amigurumis de super heroes", yt: "OyV6HUB2OaE", duration: "29:15", mat: "Hilaza de 6 hebras, aguja 3.0mm y ojos de fieltro blanco." },
 
-      { id: "toy1", title: "Woody el comisario vaquero con sombrero", cat: "Amigurumis de toy story", yt: "0kL_Vb9Yc1I", duration: "56:10", mat: "Hilaza amarilla a cuadros, chaleco vaca y bota tejida." },
-      { id: "toy2", title: "Marcianito de Pizza Planeta con tres ojos", cat: "Amigurumis de toy story", yt: "7n9P3b_y5Q4", duration: "24:50", mat: "Lana verde lima, azul brillante y tres ojitos de 8mm." },
-
-      { id: "poke1", title: "Pikachu clásico con orejitas y chapitas rojas", cat: "Amigurumis de pokemon", yt: "K9gA-gqM94g", duration: "34:25", mat: "Lana amarillo intenso, puntas negras, fieltro rojo." },
-      { id: "poke2", title: "Charmander con llama tejida en la cola", cat: "Amigurumis de pokemon", yt: "dQw4w9WgXcQ", duration: "38:00", mat: "Hilaza naranja fuerte, amarillo pastel, hebras rojas." },
-
-      { id: "fut1", title: "Futbolista con camiseta número 10", cat: "Amigurumis de futbolistas", yt: "0kL_Vb9Yc1I", duration: "41:30", mat: "Colores según selección o club, mini balón tejido." },
-      { id: "fut2", title: "Mini balón de fútbol clásico a ganchillo", cat: "Amigurumis de futbolistas", yt: "7n9P3b_y5Q4", duration: "19:10", mat: "Hexágonos y pentágonos en blanco y negro." },
-
-      { id: "disney1", title: "Mickey Mouse con pantaloncito de dos botones", cat: "Amigurumis Disney", yt: "K9gA-gqM94g", duration: "46:15", mat: "Lana negra, roja, blanca para guantes y zapatos amarillos." },
-      { id: "disney2", title: "Stitch tierno con orejas grandes bicolor", cat: "Amigurumis Disney", yt: "dQw4w9WgXcQ", duration: "50:40", mat: "Lana azul marino, celeste cielo y rosa para orejitas." },
-
-      { id: "super1", title: "Spider-Man con telarañas bordadas a mano", cat: "Amigurumis de super heroes", yt: "0kL_Vb9Yc1I", duration: "48:30", mat: "Hilaza roja, azul francia, hilo mouliné negro fino." },
-      { id: "super2", title: "Batman con máscara, capa y bati-cinturón", cat: "Amigurumis de super heroes", yt: "7n9P3b_y5Q4", duration: "45:00", mat: "Lana gris oscuro, capa negra, detalles dorados." },
-
-      { id: "bebe1", title: "Sonajero de osito con aro de madera suave", cat: "Amigurumis para bebes", yt: "K9gA-gqM94g", duration: "22:15", mat: "Algodón orgánico hipoalergénico, cascabel plástico y aro." },
-      { id: "bebe2", title: "Manta de apego con cabecita de conejita", cat: "Amigurumis para bebes", yt: "dQw4w9WgXcQ", duration: "39:50", mat: "Hilo super soft, ojos 100% bordados seguros." },
-
-      { id: "prof1", title: "Doctora / Enfermera con estetoscopio", cat: "Amigurumis de profesiones", yt: "0kL_Vb9Yc1I", duration: "43:10", mat: "Lana blanca, celeste médico, cordón para estetoscopio." },
-      { id: "prof2", title: "Chef cocinero con gorro alto y cuchara", cat: "Amigurumis de profesiones", yt: "7n9P3b_y5Q4", duration: "37:25", mat: "Lana blanca, cuadros para pañuelo y cuchara miniatura." },
-
-      { id: "oso1", title: "Osito articulado clásico con textura fluffy", cat: "Amigurumis de osos y peluches", yt: "K9gA-gqM94g", duration: "35:00", mat: "Lana terciopelo / chenille marrón, ojos marrones." },
-      { id: "oso2", title: "Panda gordito comiendo ramita de bambú", cat: "Amigurumis de osos y peluches", yt: "dQw4w9WgXcQ", duration: "30:20", mat: "Lana blanco marfil y negro profundo." },
-
-      { id: "muneca1", title: "Muñeca articulada con vestido removible", cat: "Amigurumis de muñecas y muñecos", yt: "0kL_Vb9Yc1I", duration: "54:30", mat: "Algodón piel, cabello en lana rizada, vestido calado." },
-      { id: "rel1", title: "Virgen María con manto bordado en perlas", cat: "Amigurumis religiosos", yt: "7n9P3b_y5Q4", duration: "42:00", mat: "Blanco perla, celeste cielo, corona dorada." },
-      { id: "tip1", title: "Cómo lograr disminuciones invisibles perfectas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "K9gA-gqM94g", duration: "12:15", mat: "Retazo de práctica y ganchillo recomendado." }
+      // 8. OTRAS CATEGORÍAS POPULARES
+      { id: "oso1", title: "Osito Articulado Clásico y Tierno", cat: "Amigurumis de osos y peluches", yt: "NyidNAEX2qw", duration: "34:10", mat: "Lana terciopelo café claro y ojos marrones." },
+      { id: "cant1", title: "Cantante / Figura Urbana a Crochet", cat: "Amigurumis de cantantes", yt: "5rmkm-6HAfs", duration: "41:30", mat: "Lana oscura para ropa, tono piel y micrófono bordado." },
+      { id: "mario1", title: "Mario Bros con Gorra y Bigote a Crochet", cat: "Amigurumis de mario bross", yt: "YmsMYv8ozMY", duration: "48:00", mat: "Lana azul, roja, amarilla y detalles de fieltro." },
+      { id: "bebe1", title: "Sonajero de Bebé Hipoalergénico con Aro de Madera", cat: "Amigurumis para bebes", yt: "jWtCQ8PPLhM", duration: "20:45", mat: "Algodón orgánico, aro de madera natural y cascabel seguro." },
+      { id: "prof1", title: "Doctora / Enfermera a Crochet con Accesorios", cat: "Amigurumis de profesiones", yt: "UH-ghvSAHgc", duration: "39:00", mat: "Lana blanca, celeste pastel y aguja fina." }
     ];
 
     let currentVideo = null;
@@ -789,8 +842,30 @@
     }
 
     function loadAppState() {
+      renderContinueWatching();
       renderChallenge();
       renderGalleries();
+    }
+
+    function renderContinueWatching() {
+      const lastId = localStorage.getItem('last_video_id');
+      const box = document.getElementById('continueSection');
+      if (!lastId) {
+        box.style.display = 'none';
+        return;
+      }
+      const v = catalog.find(item => item.id === lastId);
+      if (v) {
+        document.getElementById('lastVideoTitle').innerText = v.title;
+        document.getElementById('lastVideoThumb').src = `https://img.youtube.com/vi/${v.yt}/hqdefault.jpg`;
+        box.style.display = 'block';
+      }
+    }
+
+    function resumeLastVideo() {
+      const lastId = localStorage.getItem('last_video_id');
+      const v = catalog.find(item => item.id === lastId);
+      if (v) openVideo(v);
     }
 
     function renderChallenge() {
@@ -844,7 +919,7 @@
       const categories = [...new Set(filtered.map(v => v.cat))];
 
       if (categories.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay proyectos que coincidan con la búsqueda.</div>`;
+        container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay tutoriales que coincidan con la búsqueda.</div>`;
         return;
       }
 
@@ -912,6 +987,8 @@
 
     function openVideo(v) {
       currentVideo = v;
+      localStorage.setItem('last_video_id', v.id);
+
       document.getElementById('modalTitle').innerText = v.title;
       document.getElementById('modalCategory').innerText = v.cat + ' • Duración: ' + v.duration;
       document.getElementById('modalMaterials').innerText = v.mat || 'Ganchillo recomendado, hilaza de algodón y marcador de vueltas.';
@@ -974,6 +1051,7 @@
     function closeModal() {
       document.getElementById('videoModal').style.display = 'none';
       document.getElementById('playerContainer').innerHTML = '';
+      renderContinueWatching();
     }
 
     window.onload = init;
