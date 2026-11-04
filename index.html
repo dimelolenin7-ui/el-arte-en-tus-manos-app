@@ -612,12 +612,13 @@
         <input type="text" id="searchInput" placeholder="Buscar por personaje, cantante, serie o técnica..." onkeyup="handleFilter()">
       </div>
 
-      <!-- PÍLDORAS DESLIZABLES CON TUS CARPETAS REALES -->
+      <!-- PÍLDORAS -->
       <div class="pill-filters" id="pillsContainer">
         <button class="pill-btn active" onclick="setCategoryFilter('Todos', this)">✨ Todos</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis del chavo del 8', this)">🧢 El Chavo del 8</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de mario bross', this)">🍄 Mario Bros</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de cantantes', this)">🎤 Cantantes</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de osos y peluches', this)">🧸 Osos y Peluches</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis para bebes', this)">👶 Para Bebés</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de profesiones', this)">🩺 Profesiones</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis religiosos', this)">🕊️ Religiosos</button>
@@ -625,11 +626,10 @@
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de san rio', this)">🎀 Sanrio</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de pokemon', this)">⚡ Pokémon</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
-        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de osos y peluches', this)">🧸 Osos y Peluches</button>
         <button class="pill-btn" onclick="setCategoryFilter('Tecnicas, Tips y Consejos de amigurumis', this)">✂️ Técnicas y Tips</button>
       </div>
 
-      <!-- RETO 5 DÍAS PARA PRINCIPIANTES -->
+      <!-- RETO 5 DÍAS -->
       <div class="challenge-box" id="challengeModule">
         <div class="challenge-header">
           <div class="challenge-title">Curso Básico: Amigurumis desde Cero</div>
@@ -641,7 +641,7 @@
         <div id="challengeList"></div>
       </div>
 
-      <!-- SECCIONES DE CARRUSELES DINÁMICOS -->
+      <!-- SECCIONES DE CARRUSELES -->
       <div id="sectionsContainer"></div>
 
     </div>
@@ -696,7 +696,7 @@
   </div>
 
   <script>
-    // BASE DE DATOS TOTALMENTE CORREGIDA CON SUS VIDEOS REALES
+    // BASE DE DATOS DE TUTORIALES COMPLETOS PASO A PASO
     const catalog = [
       // 1. RETO BÁSICO PRINCIPIANTES
       { id: "c1", isChallenge: true, day: 1, title: "Día 1: Materiales básicos y nudo corredizo", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jWtCQ8PPLhM", duration: "10:15", mat: "Hilo de algodón de grosor medio, crochet de 2.5mm a 3.0mm, tijeras." },
@@ -705,44 +705,44 @@
       { id: "c4", isChallenge: true, day: 4, title: "Día 4: Aumentos y disminuciones invisibles", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "NyidNAEX2qw", duration: "14:20", mat: "Hilaza de algodón peinado sin pelusas." },
       { id: "c5", isChallenge: true, day: 5, title: "Día 5: Tu primera bola/esfera base y relleno", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "NyidNAEX2qw", duration: "16:50", mat: "Relleno siliconado, aguja lanera y tijeras." },
 
-      // 2. EL CHAVO DEL 8 (VIDEOS EXACTOS)
+      // 2. EL CHAVO DEL 8
       { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
       { id: "chavo2", title: "El Chavo del 8 con Gorra Típica", cat: "Amigurumis del chavo del 8", yt: "5rmkm-6HAfs", duration: "38:20", mat: "Lana acrílica suave, aguja 2.5mm y ojitos 8mm." },
 
-      // 3. MARIO BROS (VIDEO EXACTO DE MARIO)
+      // 3. MARIO BROS
       { id: "mario1", title: "Super Mario Bros Amigurumi Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
 
-      // 4. CANTANTES (VIDEO EXACTO DE CANTANTE / KAROL G)
-      { id: "cant1", title: "Muñeca Cantante Karol Estilo Amigurumi", cat: "Amigurumis de cantantes", yt: "tlcH0rs7Eyg", duration: "42:15", mat: "Hilaza color piel, cabello en tono característico y ropa." },
+      // 4. CANTANTES (TUTORIAL COMPLETO PASO A PASO)
+      { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida característica y ganchillo 2.5mm." },
 
-      // 5. PARA BEBÉS (VIDEO EXACTO DE SONAJERO)
-      { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural y sonajero plástico interior." },
+      // 5. OSOS Y PELUCHES (TUTORIAL COMPLETO DE OSITO)
+      { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera, ojitos de seguridad 8mm y relleno." },
 
-      // 6. PROFESIONES (VIDEO EXACTO DE DOCTORA / ENFERMERA)
+      // 6. PARA BEBÉS
+      { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural pulido y cascabel interior." },
+
+      // 7. PROFESIONES
       { id: "prof1", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "1NIia8gAeJs", duration: "35:40", mat: "Lana blanca médica, celeste/rosa pastel, detalles bordados." },
 
-      // 7. RELIGIOSOS Y FE
+      // 8. RELIGIOSOS Y FE
       { id: "rel1", title: "Virgen María Amigurumi - Tutorial Completo Paso a Paso", cat: "Amigurumis religiosos", yt: "UH-ghvSAHgc", duration: "42:15", mat: "Lana blanca perla, celeste cielo, color piel y corona dorada." },
       { id: "rel2", title: "Virgen María Fácil y Rápida a Crochet", cat: "Amigurumis religiosos", yt: "TQNyTL3P9jw", duration: "25:40", mat: "Hilaza de algodón, relleno y aguja lanera." },
 
-      // 8. NAVIDEÑOS
+      // 9. NAVIDEÑOS
       { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Lana roja carmín, blanca rizada, pompón y ojitos negros." },
       { id: "nav2", title: "Santa Claus Amigurumi Detallado", cat: "Amigurumis navideños", yt: "qBet-9luN30", duration: "28:30", mat: "Lana semi-gruesa, cascabel miniatura y relleno." },
 
-      // 9. SANRIO
+      // 10. SANRIO
       { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
       { id: "sanrio2", title: "Hello Kitty Clásica en Español", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
 
-      // 10. POKÉMON
+      // 11. POKÉMON
       { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
       { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
 
-      // 11. SÚPER HÉROES
+      // 12. SÚPER HÉROES
       { id: "super1", title: "Spider-Man Colgante para Auto a Crochet", cat: "Amigurumis de super heroes", yt: "IQY6ZP71wHo", duration: "32:00", mat: "Lana roja y azul francia, hilo negro para bordar la telaraña." },
-      { id: "super2", title: "Spider-Man Amigurumi Paso a Paso", cat: "Amigurumis de super heroes", yt: "OyV6HUB2OaE", duration: "29:15", mat: "Hilaza de 6 hebras, aguja 3.0mm y ojos de fieltro blanco." },
-
-      // 12. OSOS Y PELUCHES
-      { id: "oso1", title: "Osito Articulado Clásico y Tierno", cat: "Amigurumis de osos y peluches", yt: "NyidNAEX2qw", duration: "34:10", mat: "Lana terciopelo café claro y ojos marrones." }
+      { id: "super2", title: "Spider-Man Amigurumi Paso a Paso", cat: "Amigurumis de super heroes", yt: "OyV6HUB2OaE", duration: "29:15", mat: "Hilaza de 6 hebras, aguja 3.0mm y ojos de fieltro blanco." }
     ];
 
     let currentVideo = null;
@@ -898,6 +898,7 @@
 
     function openVideo(v) {
       currentVideo = v;
+
       document.getElementById('modalTitle').innerText = v.title;
       document.getElementById('modalCategory').innerText = v.cat + ' • Duración: ' + v.duration;
       document.getElementById('modalMaterials').innerText = v.mat || 'Ganchillo recomendado, hilaza de algodón y marcador de vueltas.';
