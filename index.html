@@ -10,11 +10,13 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- FIREBASE SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- YOUTUBE IFRAME API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
 
   <style>
     :root {
@@ -63,7 +65,7 @@
       width: 100%;
     }
 
-    /* PANTALLA LOGIN CON 3 OPCIONES */
+    /* PANTALLA LOGIN */
     #authScreen {
       min-height: 100vh;
       display: flex;
@@ -106,7 +108,6 @@
       margin-bottom: 18px;
     }
 
-    /* PESTAÑAS DE ACCESO INICIAL */
     .auth-tabs {
       display: flex;
       background: #faf8f5;
@@ -155,11 +156,6 @@
       font-size: 0.92rem;
       outline: none;
       background: #faf8f5;
-    }
-
-    .input-group input:focus {
-      border-color: var(--primary);
-      background: #fff;
     }
 
     .btn-main {
@@ -303,7 +299,6 @@
       cursor: pointer;
     }
 
-    /* BANNER ALUMNA VIP */
     .vip-upgrade-card {
       background: linear-gradient(135deg, #fff7ed, #ffedd5);
       border: 1px solid #fed7aa;
@@ -445,6 +440,13 @@
       margin-bottom: 8px;
       background: #faf8f5;
       cursor: pointer;
+      position: relative;
+    }
+
+    .challenge-day-item.locked {
+      background: #f3f0ec;
+      opacity: 0.85;
+      border-style: dashed;
     }
 
     .challenge-day-item.done {
@@ -457,6 +459,10 @@
       height: 42px;
       border-radius: 6px;
       object-fit: cover;
+    }
+
+    .day-thumb.blur {
+      filter: grayscale(80%) blur(1px);
     }
 
     /* CARRUSELES Y TARJETAS */
@@ -536,6 +542,21 @@
       text-transform: uppercase;
     }
 
+    .lock-overlay-badge {
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 20, 16, 0.65);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      backdrop-filter: blur(2px);
+      gap: 4px;
+    }
+
     .card-fav-btn {
       position: absolute;
       top: 6px;
@@ -550,6 +571,7 @@
       justify-content: center;
       font-size: 0.8rem;
       cursor: pointer;
+      z-index: 2;
     }
 
     .card-info {
@@ -615,10 +637,44 @@
       position: relative;
     }
 
-    .video-frame {
+    .video-frame-container {
+      position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
       background: #000;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* BLOQUEO AL 80% DEL VIDEO LARGO */
+    .time-lock-curtain {
+      position: absolute;
+      inset: 0;
+      background: rgba(18, 14, 12, 0.94);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      z-index: 10;
+    }
+
+    .time-lock-curtain h4 {
+      font-size: 1.15rem;
+      color: #fed7aa;
+      margin-bottom: 6px;
+    }
+
+    .time-lock-curtain p {
+      font-size: 0.82rem;
+      color: #d1d5db;
+      margin-bottom: 16px;
+      max-width: 320px;
     }
 
     .modal-body {
@@ -697,7 +753,7 @@
       margin-bottom: 4px;
     }
 
-    /* MODAL DE PLANES Y TABLA COMPARATIVA */
+    /* MODAL DE PLANES */
     .plans-modal-body {
       padding: 22px 16px;
       text-align: center;
@@ -710,9 +766,37 @@
     }
 
     .plans-modal-body p {
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* SELECTOR DE PERIODOS CON DESCUENTOS */
+    .period-selector {
+      display: flex;
+      gap: 4px;
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
       margin-bottom: 16px;
+    }
+
+    .period-btn {
+      flex: 1;
+      padding: 8px 2px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .period-btn.active {
+      background: var(--primary);
+      color: #fff;
     }
 
     .plans-cards-grid {
@@ -720,7 +804,7 @@
       flex-direction: column;
       gap: 12px;
       text-align: left;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .plan-card-item {
@@ -752,20 +836,30 @@
     .plan-header-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 8px;
     }
 
     .plan-title-txt {
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.95rem;
       color: var(--text);
     }
 
-    .plan-price-txt {
-      font-size: 0.82rem;
+    .plan-price-wrapper {
+      text-align: right;
+    }
+
+    .plan-price-cop {
+      font-size: 1rem;
       font-weight: 800;
       color: var(--primary);
+    }
+
+    .plan-price-usd {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
     }
 
     .plan-perks-list {
@@ -775,12 +869,50 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      margin-bottom: 12px;
     }
 
     .plan-perks-list li {
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .checkout-buttons-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .btn-pay-gateway {
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-wompi {
+      background: #002b49;
+      color: #fff;
+    }
+
+    .btn-mp {
+      background: #009ee3;
+      color: #fff;
+    }
+
+    .btn-paypal {
+      background: #ffc439;
+      color: #111;
     }
 
     .redeem-section-inside {
@@ -847,14 +979,13 @@
 </head>
 <body>
 
-  <!-- PANTALLA INICIAL DE ACCESO CON 3 OPCIONES -->
+  <!-- PANTALLA INICIAL DE ACCESO -->
   <section id="authScreen">
     <div class="auth-card">
       <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
       <h1>El Arte en Tus Manos</h1>
       <p>Academia interactiva oficial y biblioteca de videos de amigurumis.</p>
       
-      <!-- PESTAÑAS SELECTORAS -->
       <div class="auth-tabs">
         <button type="button" class="auth-tab-btn active" id="tabBtnFree" onclick="switchAuthTab('free')">⚪ Acceso Gratis</button>
         <button type="button" class="auth-tab-btn" id="tabBtnCode" onclick="switchAuthTab('code')">👑 Tengo Código</button>
@@ -862,7 +993,7 @@
 
       <div id="authAlert" class="alert-msg"></div>
 
-      <!-- FORMULARIO 1: ENTRAR GRATIS -->
+      <!-- FORMULARIO ACCESO GRATIS -->
       <form id="freeLoginForm" onsubmit="handleFreeLogin(event)">
         <div class="input-group">
           <label for="freeEmailInput">Ingresa tu correo electrónico</label>
@@ -871,7 +1002,7 @@
         <button type="submit" class="btn-main">Entrar a la Academia (Gratis)</button>
       </form>
 
-      <!-- FORMULARIO 2: ACTIVAR DIRECTO CON CÓDIGO (1 AÑO) -->
+      <!-- FORMULARIO ACTIVAR CON CÓDIGO -->
       <form id="codeLoginForm" onsubmit="handleCodeLogin(event)" style="display:none;">
         <div class="input-group">
           <label for="codeEmailInput">Tu correo electrónico</label>
@@ -884,10 +1015,10 @@
         <button type="submit" class="btn-main" id="btnCodeSubmit">Validar y Entrar como Premium</button>
       </form>
 
-      <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y beneficios? Ver aquí</span>
+      <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y precios? Ver aquí</span>
 
       <a href="https://wa.me/" target="_blank" class="btn-whatsapp">
-        <span>💬 ¿Dudas o necesitas tu código? WhatsApp</span>
+        <span>💬 ¿Dudas o ayuda con tu compra? WhatsApp</span>
       </a>
     </div>
   </section>
@@ -912,7 +1043,7 @@
 
     <div class="container">
       
-      <!-- BANNER EXCLUSIVO PARA CUENTAS GRATIS -->
+      <!-- BANNER DE UPGRADE -->
       <div id="vipBanner" class="vip-upgrade-card" style="display:none;">
         <div>
           <h4>¿Compraste el curso completo?</h4>
@@ -972,7 +1103,17 @@
   <!-- REPRODUCTOR MODAL & CONTADOR -->
   <div id="videoModal" class="modal">
     <div class="modal-content">
-      <div class="video-frame" id="playerContainer"></div>
+      <div class="video-frame-container">
+        <div id="player"></div>
+        <!-- CORTINA DE BLOQUEO AL 80% EN VIDEOS > 1 HORA -->
+        <div id="timeLockCurtain" class="time-lock-curtain">
+          <div style="font-size: 2.2rem; margin-bottom: 6px;">🔒</div>
+          <h4>Llegaste al límite gratuito</h4>
+          <p>Has disfrutado del 80% de esta clase magistral. Para ver los toques finales y coser las partes, suscríbete al Plan PRO o Premium.</p>
+          <button class="btn-main" style="max-width: 220px;" onclick="closeModal(); openPlansModal();">Ver Planes de Acceso</button>
+        </div>
+      </div>
+
       <div class="modal-body">
         <h3 id="modalTitle" style="font-size: 1.05rem; margin-bottom: 2px;"></h3>
         <p id="modalCategory" style="font-size: 0.78rem; color: var(--text-muted);"></p>
@@ -1010,63 +1151,73 @@
     </div>
   </div>
 
-  <!-- MODAL DE INFORMACIÓN DE PLANES Y CANJE DE CÓDIGO -->
+  <!-- MODAL DE PLANES Y PRECIOS -->
   <div id="plansModal" class="modal">
     <div class="modal-content">
       <div class="plans-modal-body">
-        <h3>Planes y Membresías</h3>
-        <p>Elige el plan ideal o activa tu membresía de alumna con tu código único.</p>
+        <h3>Planes y Suscripciones</h3>
+        <p>Aprende amigurumis a tu ritmo sin interrupciones ni bloqueos.</p>
+
+        <!-- SELECTOR DE PERIODOS CON DESCUENTOS -->
+        <div class="period-selector">
+          <button type="button" class="period-btn active" onclick="setPlanPeriod('1m', this)">1 Mes</button>
+          <button type="button" class="period-btn" onclick="setPlanPeriod('3m', this)">3 Meses (-10%)</button>
+          <button type="button" class="period-btn" onclick="setPlanPeriod('6m', this)">6 Meses (-20%)</button>
+          <button type="button" class="period-btn" onclick="setPlanPeriod('1y', this)">1 Año (-45%)</button>
+        </div>
 
         <div class="plans-cards-grid">
-          <!-- PLAN GRATIS -->
-          <div class="plan-card-item">
-            <div class="plan-header-row">
-              <span class="plan-title-txt">⚪ Plan Gratis</span>
-              <span class="plan-price-txt">$0</span>
-            </div>
-            <ul class="plan-perks-list">
-              <li>✓ Acceso a tutoriales básicos seleccionados</li>
-              <li>✓ Primeras lecciones del reto</li>
-              <li>✕ Sin contador interactivo de vueltas</li>
-              <li>✕ Sin lista de favoritos personalizada</li>
-            </ul>
-          </div>
-
           <!-- PLAN PRO -->
           <div class="plan-card-item">
             <div class="plan-header-row">
               <span class="plan-title-txt">🔵 Plan PRO</span>
-              <span class="plan-price-txt">Membresía Mensual</span>
+              <div class="plan-price-wrapper">
+                <div class="plan-price-cop" id="proPriceCOP">$20.000 COP</div>
+                <div class="plan-price-usd" id="proPriceUSD">$5.00 USD</div>
+              </div>
             </div>
             <ul class="plan-perks-list">
-              <li>✓ Acceso a todas las categorías de videos</li>
-              <li>✓ Contador de vueltas interactivo activado</li>
+              <li>✓ Videos largos completos (sin cortes al 80%)</li>
+              <li>✓ Videos de 2 o más partes desbloqueados</li>
+              <li>✓ Contador de vueltas con memoria</li>
               <li>✓ Guardado ilimitado en favoritos</li>
-              <li>✕ Sin soporte directo con la instructora</li>
             </ul>
+            <div class="checkout-buttons-row">
+              <a href="https://checkout.wompi.co/l/pro" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
+              <a href="https://mpago.la/pro" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago (Latam)</a>
+              <a href="https://paypal.me/pro" target="_blank" class="btn-pay-gateway btn-paypal">PayPal (Dólares USD)</a>
+            </div>
           </div>
 
-          <!-- PLAN PREMIUM (CURSO) -->
+          <!-- PLAN PREMIUM -->
           <div class="plan-card-item featured">
             <span class="badge-featured-tag">Recomendado</span>
             <div class="plan-header-row">
               <span class="plan-title-txt">👑 Plan PREMIUM (Alumnas)</span>
-              <span class="plan-price-txt">Incluido en el Curso (1 Año)</span>
+              <div class="plan-price-wrapper">
+                <div class="plan-price-cop" id="premPriceCOP">$40.000 COP</div>
+                <div class="plan-price-usd" id="premPriceUSD">$10.00 USD</div>
+              </div>
             </div>
             <ul class="plan-perks-list">
-              <li>✓ <strong>Acceso Total Ilimitado</strong> a toda la plataforma</li>
-              <li>✓ <strong>Reto de 10 Días completo</strong> sin bloqueos</li>
-              <li>✓ Contador de vueltas con memoria de avance</li>
-              <li>✓ Fichas completas de materiales y tips exclusivos</li>
-              <li>✓ <strong>Soporte prioritario</strong> por WhatsApp</li>
+              <li>✓ <strong>Reto de 10 Días Completo</strong> (Días 6 al 10 libres)</li>
+              <li>✓ Acceso total e ilimitado a toda la plataforma</li>
+              <li>✓ Videos largos sin interrupciones</li>
+              <li>✓ Fichas completas de materiales y tips</li>
+              <li>✓ <strong>Soporte prioritario</strong> directo por WhatsApp</li>
             </ul>
+            <div class="checkout-buttons-row">
+              <a href="https://checkout.wompi.co/l/premium" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
+              <a href="https://mpago.la/premium" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago (Latam)</a>
+              <a href="https://paypal.me/premium" target="_blank" class="btn-pay-gateway btn-paypal">PayPal (Dólares USD)</a>
+            </div>
           </div>
         </div>
 
-        <!-- SECCIÓN DE CANJE DE CÓDIGO DENTRO DE PLANES -->
+        <!-- SECCIÓN DE CANJE DE CÓDIGO -->
         <div class="redeem-section-inside">
-          <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">¿Ya tienes tu código de alumna?</div>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Ingrésalo aquí para activar 1 año de membresía Premium:</div>
+          <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">¿Ya compraste el curso o tienes tu código?</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Canjea aquí tu acceso de 1 año:</div>
           <div id="modalRedeemAlert" class="alert-msg"></div>
           <div class="code-input-box">
             <input type="text" id="modalPromoCodeInput" placeholder="EJ: ARTE-88K2" maxlength="20">
@@ -1120,7 +1271,7 @@
 
     // BASE DE DATOS DE TUTORIALES PASO A PASO VERIFICADOS
     const catalog = [
-      // 1. RETO 10 DÍAS DE ANGELICA (CREATIVE CROCHET DESDE CERO)
+      // 1. RETO 10 DÍAS DE ANGELICA (Días 1 a 5 Libres | Días 6 a 10 Bloqueados en Gratis)
       { id: "c1", isChallenge: true, day: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
       { id: "c2", isChallenge: true, day: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
       { id: "c3", isChallenge: true, day: 3, title: "Día 3: El secreto del punto bajo perfecto en amigurumi", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "3wxz88z8D9s", duration: "11:03", mat: "Hilaza de muestra y marcador de vueltas." },
@@ -1132,7 +1283,7 @@
       { id: "c9", isChallenge: true, day: 9, title: "Día 9: Cómo bordar la cara de un amigurumi fácil", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "z7es_bzjhqY", duration: "16:15", mat: "Hilo de bordar tipo mouliné negro, aguja fina y alfileres." },
       { id: "c10", isChallenge: true, day: 10, title: "Día 10: Secreto para que tus amigurumis se vean profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R9dyw35sZnA", duration: "06:57", mat: "Tu amigurumi listo para los toques finales y vaporizado." },
 
-      // 2. TÉCNICAS, TIPS Y CONSEJOS (BIBLIOTECA VERIFICADA)
+      // 2. TÉCNICAS, TIPS Y CONSEJOS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
       { id: "tip2", title: "3 Tips que me ayudaron a mejorar mis amigurumis", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "XybZZDEEthQ", duration: "16:06", mat: "Muestras de tejido y diferentes grosores de hilaza." },
       { id: "tip3", title: "5 Tips clave para crear amigurumis profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "RtoeZoL67C4", duration: "10:13", mat: "Ganchillo fino y tejido de práctica." },
@@ -1145,36 +1296,28 @@
       { id: "tip10", title: "Cómo bordar caritas en amigurumis: cejas y pestañas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "4gplLLWPEAA", duration: "02:40", mat: "Alfileres de guía y aguja lanera fina." },
       { id: "tip11", title: "Tutorial completo: Cómo coser y ensamblar piezas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R-hlJoagL5g", duration: "52:36", mat: "Piezas tejidas, alfileres y aguja punta roma." },
       { id: "tip12", title: "Cómo hacer y diseñar tu propio patrón amigurumi desde cero", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "dv3rNYYrDK0", duration: "21:27", mat: "Cuaderno cuadriculado, lápiz y cinta métrica." },
-      { id: "tip13", title: "Cómo lograr un círculo perfecto sin esquinas hexagonales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "ph_sb4eFxoU", duration: "07:50", mat: "Técnica de aumentos desfasados en vueltas pares." },
-      { id: "tip14", title: "Cómo crear patrones usando aumentos y disminuciones estratégicas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jd6t4G6wTl0", duration: "07:41", mat: "Guía de proporciones geométricas en crochet." },
-      { id: "tip15", title: "Técnica Tapestry en amigurumi: Secreto para dibujos limpios", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "iNa2vKYb2d8", duration: "04:42", mat: "Hebras guiadas por dentro del tejido." },
-      { id: "tip16", title: "Nueva forma de tejer y dar forma a las orejas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "OcMoxbMqSig", duration: "04:22", mat: "Punto bajo en relieve y remates firmes." },
-      { id: "tip17", title: "Cómo poner cabello a las muñecas amigurumi super fácil", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "5GtNWB4tBs0", duration: "04:57", mat: "Lana acrílica suave y aguja lanera." },
-      { id: "tip18", title: "3 Tips fáciles para amigurumis prolijos y parejos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jnUvkfZv6QE", duration: "04:56", mat: "Tensión uniforme de hebra y postura de ganchillo." },
 
       // 3. POKÉMON
       { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
-      { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
-      { id: "poke3", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
-      { id: "poke4", title: "Squirtle Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de pokemon", yt: "uRZrmMET2Bo", duration: "29:40", mat: "Lana celeste claro, caparazón marrón y borde crema." },
-      { id: "poke5", title: "Bulbasaur Pokémon Tutorial Nivel Intermedio", cat: "Amigurumis de pokemon", yt: "8kkWegwFuZg", duration: "37:04", mat: "Lana verde azulado, bulbo verde hoja y manchas oscuras." },
-      { id: "poke6", title: "Eevee Pokémon Tutorial Amigurumi", cat: "Amigurumis de pokemon", yt: "qOG63iTH_U8", duration: "25:45", mat: "Lana marrón claro, cuello crema esponjoso y orejas largas." },
-      { id: "poke7", title: "Snorlax Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "HVVIC3W7Rho", duration: "32:25", mat: "Lana azul marino, barriga color crema y garras bordadas." },
-      { id: "poke8", title: "Gengar Pokémon Amigurumi Tutorial", cat: "Amigurumis de pokemon", yt: "lBjcmOS2Zec", duration: "21:53", mat: "Lana morada, ojos rojos con fieltro y sonrisa amplia." },
-      { id: "poke9", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
-      { id: "poke10", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
+      { id: "poke2", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
+      { id: "poke3", title: "Squirtle Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de pokemon", yt: "uRZrmMET2Bo", duration: "29:40", mat: "Lana celeste claro, caparazón marrón y borde crema." },
+      { id: "poke4", title: "Bulbasaur Pokémon Tutorial Nivel Intermedio", cat: "Amigurumis de pokemon", yt: "8kkWegwFuZg", duration: "37:04", mat: "Lana verde azulado, bulbo verde hoja y manchas oscuras." },
+      { id: "poke5", title: "Eevee Pokémon Tutorial Amigurumi", cat: "Amigurumis de pokemon", yt: "qOG63iTH_U8", duration: "25:45", mat: "Lana marrón claro, cuello crema esponjoso y orejas largas." },
+      { id: "poke6", title: "Snorlax Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "HVVIC3W7Rho", duration: "32:25", mat: "Lana azul marino, barriga color crema y garras bordadas." },
+      { id: "poke7", title: "Gengar Pokémon Amigurumi Tutorial", cat: "Amigurumis de pokemon", yt: "lBjcmOS2Zec", duration: "21:53", mat: "Lana morada, ojos rojos con fieltro y sonrisa amplia." },
+      { id: "poke8", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
+      { id: "poke9", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
 
       // 4. SANRIO
       { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
-      { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
-      { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
-      { id: "sanrio4", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
-      { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
+      { id: "sanrio2", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
+      { id: "sanrio3", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
+      { id: "sanrio4", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
 
-      // 5. EL CHAVO DEL 8
+      // 5. EL CHAVO DEL 8 (Incluye videos largos de más de 1 hora)
       { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
       { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
-      { id: "chavo3", title: "La Chilindrina Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
+      { id: "chavo3", title: "La Chilindrina Amigurumi - Tutorial Paso a Paso (Parte 1)", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
       { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
 
       // 6. MARIO BROS
@@ -1185,26 +1328,17 @@
 
       // 7. CANTANTES
       { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida y ganchillo 2.5mm." },
-      { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi Paso a Paso", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
-      { id: "cant3", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
+      { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 1)", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
+      { id: "cant3", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 2)", cat: "Amigurumis de cantantes", yt: "4PfUtC_U1qA", duration: "45:49", mat: "Detalles finales y sombrero tejido." },
+      { id: "cant4", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
 
-      // 8. OSOS Y PELUCHES
+      // 8. OTRAS CATEGORÍAS
       { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera y ojitos 8mm." },
-
-      // 9. PARA BEBÉS
       { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural y sonajero interior." },
-      { id: "bebe2", title: "Mantita de Apego Osito a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "8mUmlnFoBXQ", duration: "31:59", mat: "Hilaza suave para bebé, relleno siliconado y ojitos bordados." },
-
-      // 10. PROFESIONES
+      { id: "bebe2", title: "Mantita de Apego Osito a Crochet (Parte 1)", cat: "Amigurumis para bebes", yt: "8mUmlnFoBXQ", duration: "31:59", mat: "Hilaza suave para bebé, relleno siliconado y ojitos bordados." },
       { id: "prof1", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "1NIia8gAeJs", duration: "35:40", mat: "Lana blanca médica, celeste/rosa pastel, detalles bordados." },
-
-      // 11. RELIGIOSOS Y FE
       { id: "rel1", title: "Virgen María Amigurumi - Tutorial Completo Paso a Paso", cat: "Amigurumis religiosos", yt: "UH-ghvSAHgc", duration: "42:15", mat: "Lana blanca perla, celeste cielo, color piel y corona dorada." },
-
-      // 12. NAVIDEÑOS
       { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Lana roja carmín, blanca rizada, pompón y ojitos negros." },
-
-      // 13. SÚPER HÉROES
       { id: "super1", title: "Spider-Man Colgante para Auto a Crochet", cat: "Amigurumis de super heroes", yt: "IQY6ZP71wHo", duration: "32:00", mat: "Lana roja y azul francia, hilo negro para bordar la telaraña." }
     ];
 
@@ -1214,6 +1348,25 @@
     let showingFavsOnly = false;
     let currentUserEmail = null;
     let userPlan = 'free'; // 'free' | 'pro' | 'premium'
+    let ytPlayer = null;
+    let timeCheckInterval = null;
+
+    // PRECIOS Y DESCUENTOS
+    const pricing = {
+      '1m': { proCOP: "$20.000 COP", proUSD: "$5.00 USD", premCOP: "$40.000 COP", premUSD: "$10.00 USD" },
+      '3m': { proCOP: "$54.000 COP", proUSD: "$13.50 USD", premCOP: "$102.000 COP", premUSD: "$25.50 USD" },
+      '6m': { proCOP: "$96.000 COP", proUSD: "$24.00 USD", premCOP: "$180.000 COP", premUSD: "$45.00 USD" },
+      '1y': { proCOP: "$156.000 COP", proUSD: "$39.00 USD", premCOP: "$264.000 COP", premUSD: "$66.00 USD" }
+    };
+
+    function setPlanPeriod(period, btn) {
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('proPriceCOP').innerText = pricing[period].proCOP;
+      document.getElementById('proPriceUSD').innerText = pricing[period].proUSD;
+      document.getElementById('premPriceCOP').innerText = pricing[period].premCOP;
+      document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
+    }
 
     function init() {
       const email = localStorage.getItem('user_email');
@@ -1225,14 +1378,12 @@
       }
     }
 
-    // ALTERNAR PESTAÑAS DEL LOGIN
     function switchAuthTab(type) {
       const btnFree = document.getElementById('tabBtnFree');
       const btnCode = document.getElementById('tabBtnCode');
       const formFree = document.getElementById('freeLoginForm');
       const formCode = document.getElementById('codeLoginForm');
-      const alertBox = document.getElementById('authAlert');
-      alertBox.style.display = 'none';
+      document.getElementById('authAlert').style.display = 'none';
 
       if (type === 'free') {
         btnFree.classList.add('active');
@@ -1247,7 +1398,6 @@
       }
     }
 
-    // ENTRAR GRATIS SOLO CON EL CORREO
     function handleFreeLogin(e) {
       e.preventDefault();
       const email = document.getElementById('freeEmailInput').value.trim();
@@ -1257,7 +1407,6 @@
       }
     }
 
-    // ENTRAR DIRECTO CANJEANDO CÓDIGO (1 AÑO)
     async function handleCodeLogin(e) {
       e.preventDefault();
       const email = document.getElementById('codeEmailInput').value.trim().toLowerCase();
@@ -1314,12 +1463,10 @@
         localStorage.setItem('user_plan_' + email, 'premium');
         showAlert(alertBox, '¡Código activado con éxito! Entrando...', 'success');
 
-        setTimeout(() => {
-          init();
-        }, 1200);
+        setTimeout(() => { init(); }, 1200);
 
       } catch (err) {
-        console.error("Error al validar código:", err);
+        console.error("Error al validar:", err);
         showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
         btn.disabled = false;
         btn.innerText = 'Validar y Entrar como Premium';
@@ -1333,7 +1480,6 @@
       switchAuthTab('free');
     }
 
-    // CONSULTAR MEMBRESÍA EN FIRESTORE
     async function checkUserMembership(email) {
       try {
         const userDoc = await db.collection("usuarios").doc(email).get();
@@ -1360,7 +1506,6 @@
           updateBadgeUI('PLAN GRATIS', 'badge-free');
         }
       } catch (err) {
-        console.warn("Modo local o sin conexión:", err);
         userPlan = localStorage.getItem('user_plan_' + email) || 'free';
         updateBadgeUI(userPlan === 'premium' ? '👑 PREMIUM' : 'PLAN GRATIS', userPlan === 'premium' ? 'badge-premium' : 'badge-free');
       }
@@ -1379,7 +1524,273 @@
       renderGalleries();
     }
 
-    // MODAL DE PLANES
+    // LÓGICA DE BLOQUEOS PARA PLAN GRATIS
+    function isVideoLockedForUser(v) {
+      if (userPlan === 'premium' || userPlan === 'pro') return false;
+
+      // 1. Reto: Del día 6 al 10 bloqueados en Gratis
+      if (v.isChallenge && v.day > 5) return true;
+
+      // 2. Videos que tengan más de dos partes (bloquear la parte 2 en adelante)
+      const t = v.title.toLowerCase();
+      if (t.includes('parte 2') || t.includes('parte 3') || t.includes('parte final') || t.includes('2/2')) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function parseDurationInSeconds(durStr) {
+      if (!durStr) return 0;
+      const parts = durStr.split(':').map(Number);
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return 0;
+    }
+
+    function renderChallenge() {
+      const listEl = document.getElementById('challengeList');
+      listEl.innerHTML = '';
+      const days = catalog.filter(v => v.isChallenge).sort((a, b) => a.day - b.day);
+      let doneCount = 0;
+
+      days.forEach(d => {
+        const isDone = localStorage.getItem('done_' + d.id) === 'true';
+        if (isDone) doneCount++;
+        const locked = isVideoLockedForUser(d);
+
+        const item = document.createElement('div');
+        item.className = 'challenge-day-item' + (isDone ? ' done' : '') + (locked ? ' locked' : '');
+        item.onclick = () => {
+          if (locked) { openPlansModal(); } else { openVideo(d); }
+        };
+
+        item.innerHTML = `
+          <img src="https://img.youtube.com/vi/${d.yt}/hqdefault.jpg" class="day-thumb ${locked ? 'blur' : ''}" alt="${d.title}">
+          <div style="flex:1;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">
+              DÍA ${d.day} (${d.duration}) ${locked ? '🔒 Bloqueado' : ''}
+            </div>
+            <div style="font-size:0.8rem; font-weight:600; line-height:1.2;">${d.title}</div>
+          </div>
+          <div style="font-size:1.1rem;">${locked ? '🔒' : (isDone ? '✅' : '⚪')}</div>
+        `;
+        listEl.appendChild(item);
+      });
+
+      const fillPct = (doneCount / days.length) * 100;
+      document.getElementById('challengeProgressFill').style.width = fillPct + '%';
+      document.getElementById('challengeProgressText').innerText = `${doneCount} de ${days.length} días completados`;
+    }
+
+    function renderGalleries() {
+      const container = document.getElementById('sectionsContainer');
+      container.innerHTML = '';
+
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = catalog.filter(v => !v.isChallenge);
+
+      if (showingFavsOnly) {
+        filtered = filtered.filter(v => localStorage.getItem('fav_' + v.id) === 'true');
+      }
+
+      if (selectedCategory !== 'Todos') {
+        filtered = filtered.filter(v => v.cat === selectedCategory);
+      }
+
+      if (query) {
+        filtered = filtered.filter(v => v.title.toLowerCase().includes(query) || v.cat.toLowerCase().includes(query));
+      }
+
+      const categories = [...new Set(filtered.map(v => v.cat))];
+
+      if (categories.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay tutoriales que coincidan con la búsqueda.</div>`;
+        return;
+      }
+
+      categories.forEach(catName => {
+        const catVideos = filtered.filter(v => v.cat === catName);
+
+        const secHead = document.createElement('div');
+        secHead.className = 'section-head';
+        secHead.innerHTML = `<h2>${catName}</h2><span style="font-size:0.75rem; color:var(--text-muted);">${catVideos.length} tutoriales</span>`;
+        container.appendChild(secHead);
+
+        const carousel = document.createElement('div');
+        carousel.className = 'carousel';
+
+        catVideos.forEach(v => {
+          const isFav = localStorage.getItem('fav_' + v.id) === 'true';
+          const locked = isVideoLockedForUser(v);
+
+          const card = document.createElement('div');
+          card.className = 'video-card';
+          card.onclick = (e) => {
+            if (e.target.closest('.card-fav-btn')) return;
+            if (locked) { openPlansModal(); } else { openVideo(v); }
+          };
+
+          card.innerHTML = `
+            <div class="thumb-wrapper">
+              <span class="tag-badge">${v.cat.split(' ')[0]}</span>
+              <span class="tag-duration">${v.duration}</span>
+              ${locked ? '<div class="lock-overlay-badge"><span>🔒</span><span>PRO / PREMIUM</span></div>' : ''}
+              <button class="card-fav-btn" onclick="toggleCardFav(event, '${v.id}')">${isFav ? '❤️' : '🤍'}</button>
+              <img src="https://img.youtube.com/vi/${v.yt}/hqdefault.jpg" alt="${v.title}">
+            </div>
+            <div class="card-info">
+              <div class="card-title">${v.title}</div>
+            </div>
+          `;
+          carousel.appendChild(card);
+        });
+
+        container.appendChild(carousel);
+      });
+    }
+
+    function setCategoryFilter(category, btn) {
+      selectedCategory = category;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGalleries();
+    }
+
+    function handleFilter() {
+      renderGalleries();
+    }
+
+    function toggleFavView() {
+      if (userPlan === 'free') {
+        openPlansModal();
+        return;
+      }
+      showingFavsOnly = !showingFavsOnly;
+      const btn = document.getElementById('btnFavFilter');
+      if (showingFavsOnly) btn.classList.add('active');
+      else btn.classList.remove('active');
+      renderGalleries();
+    }
+
+    function toggleCardFav(e, id) {
+      e.stopPropagation();
+      if (userPlan === 'free') {
+        openPlansModal();
+        return;
+      }
+      const current = localStorage.getItem('fav_' + id) === 'true';
+      localStorage.setItem('fav_' + id, !current);
+      renderGalleries();
+    }
+
+    function handleRoundChange(delta) {
+      if (userPlan === 'free') {
+        openPlansModal();
+        return;
+      }
+      currentRounds = Math.max(0, currentRounds + delta);
+      document.getElementById('roundNumber').innerText = currentRounds;
+      if (currentVideo) {
+        localStorage.setItem('round_' + currentVideo.id, currentRounds);
+      }
+    }
+
+    // APERTURA DE REPRODUCTOR Y CONTROL DEL 80% EN VIDEOS > 1 HORA
+    function openVideo(v) {
+      currentVideo = v;
+      document.getElementById('modalTitle').innerText = v.title;
+      document.getElementById('modalCategory').innerText = v.cat + ' • Duración: ' + v.duration;
+      document.getElementById('modalMaterials').innerText = v.mat || 'Ganchillo recomendado, hilaza de algodón y marcador de vueltas.';
+      document.getElementById('timeLockCurtain').style.display = 'none';
+
+      currentRounds = parseInt(localStorage.getItem('round_' + v.id) || '0');
+      document.getElementById('roundNumber').innerText = currentRounds;
+
+      updateModalButtons();
+
+      const totalSecs = parseDurationInSeconds(v.duration);
+      const isLongVideo = totalSecs >= 3600; // Más de 1 hora
+
+      // Destruir reproductor anterior si existía
+      if (ytPlayer && ytPlayer.destroy) {
+        ytPlayer.destroy();
+      }
+      clearInterval(timeCheckInterval);
+
+      document.getElementById('videoModal').style.display = 'block';
+
+      // Inicializar YouTube Player API
+      ytPlayer = new YT.Player('player', {
+        videoId: v.yt,
+        playerVars: { autoplay: 1, rel: 0, modestbranding: 1 },
+        events: {
+          'onStateChange': (event) => {
+            if (event.data === YT.PlayerState.PLAYING && userPlan === 'free' && isLongVideo) {
+              clearInterval(timeCheckInterval);
+              timeCheckInterval = setInterval(() => {
+                const current = ytPlayer.getCurrentTime();
+                const limit = totalSecs * 0.8; // Corte al 80%
+                if (current >= limit) {
+                  ytPlayer.pauseVideo();
+                  clearInterval(timeCheckInterval);
+                  document.getElementById('timeLockCurtain').style.display = 'flex';
+                }
+              }, 1000);
+            }
+          }
+        }
+      });
+    }
+
+    function updateModalButtons() {
+      if (!currentVideo) return;
+      const isDone = localStorage.getItem('done_' + currentVideo.id) === 'true';
+      const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
+
+      const btnDone = document.getElementById('btnMarkDone');
+      if (isDone) {
+        btnDone.classList.add('marked');
+        document.getElementById('markIcon').innerText = '✅';
+        document.getElementById('markText').innerText = 'Completado';
+      } else {
+        btnDone.classList.remove('marked');
+        document.getElementById('markIcon').innerText = '✓';
+        document.getElementById('markText').innerText = 'Marcar como visto';
+      }
+
+      document.getElementById('favModalIcon').innerText = isFav ? '❤️' : '🤍';
+      document.getElementById('favModalText').innerText = isFav ? 'En favoritos' : 'Favorito';
+    }
+
+    function toggleCurrentDone() {
+      if (!currentVideo) return;
+      const isDone = localStorage.getItem('done_' + currentVideo.id) === 'true';
+      localStorage.setItem('done_' + currentVideo.id, !isDone);
+      updateModalButtons();
+      renderChallenge();
+    }
+
+    function toggleCurrentFav() {
+      if (!currentVideo) return;
+      if (userPlan === 'free') {
+        openPlansModal();
+        return;
+      }
+      const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
+      localStorage.setItem('fav_' + currentVideo.id, !isFav);
+      updateModalButtons();
+      renderGalleries();
+    }
+
+    function closeModal() {
+      document.getElementById('videoModal').style.display = 'none';
+      clearInterval(timeCheckInterval);
+      if (ytPlayer && ytPlayer.stopVideo) {
+        ytPlayer.stopVideo();
+      }
+    }
+
     function openPlansModal() {
       document.getElementById('modalRedeemAlert').style.display = 'none';
       document.getElementById('modalPromoCodeInput').value = '';
@@ -1390,7 +1801,6 @@
       document.getElementById('plansModal').style.display = 'none';
     }
 
-    // CANJE DESDE EL MODAL DE PLANES
     async function redeemPromoCodeFromModal() {
       const input = document.getElementById('modalPromoCodeInput');
       const code = input.value.trim().toUpperCase();
@@ -1456,6 +1866,7 @@
           btn.innerText = 'Activar mi Membresía de 1 Año';
           input.value = '';
           alertBox.style.display = 'none';
+          renderChallenge();
           renderGalleries();
         }, 1800);
 
@@ -1538,210 +1949,6 @@
           alert("¡Lista de códigos copiada al portapapeles! Ya puedes enviárselos a tus alumnas.");
         });
       }
-    }
-
-    // RETO 10 DÍAS
-    function renderChallenge() {
-      const listEl = document.getElementById('challengeList');
-      listEl.innerHTML = '';
-      const days = catalog.filter(v => v.isChallenge).sort((a, b) => a.day - b.day);
-      let doneCount = 0;
-
-      days.forEach(d => {
-        const isDone = localStorage.getItem('done_' + d.id) === 'true';
-        if (isDone) doneCount++;
-
-        const item = document.createElement('div');
-        item.className = 'challenge-day-item' + (isDone ? ' done' : '');
-        item.onclick = () => openVideo(d);
-        item.innerHTML = `
-          <img src="https://img.youtube.com/vi/${d.yt}/hqdefault.jpg" class="day-thumb" alt="${d.title}">
-          <div style="flex:1;">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">DÍA ${d.day} (${d.duration})</div>
-            <div style="font-size:0.8rem; font-weight:600; line-height:1.2;">${d.title}</div>
-          </div>
-          <div style="font-size:1.1rem;">${isDone ? '✅' : '⚪'}</div>
-        `;
-        listEl.appendChild(item);
-      });
-
-      const fillPct = (doneCount / days.length) * 100;
-      document.getElementById('challengeProgressFill').style.width = fillPct + '%';
-      document.getElementById('challengeProgressText').innerText = `${doneCount} de ${days.length} días completados`;
-    }
-
-    // CARRUSELES
-    function renderGalleries() {
-      const container = document.getElementById('sectionsContainer');
-      container.innerHTML = '';
-
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      let filtered = catalog.filter(v => !v.isChallenge);
-
-      if (showingFavsOnly) {
-        filtered = filtered.filter(v => localStorage.getItem('fav_' + v.id) === 'true');
-      }
-
-      if (selectedCategory !== 'Todos') {
-        filtered = filtered.filter(v => v.cat === selectedCategory);
-      }
-
-      if (query) {
-        filtered = filtered.filter(v => v.title.toLowerCase().includes(query) || v.cat.toLowerCase().includes(query));
-      }
-
-      const categories = [...new Set(filtered.map(v => v.cat))];
-
-      if (categories.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay tutoriales que coincidan con la búsqueda.</div>`;
-        return;
-      }
-
-      categories.forEach(catName => {
-        const catVideos = filtered.filter(v => v.cat === catName);
-
-        const secHead = document.createElement('div');
-        secHead.className = 'section-head';
-        secHead.innerHTML = `<h2>${catName}</h2><span style="font-size:0.75rem; color:var(--text-muted);">${catVideos.length} tutoriales</span>`;
-        container.appendChild(secHead);
-
-        const carousel = document.createElement('div');
-        carousel.className = 'carousel';
-
-        catVideos.forEach(v => {
-          const isFav = localStorage.getItem('fav_' + v.id) === 'true';
-          const card = document.createElement('div');
-          card.className = 'video-card';
-          card.onclick = (e) => {
-            if (!e.target.closest('.card-fav-btn')) openVideo(v);
-          };
-          card.innerHTML = `
-            <div class="thumb-wrapper">
-              <span class="tag-badge">${v.cat.split(' ')[0]}</span>
-              <span class="tag-duration">${v.duration}</span>
-              <button class="card-fav-btn" onclick="toggleCardFav(event, '${v.id}')">${isFav ? '❤️' : '🤍'}</button>
-              <img src="https://img.youtube.com/vi/${v.yt}/hqdefault.jpg" alt="${v.title}">
-            </div>
-            <div class="card-info">
-              <div class="card-title">${v.title}</div>
-            </div>
-          `;
-          carousel.appendChild(card);
-        });
-
-        container.appendChild(carousel);
-      });
-    }
-
-    function setCategoryFilter(category, btn) {
-      selectedCategory = category;
-      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderGalleries();
-    }
-
-    function handleFilter() {
-      renderGalleries();
-    }
-
-    // CONTROL DE ACCESO (PAYWALL): FAVORITOS
-    function toggleFavView() {
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
-      showingFavsOnly = !showingFavsOnly;
-      const btn = document.getElementById('btnFavFilter');
-      if (showingFavsOnly) btn.classList.add('active');
-      else btn.classList.remove('active');
-      renderGalleries();
-    }
-
-    function toggleCardFav(e, id) {
-      e.stopPropagation();
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
-      const current = localStorage.getItem('fav_' + id) === 'true';
-      localStorage.setItem('fav_' + id, !current);
-      renderGalleries();
-    }
-
-    // CONTROL DE ACCESO (PAYWALL): CONTADOR DE VUELTAS
-    function handleRoundChange(delta) {
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
-      currentRounds = Math.max(0, currentRounds + delta);
-      document.getElementById('roundNumber').innerText = currentRounds;
-      if (currentVideo) {
-        localStorage.setItem('round_' + currentVideo.id, currentRounds);
-      }
-    }
-
-    function openVideo(v) {
-      currentVideo = v;
-
-      document.getElementById('modalTitle').innerText = v.title;
-      document.getElementById('modalCategory').innerText = v.cat + ' • Duración: ' + v.duration;
-      document.getElementById('modalMaterials').innerText = v.mat || 'Ganchillo recomendado, hilaza de algodón y marcador de vueltas.';
-
-      currentRounds = parseInt(localStorage.getItem('round_' + v.id) || '0');
-      document.getElementById('roundNumber').innerText = currentRounds;
-
-      updateModalButtons();
-
-      document.getElementById('playerContainer').innerHTML = `
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${v.yt}?autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      `;
-      document.getElementById('videoModal').style.display = 'block';
-    }
-
-    function updateModalButtons() {
-      if (!currentVideo) return;
-      const isDone = localStorage.getItem('done_' + currentVideo.id) === 'true';
-      const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
-
-      const btnDone = document.getElementById('btnMarkDone');
-      if (isDone) {
-        btnDone.classList.add('marked');
-        document.getElementById('markIcon').innerText = '✅';
-        document.getElementById('markText').innerText = 'Completado';
-      } else {
-        btnDone.classList.remove('marked');
-        document.getElementById('markIcon').innerText = '✓';
-        document.getElementById('markText').innerText = 'Marcar como visto';
-      }
-
-      document.getElementById('favModalIcon').innerText = isFav ? '❤️' : '🤍';
-      document.getElementById('favModalText').innerText = isFav ? 'En favoritos' : 'Favorito';
-    }
-
-    function toggleCurrentDone() {
-      if (!currentVideo) return;
-      const isDone = localStorage.getItem('done_' + currentVideo.id) === 'true';
-      localStorage.setItem('done_' + currentVideo.id, !isDone);
-      updateModalButtons();
-      renderChallenge();
-    }
-
-    function toggleCurrentFav() {
-      if (!currentVideo) return;
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
-      const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
-      localStorage.setItem('fav_' + currentVideo.id, !isFav);
-      updateModalButtons();
-      renderGalleries();
-    }
-
-    function closeModal() {
-      document.getElementById('videoModal').style.display = 'none';
-      document.getElementById('playerContainer').innerHTML = '';
     }
 
     window.onload = init;
