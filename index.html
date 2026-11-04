@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- FIREBASE SDKs (COMPATIBILIDAD WEB DIRECTA) -->
+  <!-- FIREBASE SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -28,7 +28,6 @@
       --text: #2d2621;
       --text-muted: #7d7268;
       --border: #ede4d8;
-      --gold: #d4a373;
       --shadow-sm: 0 2px 8px rgba(92, 60, 42, 0.05);
       --shadow-md: 0 4px 16px rgba(92, 60, 42, 0.08);
       --radius-md: 14px;
@@ -215,6 +214,7 @@
 
     .top-actions {
       display: flex;
+      align-items: center;
       gap: 6px;
     }
 
@@ -240,6 +240,16 @@
       border: 1px solid #ffe082;
       color: #b78103;
       font-weight: 700;
+    }
+
+    .btn-admin {
+      background: #2d2621;
+      color: #fff;
+      border: none;
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      cursor: pointer;
     }
 
     /* BANNER ALUMNA VIP */
@@ -636,7 +646,7 @@
       margin-bottom: 4px;
     }
 
-    /* MODAL DE PAYWALL / CANJE */
+    /* MODAL DE CANJE Y ADMIN */
     .paywall-card {
       padding: 24px 20px;
       text-align: center;
@@ -696,6 +706,21 @@
       color: #2e7d32;
       display: block;
     }
+
+    /* LISTA ADMIN */
+    .admin-codes-box {
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      max-height: 180px;
+      overflow-y: auto;
+      text-align: left;
+      font-family: monospace;
+      font-size: 0.85rem;
+      margin: 14px 0;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
@@ -734,6 +759,7 @@
       <div class="top-actions">
         <button class="btn-top btn-redeem" onclick="openRedeemModal()">🎟️ Canjear</button>
         <button class="btn-top" id="btnFavFilter" onclick="toggleFavView()">❤️ Favoritos</button>
+        <button class="btn-admin" onclick="openAdminModal()">⚙️</button>
         <button class="btn-top" onclick="handleLogout()">Salir</button>
       </div>
     </header>
@@ -838,7 +864,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE CANJE / BENEFICIOS PREMIUM -->
+  <!-- MODAL DE CANJE -->
   <div id="redeemModal" class="modal">
     <div class="modal-content">
       <div class="paywall-card">
@@ -854,6 +880,31 @@
 
         <button class="btn-main" id="btnApplyCode" onclick="redeemPromoCode()">Validar y Activar 1 Año</button>
         <button class="btn-action-outline" style="width:100%; margin-top:10px;" onclick="closeRedeemModal()">Volver</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EXCLUSIVO ADMIN (GENERADOR DE CÓDIGOS) -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <div class="paywall-card">
+        <div class="paywall-icon">⚙️</div>
+        <h3>Generador de Códigos VIP</h3>
+        <p>Crea lotes de códigos únicos de 1 año directamente en Firebase Firestore.</p>
+
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+          <input type="text" id="adminPrefix" value="ARTE" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Prefijo">
+          <input type="number" id="adminQty" value="10" min="1" max="50" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Cantidad">
+        </div>
+
+        <button class="btn-main" id="btnAdminGen" onclick="handleAdminGenerate()">Generar Códigos en Firebase</button>
+
+        <div id="adminResultBox" style="display:none;">
+          <div class="admin-codes-box" id="adminCodesList"></div>
+          <button class="btn-action-outline" style="width:100%; margin-bottom:10px;" onclick="copyGeneratedCodes()">📋 Copiar todos los códigos</button>
+        </div>
+
+        <button class="btn-action-outline" style="width:100%; margin-top:6px;" onclick="closeAdminModal()">Cerrar Administrador</button>
       </div>
     </div>
   </div>
@@ -1010,7 +1061,6 @@
             updateBadgeUI('PLAN GRATIS', false);
           }
         } else {
-          // Si el usuario no existe en la base de datos, se crea como gratis
           await db.collection("usuarios").doc(email).set({
             email: email,
             plan: 'free',
@@ -1068,17 +1118,15 @@
         const data = doc.data();
 
         if (data.usado === true) {
-          showAlert(alertBox, 'Este código ya fue utilizado el ' + (data.fechaUso ? data.fechaUso.toDate().toLocaleDateString() : '') + ' por otra cuenta.', 'error');
+          showAlert(alertBox, 'Este código ya fue utilizado por otra cuenta.', 'error');
           btn.disabled = false;
           btn.innerText = 'Validar y Activar 1 Año';
           return;
         }
 
-        // CÁLCULO DE 1 AÑO (365 DÍAS)
         const unAnoDespues = new Date();
         unAnoDespues.setDate(unAnoDespues.getDate() + 365);
 
-        // TRANSACCIÓN: Quemar código y activar membresía al correo actual
         const batch = db.batch();
         batch.update(codeRef, {
           usado: true,
@@ -1133,6 +1181,73 @@
 
     function closeRedeemModal() {
       document.getElementById('redeemModal').style.display = 'none';
+    }
+
+    // PANEL ADMINISTRATIVO PARA GENERAR CÓDIGOS
+    let generatedList = [];
+
+    function openAdminModal() {
+      const clave = prompt("Ingresa la clave de administrador:");
+      if (clave === "admin123") {
+        document.getElementById('adminResultBox').style.display = 'none';
+        document.getElementById('adminModal').style.display = 'block';
+      } else if (clave !== null) {
+        alert("Clave incorrecta.");
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    async function handleAdminGenerate() {
+      const prefijo = document.getElementById('adminPrefix').value.trim().toUpperCase() || "ARTE";
+      const qty = parseInt(document.getElementById('adminQty').value) || 5;
+      const btn = document.getElementById('btnAdminGen');
+
+      btn.disabled = true;
+      btn.innerText = `Generando ${qty} códigos en Firebase...`;
+      generatedList = [];
+
+      try {
+        const batch = db.batch();
+
+        for (let i = 0; i < qty; i++) {
+          const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+          const codigo = `${prefijo}-${rand}`;
+          generatedList.push(codigo);
+
+          const ref = db.collection("codigos").doc(codigo);
+          batch.set(ref, {
+            codigo: codigo,
+            usado: false,
+            usadoPor: null,
+            creadoEl: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+
+        await batch.commit();
+
+        document.getElementById('adminCodesList').innerText = generatedList.join("\n");
+        document.getElementById('adminResultBox').style.display = 'block';
+        btn.disabled = false;
+        btn.innerText = "¡Códigos Creados con Éxito!";
+        setTimeout(() => { btn.innerText = "Generar Más Códigos"; }, 2000);
+
+      } catch (err) {
+        console.error("Error al generar códigos:", err);
+        alert("Error de conexión con Firebase. Revisa las reglas de seguridad.");
+        btn.disabled = false;
+        btn.innerText = "Generar Códigos en Firebase";
+      }
+    }
+
+    function copyGeneratedCodes() {
+      if (generatedList.length > 0) {
+        navigator.clipboard.writeText(generatedList.join("\n")).then(() => {
+          alert("¡Lista de códigos copiada al portapapeles! Ya puedes pegarla en tus notas o WhatsApp.");
+        });
+      }
     }
 
     // RETO 10 DÍAS
@@ -1239,7 +1354,6 @@
       renderGalleries();
     }
 
-    // CONTROL DE ACCESO (PAYWALL): FAVORITOS
     function toggleFavView() {
       if (userPlan !== 'premium') {
         openRedeemModal();
@@ -1263,7 +1377,6 @@
       renderGalleries();
     }
 
-    // CONTROL DE ACCESO (PAYWALL): CONTADOR DE VUELTAS
     function handleRoundChange(delta) {
       if (userPlan !== 'premium') {
         openRedeemModal();
@@ -1338,24 +1451,6 @@
       document.getElementById('videoModal').style.display = 'none';
       document.getElementById('playerContainer').innerHTML = '';
     }
-
-    // HERRAMIENTA ADMINISTRATIVA: CREAR CÓDIGOS PROMOCIONALES DIRECTAMENTE DESDE LA CONSOLA DEL NAVEGADOR
-    // Ejemplo de uso: crearCodigos("ARTE2026", 10)
-    window.crearCodigos = async function(prefijo = "ARTE", cantidad = 5) {
-      console.log(`Generando ${cantidad} códigos con prefijo ${prefijo}...`);
-      for (let i = 0; i < cantidad; i++) {
-        const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const codigo = `${prefijo}-${randomStr}`;
-        await db.collection("codigos").doc(codigo).set({
-          codigo: codigo,
-          usado: false,
-          usadoPor: null,
-          creadoEl: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        console.log(`✓ Código creado en Firebase: ${codigo}`);
-      }
-      alert(`¡Se crearon ${cantidad} códigos en Firebase Firestore! Revisa la consola o tu base de datos.`);
-    };
 
     window.onload = init;
   </script>
