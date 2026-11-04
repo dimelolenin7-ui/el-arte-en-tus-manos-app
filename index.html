@@ -28,6 +28,7 @@
       --text: #2d2621;
       --text-muted: #7d7268;
       --border: #ede4d8;
+      --gold: #d4a373;
       --shadow-sm: 0 2px 8px rgba(92, 60, 42, 0.05);
       --shadow-md: 0 4px 16px rgba(92, 60, 42, 0.08);
       --radius-md: 14px;
@@ -62,7 +63,7 @@
       width: 100%;
     }
 
-    /* PANTALLA LOGIN */
+    /* PANTALLA LOGIN CON 3 OPCIONES */
     #authScreen {
       min-height: 100vh;
       display: flex;
@@ -78,53 +79,87 @@
       box-shadow: var(--shadow-md);
       border: 1px solid var(--border);
       width: 100%;
-      max-width: 440px;
+      max-width: 450px;
       text-align: center;
-      padding: 30px 20px 24px;
+      padding: 28px 20px 24px;
     }
 
     .brand-logo-main {
-      width: 135px;
-      height: 135px;
+      width: 125px;
+      height: 125px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 16px;
+      margin: 0 auto 14px;
       box-shadow: 0 6px 18px rgba(179, 90, 56, 0.18);
       border: 3px solid #fff;
     }
 
     .auth-card h1 {
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       color: var(--primary);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .auth-card p {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+    }
+
+    /* PESTAÑAS DE ACCESO INICIAL */
+    .auth-tabs {
+      display: flex;
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 16px;
+      gap: 4px;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 8px 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .auth-tab-btn.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
 
     .input-group {
       text-align: left;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .input-group label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .input-group input {
       width: 100%;
-      padding: 13px 14px;
+      padding: 12px 14px;
       border: 1.5px solid var(--border);
       border-radius: 12px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       outline: none;
       background: #faf8f5;
+    }
+
+    .input-group input:focus {
+      border-color: var(--primary);
+      background: #fff;
     }
 
     .btn-main {
@@ -134,10 +169,20 @@
       border: none;
       border-radius: 12px;
       padding: 13px;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       font-weight: 600;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(179, 90, 56, 0.22);
+    }
+
+    .btn-view-plans-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
     }
 
     .btn-whatsapp {
@@ -145,12 +190,12 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 12px;
       color: #1b5e20;
       background: #e8f5e9;
       padding: 10px 18px;
       border-radius: 20px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       text-decoration: none;
     }
@@ -160,7 +205,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 16px;
+      padding: 10px 14px;
       background: rgba(251, 248, 244, 0.96);
       backdrop-filter: blur(10px);
       position: sticky;
@@ -176,15 +221,15 @@
     }
 
     .nav-logo {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
       border: 1.5px solid var(--primary-soft);
     }
 
     .brand-title {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--primary);
       line-height: 1.1;
@@ -204,6 +249,12 @@
     .badge-free {
       background: #eee;
       color: #666;
+    }
+
+    .badge-pro {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
     }
 
     .badge-premium {
@@ -235,7 +286,7 @@
       border-color: var(--primary);
     }
 
-    .btn-redeem {
+    .btn-plans-nav {
       background: #fff8e1;
       border: 1px solid #ffe082;
       color: #b78103;
@@ -544,21 +595,21 @@
       letter-spacing: 1px;
     }
 
-    /* MODAL GENERAL */
+    /* MODALES */
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.88);
       z-index: 100;
       overflow-y: auto;
-      padding: 12px;
+      padding: 14px;
     }
 
     .modal-content {
       background: var(--card-bg);
       border-radius: 18px;
-      max-width: 580px;
+      max-width: 540px;
       margin: 10px auto;
       overflow: hidden;
       position: relative;
@@ -646,52 +697,124 @@
       margin-bottom: 4px;
     }
 
-    /* MODAL DE CANJE Y ADMIN */
-    .paywall-card {
-      padding: 24px 20px;
+    /* MODAL DE PLANES Y TABLA COMPARATIVA */
+    .plans-modal-body {
+      padding: 22px 16px;
       text-align: center;
     }
 
-    .paywall-icon {
-      font-size: 2.5rem;
-      margin-bottom: 8px;
-    }
-
-    .paywall-card h3 {
+    .plans-modal-body h3 {
       font-size: 1.25rem;
       color: var(--primary);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    .paywall-card p {
-      font-size: 0.85rem;
+    .plans-modal-body p {
+      font-size: 0.84rem;
       color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .plans-cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
       margin-bottom: 18px;
     }
 
+    .plan-card-item {
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #faf8f5;
+    }
+
+    .plan-card-item.featured {
+      border-color: #f59e0b;
+      background: #fffbeb;
+      position: relative;
+    }
+
+    .badge-featured-tag {
+      position: absolute;
+      top: -10px;
+      right: 14px;
+      background: #f59e0b;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+    }
+
+    .plan-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .plan-title-txt {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .plan-price-txt {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .plan-perks-list {
+      list-style: none;
+      font-size: 0.78rem;
+      color: #555;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .plan-perks-list li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .redeem-section-inside {
+      background: #fff;
+      border: 1.5px dashed var(--primary);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 14px;
+      text-align: center;
+    }
+
     .code-input-box {
-      margin-bottom: 14px;
+      margin: 10px 0;
     }
 
     .code-input-box input {
       width: 100%;
-      padding: 13px;
+      padding: 12px;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       letter-spacing: 2px;
       text-transform: uppercase;
       font-weight: 700;
-      border-radius: 12px;
-      border: 2px solid var(--primary);
+      border-radius: 10px;
+      border: 1.5px solid var(--primary);
       background: #faf8f5;
       outline: none;
     }
 
     .alert-msg {
-      padding: 10px;
+      padding: 9px;
       border-radius: 8px;
-      font-size: 0.8rem;
-      margin-bottom: 12px;
+      font-size: 0.78rem;
+      margin-bottom: 10px;
       display: none;
     }
 
@@ -707,7 +830,6 @@
       display: block;
     }
 
-    /* LISTA ADMIN */
     .admin-codes-box {
       background: #faf8f5;
       border: 1px solid var(--border);
@@ -725,23 +847,47 @@
 </head>
 <body>
 
-  <!-- ACCESO -->
+  <!-- PANTALLA INICIAL DE ACCESO CON 3 OPCIONES -->
   <section id="authScreen">
     <div class="auth-card">
       <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
       <h1>El Arte en Tus Manos</h1>
       <p>Academia interactiva oficial y biblioteca de videos de amigurumis.</p>
       
-      <form id="loginForm" onsubmit="handleLogin(event)">
+      <!-- PESTAÑAS SELECTORAS -->
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tabBtnFree" onclick="switchAuthTab('free')">⚪ Acceso Gratis</button>
+        <button type="button" class="auth-tab-btn" id="tabBtnCode" onclick="switchAuthTab('code')">👑 Tengo Código</button>
+      </div>
+
+      <div id="authAlert" class="alert-msg"></div>
+
+      <!-- FORMULARIO 1: ENTRAR GRATIS -->
+      <form id="freeLoginForm" onsubmit="handleFreeLogin(event)">
         <div class="input-group">
-          <label for="emailInput">Ingresa tu correo registrado</label>
-          <input type="email" id="emailInput" placeholder="alumna@ejemplo.com" required>
+          <label for="freeEmailInput">Ingresa tu correo electrónico</label>
+          <input type="email" id="freeEmailInput" placeholder="tu-correo@ejemplo.com" required>
         </div>
-        <button type="submit" class="btn-main">Entrar a la Academia</button>
+        <button type="submit" class="btn-main">Entrar a la Academia (Gratis)</button>
       </form>
 
+      <!-- FORMULARIO 2: ACTIVAR DIRECTO CON CÓDIGO (1 AÑO) -->
+      <form id="codeLoginForm" onsubmit="handleCodeLogin(event)" style="display:none;">
+        <div class="input-group">
+          <label for="codeEmailInput">Tu correo electrónico</label>
+          <input type="email" id="codeEmailInput" placeholder="alumna@ejemplo.com" required>
+        </div>
+        <div class="input-group">
+          <label for="initialPromoCode">Código de membresía (entregado con el curso)</label>
+          <input type="text" id="initialPromoCode" placeholder="EJ: ARTE-88K2" style="text-transform:uppercase; letter-spacing:1px; font-weight:700;" required>
+        </div>
+        <button type="submit" class="btn-main" id="btnCodeSubmit">Validar y Entrar como Premium</button>
+      </form>
+
+      <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y beneficios? Ver aquí</span>
+
       <a href="https://wa.me/" target="_blank" class="btn-whatsapp">
-        <span>💬 ¿Ayuda o soporte? Escríbenos por WhatsApp</span>
+        <span>💬 ¿Dudas o necesitas tu código? WhatsApp</span>
       </a>
     </div>
   </section>
@@ -757,7 +903,7 @@
         </div>
       </div>
       <div class="top-actions">
-        <button class="btn-top btn-redeem" onclick="openRedeemModal()">🎟️ Canjear</button>
+        <button class="btn-top btn-plans-nav" onclick="openPlansModal()">⭐ Planes</button>
         <button class="btn-top" id="btnFavFilter" onclick="toggleFavView()">❤️ Favoritos</button>
         <button class="btn-admin" onclick="openAdminModal()">⚙️</button>
         <button class="btn-top" onclick="handleLogout()">Salir</button>
@@ -772,7 +918,7 @@
           <h4>¿Compraste el curso completo?</h4>
           <p>Activa tu membresía Premium de 1 año con tu código único.</p>
         </div>
-        <button class="btn-claim-pill" onclick="openRedeemModal()">Activar Aquí</button>
+        <button class="btn-claim-pill" onclick="openPlansModal()">Activar Aquí</button>
       </div>
 
       <!-- BUSCADOR -->
@@ -864,22 +1010,71 @@
     </div>
   </div>
 
-  <!-- MODAL DE CANJE -->
-  <div id="redeemModal" class="modal">
+  <!-- MODAL DE INFORMACIÓN DE PLANES Y CANJE DE CÓDIGO -->
+  <div id="plansModal" class="modal">
     <div class="modal-content">
-      <div class="paywall-card">
-        <div class="paywall-icon">👑</div>
-        <h3>Membresía Premium 1 Año</h3>
-        <p>Ingresa el código promocional único entregado con tu curso "El Arte en Tus Manos" para desbloquear todas las funciones VIP.</p>
+      <div class="plans-modal-body">
+        <h3>Planes y Membresías</h3>
+        <p>Elige el plan ideal o activa tu membresía de alumna con tu código único.</p>
 
-        <div id="redeemAlert" class="alert-msg"></div>
+        <div class="plans-cards-grid">
+          <!-- PLAN GRATIS -->
+          <div class="plan-card-item">
+            <div class="plan-header-row">
+              <span class="plan-title-txt">⚪ Plan Gratis</span>
+              <span class="plan-price-txt">$0</span>
+            </div>
+            <ul class="plan-perks-list">
+              <li>✓ Acceso a tutoriales básicos seleccionados</li>
+              <li>✓ Primeras lecciones del reto</li>
+              <li>✕ Sin contador interactivo de vueltas</li>
+              <li>✕ Sin lista de favoritos personalizada</li>
+            </ul>
+          </div>
 
-        <div class="code-input-box">
-          <input type="text" id="promoCodeInput" placeholder="EJ: ARTE-88K2" maxlength="20">
+          <!-- PLAN PRO -->
+          <div class="plan-card-item">
+            <div class="plan-header-row">
+              <span class="plan-title-txt">🔵 Plan PRO</span>
+              <span class="plan-price-txt">Membresía Mensual</span>
+            </div>
+            <ul class="plan-perks-list">
+              <li>✓ Acceso a todas las categorías de videos</li>
+              <li>✓ Contador de vueltas interactivo activado</li>
+              <li>✓ Guardado ilimitado en favoritos</li>
+              <li>✕ Sin soporte directo con la instructora</li>
+            </ul>
+          </div>
+
+          <!-- PLAN PREMIUM (CURSO) -->
+          <div class="plan-card-item featured">
+            <span class="badge-featured-tag">Recomendado</span>
+            <div class="plan-header-row">
+              <span class="plan-title-txt">👑 Plan PREMIUM (Alumnas)</span>
+              <span class="plan-price-txt">Incluido en el Curso (1 Año)</span>
+            </div>
+            <ul class="plan-perks-list">
+              <li>✓ <strong>Acceso Total Ilimitado</strong> a toda la plataforma</li>
+              <li>✓ <strong>Reto de 10 Días completo</strong> sin bloqueos</li>
+              <li>✓ Contador de vueltas con memoria de avance</li>
+              <li>✓ Fichas completas de materiales y tips exclusivos</li>
+              <li>✓ <strong>Soporte prioritario</strong> por WhatsApp</li>
+            </ul>
+          </div>
         </div>
 
-        <button class="btn-main" id="btnApplyCode" onclick="redeemPromoCode()">Validar y Activar 1 Año</button>
-        <button class="btn-action-outline" style="width:100%; margin-top:10px;" onclick="closeRedeemModal()">Volver</button>
+        <!-- SECCIÓN DE CANJE DE CÓDIGO DENTRO DE PLANES -->
+        <div class="redeem-section-inside">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">¿Ya tienes tu código de alumna?</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Ingrésalo aquí para activar 1 año de membresía Premium:</div>
+          <div id="modalRedeemAlert" class="alert-msg"></div>
+          <div class="code-input-box">
+            <input type="text" id="modalPromoCodeInput" placeholder="EJ: ARTE-88K2" maxlength="20">
+          </div>
+          <button class="btn-main" id="btnModalRedeemSubmit" onclick="redeemPromoCodeFromModal()">Activar mi Membresía de 1 Año</button>
+        </div>
+
+        <button class="btn-action-outline" style="width:100%; margin-top:14px;" onclick="closePlansModal()">Cerrar y Volver</button>
       </div>
     </div>
   </div>
@@ -887,8 +1082,8 @@
   <!-- MODAL EXCLUSIVO ADMIN (GENERADOR DE CÓDIGOS) -->
   <div id="adminModal" class="modal">
     <div class="modal-content">
-      <div class="paywall-card">
-        <div class="paywall-icon">⚙️</div>
+      <div class="plans-modal-body">
+        <div style="font-size:2rem; margin-bottom:6px;">⚙️</div>
         <h3>Generador de Códigos VIP</h3>
         <p>Crea lotes de códigos únicos de 1 año directamente en Firebase Firestore.</p>
 
@@ -904,7 +1099,7 @@
           <button class="btn-action-outline" style="width:100%; margin-bottom:10px;" onclick="copyGeneratedCodes()">📋 Copiar todos los códigos</button>
         </div>
 
-        <button class="btn-action-outline" style="width:100%; margin-top:6px;" onclick="closeAdminModal()">Cerrar Administrador</button>
+        <button class="btn-action-outline" style="width:100%; margin-top:10px;" onclick="closeAdminModal()">Cerrar Administrador</button>
       </div>
     </div>
   </div>
@@ -920,7 +1115,6 @@
       appId: "1:201090015928:web:612e0fa487d868c02f0a4d"
     };
 
-    // INICIALIZACIÓN DE FIREBASE Y FIRESTORE
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
@@ -958,7 +1152,7 @@
       { id: "tip17", title: "Cómo poner cabello a las muñecas amigurumi super fácil", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "5GtNWB4tBs0", duration: "04:57", mat: "Lana acrílica suave y aguja lanera." },
       { id: "tip18", title: "3 Tips fáciles para amigurumis prolijos y parejos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jnUvkfZv6QE", duration: "04:56", mat: "Tensión uniforme de hebra y postura de ganchillo." },
 
-      // 3. POKÉMON (10 TUTORIALES VERIFICADOS)
+      // 3. POKÉMON
       { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
       { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
       { id: "poke3", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
@@ -970,26 +1164,26 @@
       { id: "poke9", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
       { id: "poke10", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
 
-      // 4. SANRIO (TUTORIALES COMPLETOS)
+      // 4. SANRIO
       { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
       { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
       { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
       { id: "sanrio4", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
       { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
 
-      // 5. EL CHAVO DEL 8 (TUTORIALES COMPLETOS)
+      // 5. EL CHAVO DEL 8
       { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
       { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
       { id: "chavo3", title: "La Chilindrina Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
       { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
 
-      // 6. MARIO BROS (TUTORIALES COMPLETOS)
+      // 6. MARIO BROS
       { id: "mario1", title: "Super Mario Bros Amigurumi Completo Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
       { id: "mario2", title: "Luigi Amigurumi Tutorial - Super Mario Bros Paso a Paso", cat: "Amigurumis de mario bross", yt: "WEumJ70l_tg", duration: "58:08", mat: "Lana verde bosque, azul overol, botones amarillos y bigote." },
       { id: "mario3", title: "Yoshi Mario Bros - Crochet Amigurumi Tutorial", cat: "Amigurumis de mario bross", yt: "qeF2roklz8s", duration: "25:29", mat: "Lana verde manzana, blanco pecho, montura roja y botas." },
       { id: "mario4", title: "Toad Mario Bros Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de mario bross", yt: "0IP6gwyaSJI", duration: "41:51", mat: "Lana blanca, chaleco azul y círculos rojos cosidos." },
 
-      // 7. CANTANTES (TUTORIALES COMPLETOS)
+      // 7. CANTANTES
       { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida y ganchillo 2.5mm." },
       { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi Paso a Paso", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
       { id: "cant3", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
@@ -1019,7 +1213,7 @@
     let selectedCategory = 'Todos';
     let showingFavsOnly = false;
     let currentUserEmail = null;
-    let userPlan = 'free'; // 'free' | 'premium'
+    let userPlan = 'free'; // 'free' | 'pro' | 'premium'
 
     function init() {
       const email = localStorage.getItem('user_email');
@@ -1031,12 +1225,104 @@
       }
     }
 
-    function handleLogin(e) {
+    // ALTERNAR PESTAÑAS DEL LOGIN
+    function switchAuthTab(type) {
+      const btnFree = document.getElementById('tabBtnFree');
+      const btnCode = document.getElementById('tabBtnCode');
+      const formFree = document.getElementById('freeLoginForm');
+      const formCode = document.getElementById('codeLoginForm');
+      const alertBox = document.getElementById('authAlert');
+      alertBox.style.display = 'none';
+
+      if (type === 'free') {
+        btnFree.classList.add('active');
+        btnCode.classList.remove('active');
+        formFree.style.display = 'block';
+        formCode.style.display = 'none';
+      } else {
+        btnCode.classList.add('active');
+        btnFree.classList.remove('active');
+        formFree.style.display = 'none';
+        formCode.style.display = 'block';
+      }
+    }
+
+    // ENTRAR GRATIS SOLO CON EL CORREO
+    function handleFreeLogin(e) {
       e.preventDefault();
-      const email = document.getElementById('emailInput').value.trim();
+      const email = document.getElementById('freeEmailInput').value.trim();
       if (email) {
         localStorage.setItem('user_email', email);
         init();
+      }
+    }
+
+    // ENTRAR DIRECTO CANJEANDO CÓDIGO (1 AÑO)
+    async function handleCodeLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('codeEmailInput').value.trim().toLowerCase();
+      const code = document.getElementById('initialPromoCode').value.trim().toUpperCase();
+      const alertBox = document.getElementById('authAlert');
+      const btn = document.getElementById('btnCodeSubmit');
+
+      if (!email || !code) return;
+
+      btn.disabled = true;
+      btn.innerText = 'Validando tu código...';
+
+      try {
+        const codeRef = db.collection("codigos").doc(code);
+        const doc = await codeRef.get();
+
+        if (!doc.exists) {
+          showAlert(alertBox, 'El código ingresado no existe.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Validar y Entrar como Premium';
+          return;
+        }
+
+        const data = doc.data();
+        if (data.usado === true) {
+          showAlert(alertBox, 'Este código ya fue utilizado por otra alumna.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Validar y Entrar como Premium';
+          return;
+        }
+
+        const unAnoDespues = new Date();
+        unAnoDespues.setDate(unAnoDespues.getDate() + 365);
+
+        const batch = db.batch();
+        batch.update(codeRef, {
+          usado: true,
+          usadoPor: email,
+          fechaUso: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const userRef = db.collection("usuarios").doc(email);
+        batch.set(userRef, {
+          email: email,
+          plan: 'premium',
+          codigoCanjeado: code,
+          activadoEl: firebase.firestore.FieldValue.serverTimestamp(),
+          expira: firebase.firestore.Timestamp.fromDate(unAnoDespues)
+        }, { merge: true });
+
+        await batch.commit();
+
+        localStorage.setItem('user_email', email);
+        localStorage.setItem('user_plan_' + email, 'premium');
+        showAlert(alertBox, '¡Código activado con éxito! Entrando...', 'success');
+
+        setTimeout(() => {
+          init();
+        }, 1200);
+
+      } catch (err) {
+        console.error("Error al validar código:", err);
+        showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
+        btn.disabled = false;
+        btn.innerText = 'Validar y Entrar como Premium';
       }
     }
 
@@ -1044,9 +1330,10 @@
       localStorage.removeItem('user_email');
       document.getElementById('appScreen').style.display = 'none';
       document.getElementById('authScreen').style.display = 'flex';
+      switchAuthTab('free');
     }
 
-    // CONSULTA ESTADO DE MEMBRESÍA EN FIRESTORE
+    // CONSULTAR MEMBRESÍA EN FIRESTORE
     async function checkUserMembership(email) {
       try {
         const userDoc = await db.collection("usuarios").doc(email).get();
@@ -1055,10 +1342,13 @@
           if (data.plan === 'premium' && data.expira && data.expira.toDate() > new Date()) {
             userPlan = 'premium';
             const dias = Math.ceil((data.expira.toDate() - new Date()) / (1000 * 60 * 60 * 24));
-            updateBadgeUI('👑 PREMIUM (' + dias + 'd)', true);
+            updateBadgeUI('👑 PREMIUM (' + dias + 'd)', 'badge-premium');
+          } else if (data.plan === 'pro') {
+            userPlan = 'pro';
+            updateBadgeUI('🔵 PRO', 'badge-pro');
           } else {
             userPlan = 'free';
-            updateBadgeUI('PLAN GRATIS', false);
+            updateBadgeUI('PLAN GRATIS', 'badge-free');
           }
         } else {
           await db.collection("usuarios").doc(email).set({
@@ -1067,21 +1357,21 @@
             creado: firebase.firestore.FieldValue.serverTimestamp()
           });
           userPlan = 'free';
-          updateBadgeUI('PLAN GRATIS', false);
+          updateBadgeUI('PLAN GRATIS', 'badge-free');
         }
       } catch (err) {
         console.warn("Modo local o sin conexión:", err);
         userPlan = localStorage.getItem('user_plan_' + email) || 'free';
-        updateBadgeUI(userPlan === 'premium' ? '👑 PREMIUM' : 'PLAN GRATIS', userPlan === 'premium');
+        updateBadgeUI(userPlan === 'premium' ? '👑 PREMIUM' : 'PLAN GRATIS', userPlan === 'premium' ? 'badge-premium' : 'badge-free');
       }
       loadAppState();
     }
 
-    function updateBadgeUI(text, isPremium) {
+    function updateBadgeUI(text, badgeClass) {
       const badge = document.getElementById('userBadge');
       badge.innerText = text;
-      badge.className = 'user-plan-badge ' + (isPremium ? 'badge-premium' : 'badge-free');
-      document.getElementById('vipBanner').style.display = isPremium ? 'none' : 'flex';
+      badge.className = 'user-plan-badge ' + badgeClass;
+      document.getElementById('vipBanner').style.display = (userPlan === 'premium') ? 'none' : 'flex';
     }
 
     function loadAppState() {
@@ -1089,15 +1379,26 @@
       renderGalleries();
     }
 
-    // CANJE DE CÓDIGOS PROMOCIONALES ÚNICOS EN FIRESTORE
-    async function redeemPromoCode() {
-      const input = document.getElementById('promoCodeInput');
+    // MODAL DE PLANES
+    function openPlansModal() {
+      document.getElementById('modalRedeemAlert').style.display = 'none';
+      document.getElementById('modalPromoCodeInput').value = '';
+      document.getElementById('plansModal').style.display = 'block';
+    }
+
+    function closePlansModal() {
+      document.getElementById('plansModal').style.display = 'none';
+    }
+
+    // CANJE DESDE EL MODAL DE PLANES
+    async function redeemPromoCodeFromModal() {
+      const input = document.getElementById('modalPromoCodeInput');
       const code = input.value.trim().toUpperCase();
-      const alertBox = document.getElementById('redeemAlert');
-      const btn = document.getElementById('btnApplyCode');
+      const alertBox = document.getElementById('modalRedeemAlert');
+      const btn = document.getElementById('btnModalRedeemSubmit');
 
       if (!code) {
-        showAlert(alertBox, 'Por favor escribe un código.', 'error');
+        showAlert(alertBox, 'Escribe un código para validar.', 'error');
         return;
       }
 
@@ -1111,16 +1412,15 @@
         if (!doc.exists) {
           showAlert(alertBox, 'El código ingresado no existe o es incorrecto.', 'error');
           btn.disabled = false;
-          btn.innerText = 'Validar y Activar 1 Año';
+          btn.innerText = 'Activar mi Membresía de 1 Año';
           return;
         }
 
         const data = doc.data();
-
         if (data.usado === true) {
           showAlert(alertBox, 'Este código ya fue utilizado por otra cuenta.', 'error');
           btn.disabled = false;
-          btn.innerText = 'Validar y Activar 1 Año';
+          btn.innerText = 'Activar mi Membresía de 1 Año';
           return;
         }
 
@@ -1148,12 +1448,12 @@
         userPlan = 'premium';
         localStorage.setItem('user_plan_' + currentUserEmail, 'premium');
         showAlert(alertBox, '¡Felicidades! Membresía Premium activada por 1 año.', 'success');
-        updateBadgeUI('👑 PREMIUM (365d)', true);
+        updateBadgeUI('👑 PREMIUM (365d)', 'badge-premium');
 
         setTimeout(() => {
-          closeRedeemModal();
+          closePlansModal();
           btn.disabled = false;
-          btn.innerText = 'Validar y Activar 1 Año';
+          btn.innerText = 'Activar mi Membresía de 1 Año';
           input.value = '';
           alertBox.style.display = 'none';
           renderGalleries();
@@ -1163,7 +1463,7 @@
         console.error("Error al canjear:", err);
         showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
         btn.disabled = false;
-        btn.innerText = 'Validar y Activar 1 Año';
+        btn.innerText = 'Activar mi Membresía de 1 Año';
       }
     }
 
@@ -1173,17 +1473,7 @@
       box.style.display = 'block';
     }
 
-    function openRedeemModal() {
-      document.getElementById('redeemAlert').style.display = 'none';
-      document.getElementById('promoCodeInput').value = '';
-      document.getElementById('redeemModal').style.display = 'block';
-    }
-
-    function closeRedeemModal() {
-      document.getElementById('redeemModal').style.display = 'none';
-    }
-
-    // PANEL ADMINISTRATIVO PARA GENERAR CÓDIGOS
+    // PANEL ADMINISTRATIVO
     let generatedList = [];
 
     function openAdminModal() {
@@ -1245,7 +1535,7 @@
     function copyGeneratedCodes() {
       if (generatedList.length > 0) {
         navigator.clipboard.writeText(generatedList.join("\n")).then(() => {
-          alert("¡Lista de códigos copiada al portapapeles! Ya puedes pegarla en tus notas o WhatsApp.");
+          alert("¡Lista de códigos copiada al portapapeles! Ya puedes enviárselos a tus alumnas.");
         });
       }
     }
@@ -1354,9 +1644,10 @@
       renderGalleries();
     }
 
+    // CONTROL DE ACCESO (PAYWALL): FAVORITOS
     function toggleFavView() {
-      if (userPlan !== 'premium') {
-        openRedeemModal();
+      if (userPlan === 'free') {
+        openPlansModal();
         return;
       }
       showingFavsOnly = !showingFavsOnly;
@@ -1368,8 +1659,8 @@
 
     function toggleCardFav(e, id) {
       e.stopPropagation();
-      if (userPlan !== 'premium') {
-        openRedeemModal();
+      if (userPlan === 'free') {
+        openPlansModal();
         return;
       }
       const current = localStorage.getItem('fav_' + id) === 'true';
@@ -1377,9 +1668,10 @@
       renderGalleries();
     }
 
+    // CONTROL DE ACCESO (PAYWALL): CONTADOR DE VUELTAS
     function handleRoundChange(delta) {
-      if (userPlan !== 'premium') {
-        openRedeemModal();
+      if (userPlan === 'free') {
+        openPlansModal();
         return;
       }
       currentRounds = Math.max(0, currentRounds + delta);
@@ -1437,8 +1729,8 @@
 
     function toggleCurrentFav() {
       if (!currentVideo) return;
-      if (userPlan !== 'premium') {
-        openRedeemModal();
+      if (userPlan === 'free') {
+        openPlansModal();
         return;
       }
       const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
