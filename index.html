@@ -12,6 +12,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- FIREBASE SDKs (COMPATIBILIDAD WEB DIRECTA) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <style>
     :root {
       --bg: #fbf8f4;
@@ -24,6 +28,7 @@
       --text: #2d2621;
       --text-muted: #7d7268;
       --border: #ede4d8;
+      --gold: #d4a373;
       --shadow-sm: 0 2px 8px rgba(92, 60, 42, 0.05);
       --shadow-md: 0 4px 16px rgba(92, 60, 42, 0.08);
       --radius-md: 14px;
@@ -58,7 +63,7 @@
       width: 100%;
     }
 
-    /* LOGIN */
+    /* PANTALLA LOGIN */
     #authScreen {
       min-height: 100vh;
       display: flex;
@@ -80,8 +85,8 @@
     }
 
     .brand-logo-main {
-      width: 140px;
-      height: 140px;
+      width: 135px;
+      height: 135px;
       border-radius: 50%;
       object-fit: cover;
       margin: 0 auto 16px;
@@ -151,7 +156,7 @@
       text-decoration: none;
     }
 
-    /* TOP BAR */
+    /* BARRA SUPERIOR */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -183,18 +188,40 @@
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--primary);
-      line-height: 1.2;
+      line-height: 1.1;
+    }
+
+    .user-plan-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .badge-free {
+      background: #eee;
+      color: #666;
+    }
+
+    .badge-premium {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
     }
 
     .top-actions {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     .btn-top {
       background: #fff;
       border: 1px solid var(--border);
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 8px;
       font-size: 0.78rem;
       font-weight: 600;
@@ -208,10 +235,54 @@
       border-color: var(--primary);
     }
 
-    /* SEARCH */
+    .btn-redeem {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      color: #b78103;
+      font-weight: 700;
+    }
+
+    /* BANNER ALUMNA VIP */
+    .vip-upgrade-card {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 1px solid #fed7aa;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .vip-upgrade-card h4 {
+      font-size: 0.88rem;
+      color: #9a3412;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .vip-upgrade-card p {
+      font-size: 0.75rem;
+      color: #7c2d12;
+    }
+
+    .btn-claim-pill {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* BUSCADOR */
     .search-bar {
       position: relative;
-      margin: 12px 0 10px;
+      margin: 8px 0 10px;
     }
 
     .search-bar input {
@@ -327,7 +398,7 @@
       object-fit: cover;
     }
 
-    /* CARRUSELES */
+    /* CARRUSELES Y TARJETAS */
     .section-head {
       margin: 18px 0 10px;
       display: flex;
@@ -463,7 +534,7 @@
       letter-spacing: 1px;
     }
 
-    /* MODAL */
+    /* MODAL GENERAL */
     .modal {
       display: none;
       position: fixed;
@@ -480,6 +551,7 @@
       max-width: 580px;
       margin: 10px auto;
       overflow: hidden;
+      position: relative;
     }
 
     .video-frame {
@@ -563,6 +635,67 @@
       color: var(--primary);
       margin-bottom: 4px;
     }
+
+    /* MODAL DE PAYWALL / CANJE */
+    .paywall-card {
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .paywall-icon {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    .paywall-card h3 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .paywall-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .code-input-box {
+      margin-bottom: 14px;
+    }
+
+    .code-input-box input {
+      width: 100%;
+      padding: 13px;
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      background: #faf8f5;
+      outline: none;
+    }
+
+    .alert-msg {
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .alert-msg.error {
+      background: #ffebee;
+      color: #c62828;
+      display: block;
+    }
+
+    .alert-msg.success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -572,7 +705,7 @@
     <div class="auth-card">
       <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
       <h1>El Arte en Tus Manos</h1>
-      <p>Biblioteca oficial y academia virtual interactiva de amigurumis.</p>
+      <p>Academia interactiva oficial y biblioteca de videos de amigurumis.</p>
       
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="input-group">
@@ -583,7 +716,7 @@
       </form>
 
       <a href="https://wa.me/" target="_blank" class="btn-whatsapp">
-        <span>💬 ¿Ayuda o dudas? Contáctanos por WhatsApp</span>
+        <span>💬 ¿Ayuda o soporte? Escríbenos por WhatsApp</span>
       </a>
     </div>
   </section>
@@ -595,10 +728,11 @@
         <img src="IMG-20261103-WA0013.jpg" alt="Logo" class="nav-logo">
         <div>
           <div class="brand-title">El Arte en Tus Manos</div>
-          <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 600;">ACADEMIA VIRTUAL</div>
+          <span id="userBadge" class="user-plan-badge badge-free">PLAN GRATIS</span>
         </div>
       </div>
       <div class="top-actions">
+        <button class="btn-top btn-redeem" onclick="openRedeemModal()">🎟️ Canjear</button>
         <button class="btn-top" id="btnFavFilter" onclick="toggleFavView()">❤️ Favoritos</button>
         <button class="btn-top" onclick="handleLogout()">Salir</button>
       </div>
@@ -606,6 +740,15 @@
 
     <div class="container">
       
+      <!-- BANNER EXCLUSIVO PARA CUENTAS GRATIS -->
+      <div id="vipBanner" class="vip-upgrade-card" style="display:none;">
+        <div>
+          <h4>¿Compraste el curso completo?</h4>
+          <p>Activa tu membresía Premium de 1 año con tu código único.</p>
+        </div>
+        <button class="btn-claim-pill" onclick="openRedeemModal()">Activar Aquí</button>
+      </div>
+
       <!-- BUSCADOR -->
       <div class="search-bar">
         <span class="search-icon">🔍</span>
@@ -674,13 +817,13 @@
         <div class="row-counter">
           <div>
             <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Contador de Vueltas</div>
-            <div style="font-size: 0.72rem; color: var(--text-muted);">Avanza conforme tejes</div>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Suma vueltas conforme tejes</div>
           </div>
           <div style="display: flex; align-items: center; gap: 12px;">
             <div class="count-display" id="roundNumber">0</div>
             <div class="count-btns">
-              <button onclick="updateRounds(-1)">−</button>
-              <button onclick="updateRounds(1)">+</button>
+              <button onclick="handleRoundChange(-1)">−</button>
+              <button onclick="handleRoundChange(1)">+</button>
             </div>
           </div>
         </div>
@@ -695,8 +838,42 @@
     </div>
   </div>
 
+  <!-- MODAL DE CANJE / BENEFICIOS PREMIUM -->
+  <div id="redeemModal" class="modal">
+    <div class="modal-content">
+      <div class="paywall-card">
+        <div class="paywall-icon">👑</div>
+        <h3>Membresía Premium 1 Año</h3>
+        <p>Ingresa el código promocional único entregado con tu curso "El Arte en Tus Manos" para desbloquear todas las funciones VIP.</p>
+
+        <div id="redeemAlert" class="alert-msg"></div>
+
+        <div class="code-input-box">
+          <input type="text" id="promoCodeInput" placeholder="EJ: ARTE-88K2" maxlength="20">
+        </div>
+
+        <button class="btn-main" id="btnApplyCode" onclick="redeemPromoCode()">Validar y Activar 1 Año</button>
+        <button class="btn-action-outline" style="width:100%; margin-top:10px;" onclick="closeRedeemModal()">Volver</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // BASE DE DATOS COMPLETA Y VERIFICADA
+    // CONFIGURACIÓN OFICIAL DE FIREBASE
+    const firebaseConfig = {
+      apiKey: "AIzaSyB1HEIr7bK8erNQ64_Ln78MeNxIJlVI_1E",
+      authDomain: "el-arte-en-tus-manos.firebaseapp.com",
+      projectId: "el-arte-en-tus-manos",
+      storageBucket: "el-arte-en-tus-manos.firebasestorage.app",
+      messagingSenderId: "201090015928",
+      appId: "1:201090015928:web:612e0fa487d868c02f0a4d"
+    };
+
+    // INICIALIZACIÓN DE FIREBASE Y FIRESTORE
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // BASE DE DATOS DE TUTORIALES PASO A PASO VERIFICADOS
     const catalog = [
       // 1. RETO 10 DÍAS DE ANGELICA (CREATIVE CROCHET DESDE CERO)
       { id: "c1", isChallenge: true, day: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
@@ -790,13 +967,16 @@
     let currentRounds = 0;
     let selectedCategory = 'Todos';
     let showingFavsOnly = false;
+    let currentUserEmail = null;
+    let userPlan = 'free'; // 'free' | 'premium'
 
     function init() {
       const email = localStorage.getItem('user_email');
       if (email) {
+        currentUserEmail = email.toLowerCase().trim();
         document.getElementById('authScreen').style.display = 'none';
         document.getElementById('appScreen').style.display = 'block';
-        loadAppState();
+        checkUserMembership(currentUserEmail);
       }
     }
 
@@ -815,11 +995,147 @@
       document.getElementById('authScreen').style.display = 'flex';
     }
 
+    // CONSULTA ESTADO DE MEMBRESÍA EN FIRESTORE
+    async function checkUserMembership(email) {
+      try {
+        const userDoc = await db.collection("usuarios").doc(email).get();
+        if (userDoc.exists) {
+          const data = userDoc.data();
+          if (data.plan === 'premium' && data.expira && data.expira.toDate() > new Date()) {
+            userPlan = 'premium';
+            const dias = Math.ceil((data.expira.toDate() - new Date()) / (1000 * 60 * 60 * 24));
+            updateBadgeUI('👑 PREMIUM (' + dias + 'd)', true);
+          } else {
+            userPlan = 'free';
+            updateBadgeUI('PLAN GRATIS', false);
+          }
+        } else {
+          // Si el usuario no existe en la base de datos, se crea como gratis
+          await db.collection("usuarios").doc(email).set({
+            email: email,
+            plan: 'free',
+            creado: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          userPlan = 'free';
+          updateBadgeUI('PLAN GRATIS', false);
+        }
+      } catch (err) {
+        console.warn("Modo local o sin conexión:", err);
+        userPlan = localStorage.getItem('user_plan_' + email) || 'free';
+        updateBadgeUI(userPlan === 'premium' ? '👑 PREMIUM' : 'PLAN GRATIS', userPlan === 'premium');
+      }
+      loadAppState();
+    }
+
+    function updateBadgeUI(text, isPremium) {
+      const badge = document.getElementById('userBadge');
+      badge.innerText = text;
+      badge.className = 'user-plan-badge ' + (isPremium ? 'badge-premium' : 'badge-free');
+      document.getElementById('vipBanner').style.display = isPremium ? 'none' : 'flex';
+    }
+
     function loadAppState() {
       renderChallenge();
       renderGalleries();
     }
 
+    // CANJE DE CÓDIGOS PROMOCIONALES ÚNICOS EN FIRESTORE
+    async function redeemPromoCode() {
+      const input = document.getElementById('promoCodeInput');
+      const code = input.value.trim().toUpperCase();
+      const alertBox = document.getElementById('redeemAlert');
+      const btn = document.getElementById('btnApplyCode');
+
+      if (!code) {
+        showAlert(alertBox, 'Por favor escribe un código.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Validando en el sistema...';
+
+      try {
+        const codeRef = db.collection("codigos").doc(code);
+        const doc = await codeRef.get();
+
+        if (!doc.exists) {
+          showAlert(alertBox, 'El código ingresado no existe o es incorrecto.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Validar y Activar 1 Año';
+          return;
+        }
+
+        const data = doc.data();
+
+        if (data.usado === true) {
+          showAlert(alertBox, 'Este código ya fue utilizado el ' + (data.fechaUso ? data.fechaUso.toDate().toLocaleDateString() : '') + ' por otra cuenta.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Validar y Activar 1 Año';
+          return;
+        }
+
+        // CÁLCULO DE 1 AÑO (365 DÍAS)
+        const unAnoDespues = new Date();
+        unAnoDespues.setDate(unAnoDespues.getDate() + 365);
+
+        // TRANSACCIÓN: Quemar código y activar membresía al correo actual
+        const batch = db.batch();
+        batch.update(codeRef, {
+          usado: true,
+          usadoPor: currentUserEmail,
+          fechaUso: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const userRef = db.collection("usuarios").doc(currentUserEmail);
+        batch.set(userRef, {
+          email: currentUserEmail,
+          plan: 'premium',
+          codigoCanjeado: code,
+          activadoEl: firebase.firestore.FieldValue.serverTimestamp(),
+          expira: firebase.firestore.Timestamp.fromDate(unAnoDespues)
+        }, { merge: true });
+
+        await batch.commit();
+
+        userPlan = 'premium';
+        localStorage.setItem('user_plan_' + currentUserEmail, 'premium');
+        showAlert(alertBox, '¡Felicidades! Membresía Premium activada por 1 año.', 'success');
+        updateBadgeUI('👑 PREMIUM (365d)', true);
+
+        setTimeout(() => {
+          closeRedeemModal();
+          btn.disabled = false;
+          btn.innerText = 'Validar y Activar 1 Año';
+          input.value = '';
+          alertBox.style.display = 'none';
+          renderGalleries();
+        }, 1800);
+
+      } catch (err) {
+        console.error("Error al canjear:", err);
+        showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
+        btn.disabled = false;
+        btn.innerText = 'Validar y Activar 1 Año';
+      }
+    }
+
+    function showAlert(box, msg, type) {
+      box.innerText = msg;
+      box.className = 'alert-msg ' + type;
+      box.style.display = 'block';
+    }
+
+    function openRedeemModal() {
+      document.getElementById('redeemAlert').style.display = 'none';
+      document.getElementById('promoCodeInput').value = '';
+      document.getElementById('redeemModal').style.display = 'block';
+    }
+
+    function closeRedeemModal() {
+      document.getElementById('redeemModal').style.display = 'none';
+    }
+
+    // RETO 10 DÍAS
     function renderChallenge() {
       const listEl = document.getElementById('challengeList');
       listEl.innerHTML = '';
@@ -849,6 +1165,7 @@
       document.getElementById('challengeProgressText').innerText = `${doneCount} de ${days.length} días completados`;
     }
 
+    // CARRUSELES
     function renderGalleries() {
       const container = document.getElementById('sectionsContainer');
       container.innerHTML = '';
@@ -922,7 +1239,12 @@
       renderGalleries();
     }
 
+    // CONTROL DE ACCESO (PAYWALL): FAVORITOS
     function toggleFavView() {
+      if (userPlan !== 'premium') {
+        openRedeemModal();
+        return;
+      }
       showingFavsOnly = !showingFavsOnly;
       const btn = document.getElementById('btnFavFilter');
       if (showingFavsOnly) btn.classList.add('active');
@@ -932,9 +1254,26 @@
 
     function toggleCardFav(e, id) {
       e.stopPropagation();
+      if (userPlan !== 'premium') {
+        openRedeemModal();
+        return;
+      }
       const current = localStorage.getItem('fav_' + id) === 'true';
       localStorage.setItem('fav_' + id, !current);
       renderGalleries();
+    }
+
+    // CONTROL DE ACCESO (PAYWALL): CONTADOR DE VUELTAS
+    function handleRoundChange(delta) {
+      if (userPlan !== 'premium') {
+        openRedeemModal();
+        return;
+      }
+      currentRounds = Math.max(0, currentRounds + delta);
+      document.getElementById('roundNumber').innerText = currentRounds;
+      if (currentVideo) {
+        localStorage.setItem('round_' + currentVideo.id, currentRounds);
+      }
     }
 
     function openVideo(v) {
@@ -985,24 +1324,38 @@
 
     function toggleCurrentFav() {
       if (!currentVideo) return;
+      if (userPlan !== 'premium') {
+        openRedeemModal();
+        return;
+      }
       const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
       localStorage.setItem('fav_' + currentVideo.id, !isFav);
       updateModalButtons();
       renderGalleries();
     }
 
-    function updateRounds(delta) {
-      currentRounds = Math.max(0, currentRounds + delta);
-      document.getElementById('roundNumber').innerText = currentRounds;
-      if (currentVideo) {
-        localStorage.setItem('round_' + currentVideo.id, currentRounds);
-      }
-    }
-
     function closeModal() {
       document.getElementById('videoModal').style.display = 'none';
       document.getElementById('playerContainer').innerHTML = '';
     }
+
+    // HERRAMIENTA ADMINISTRATIVA: CREAR CÓDIGOS PROMOCIONALES DIRECTAMENTE DESDE LA CONSOLA DEL NAVEGADOR
+    // Ejemplo de uso: crearCodigos("ARTE2026", 10)
+    window.crearCodigos = async function(prefijo = "ARTE", cantidad = 5) {
+      console.log(`Generando ${cantidad} códigos con prefijo ${prefijo}...`);
+      for (let i = 0; i < cantidad; i++) {
+        const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
+        const codigo = `${prefijo}-${randomStr}`;
+        await db.collection("codigos").doc(codigo).set({
+          codigo: codigo,
+          usado: false,
+          usadoPor: null,
+          creadoEl: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        console.log(`✓ Código creado en Firebase: ${codigo}`);
+      }
+      alert(`¡Se crearon ${cantidad} códigos en Firebase Firestore! Revisa la consola o tu base de datos.`);
+    };
 
     window.onload = init;
   </script>
