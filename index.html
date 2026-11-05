@@ -148,7 +148,7 @@
       margin-bottom: 5px;
     }
 
-    .input-group input {
+    .input-group input, .input-group select {
       width: 100%;
       padding: 12px 14px;
       border: 1.5px solid var(--border);
@@ -156,6 +156,12 @@
       font-size: 0.92rem;
       outline: none;
       background: #faf8f5;
+      font-family: inherit;
+    }
+
+    .input-group input:focus, .input-group select:focus {
+      border-color: var(--primary);
+      background: #fff;
     }
 
     .btn-main {
@@ -242,22 +248,9 @@
       margin-top: 2px;
     }
 
-    .badge-free {
-      background: #eee;
-      color: #666;
-    }
-
-    .badge-pro {
-      background: #e0f2fe;
-      color: #0369a1;
-      border: 1px solid #bae6fd;
-    }
-
-    .badge-premium {
-      background: #fff3cd;
-      color: #856404;
-      border: 1px solid #ffeeba;
-    }
+    .badge-free { background: #eee; color: #666; }
+    .badge-pro { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-premium { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
 
     .top-actions {
       display: flex;
@@ -369,9 +362,7 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    .pill-filters::-webkit-scrollbar {
-      display: none;
-    }
+    .pill-filters::-webkit-scrollbar { display: none; }
 
     .pill-btn {
       white-space: nowrap;
@@ -488,9 +479,7 @@
       scrollbar-width: none;
     }
 
-    .carousel::-webkit-scrollbar {
-      display: none;
-    }
+    .carousel::-webkit-scrollbar { display: none; }
 
     .video-card {
       min-width: 205px;
@@ -574,9 +563,7 @@
       z-index: 2;
     }
 
-    .card-info {
-      padding: 10px;
-    }
+    .card-info { padding: 10px; }
 
     .card-title {
       font-size: 0.82rem;
@@ -631,7 +618,7 @@
     .modal-content {
       background: var(--card-bg);
       border-radius: 18px;
-      max-width: 540px;
+      max-width: 560px;
       margin: 10px auto;
       overflow: hidden;
       position: relative;
@@ -644,12 +631,8 @@
       background: #000;
     }
 
-    #player {
-      width: 100%;
-      height: 100%;
-    }
+    #player { width: 100%; height: 100%; }
 
-    /* BLOQUEO AL 80% EN VIDEOS > 1 HORA */
     .time-lock-curtain {
       position: absolute;
       inset: 0;
@@ -677,9 +660,7 @@
       max-width: 320px;
     }
 
-    .modal-body {
-      padding: 16px;
-    }
+    .modal-body { padding: 16px; }
 
     .modal-actions-row {
       display: flex;
@@ -859,21 +840,9 @@
       color: var(--text);
     }
 
-    .plan-price-wrapper {
-      text-align: right;
-    }
-
-    .plan-price-cop {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--primary);
-    }
-
-    .plan-price-usd {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
+    .plan-price-wrapper { text-align: right; }
+    .plan-price-cop { font-size: 1.05rem; font-weight: 800; color: var(--primary); }
+    .plan-price-usd { font-size: 0.74rem; color: var(--text-muted); font-weight: 600; }
 
     .plan-perks-list {
       list-style: none;
@@ -913,20 +882,9 @@
       cursor: pointer;
     }
 
-    .btn-wompi {
-      background: #002b49;
-      color: #fff;
-    }
-
-    .btn-mp {
-      background: #009ee3;
-      color: #fff;
-    }
-
-    .btn-paypal {
-      background: #ffc439;
-      color: #111;
-    }
+    .btn-wompi { background: #002b49; color: #fff; }
+    .btn-mp { background: #009ee3; color: #fff; }
+    .btn-paypal { background: #ffc439; color: #111; }
 
     .redeem-section-inside {
       background: #fff;
@@ -937,9 +895,7 @@
       text-align: center;
     }
 
-    .code-input-box {
-      margin: 10px 0;
-    }
+    .code-input-box { margin: 10px 0; }
 
     .code-input-box input {
       width: 100%;
@@ -963,16 +919,36 @@
       display: none;
     }
 
-    .alert-msg.error {
-      background: #ffebee;
-      color: #c62828;
-      display: block;
+    .alert-msg.error { background: #ffebee; color: #c62828; display: block; }
+    .alert-msg.success { background: #e8f5e9; color: #2e7d32; display: block; }
+
+    /* PANEL ADMINISTRATIVO MEJORADO */
+    .admin-nav-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      background: #faf8f5;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
     }
 
-    .alert-msg.success {
-      background: #e8f5e9;
-      color: #2e7d32;
-      display: block;
+    .admin-nav-btn {
+      flex: 1;
+      padding: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border: none;
+      background: none;
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .admin-nav-btn.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
 
     .admin-codes-box {
@@ -988,6 +964,51 @@
       margin: 14px 0;
       white-space: pre-wrap;
     }
+
+    /* TABLA DE USUARIOS REGISTRADOS */
+    .users-table-wrapper {
+      max-height: 320px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      margin: 12px 0;
+      text-align: left;
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+
+    .users-table th {
+      background: #faf8f5;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+    }
+
+    .users-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #f0ebe4;
+    }
+
+    .user-status-pill {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status-active { background: #e8f5e9; color: #2e7d32; }
+    .status-expired { background: #ffebee; color: #c62828; }
+    .status-free { background: #f3f4f6; color: #4b5563; }
   </style>
 </head>
 <body>
@@ -1022,10 +1043,10 @@
           <input type="email" id="codeEmailInput" placeholder="alumna@ejemplo.com" required>
         </div>
         <div class="input-group">
-          <label for="initialPromoCode">Código de membresía (entregado con el curso)</label>
-          <input type="text" id="initialPromoCode" placeholder="EJ: ARTE-88K2" style="text-transform:uppercase; letter-spacing:1px; font-weight:700;" required>
+          <label for="initialPromoCode">Código de membresía (entregado al pagar)</label>
+          <input type="text" id="initialPromoCode" placeholder="EJ: PRO30-7XK2" style="text-transform:uppercase; letter-spacing:1px; font-weight:700;" required>
         </div>
-        <button type="submit" class="btn-main" id="btnCodeSubmit">Validar y Entrar como Premium</button>
+        <button type="submit" class="btn-main" id="btnCodeSubmit">Validar y Entrar</button>
       </form>
 
       <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y precios en oferta? Ver aquí</span>
@@ -1059,8 +1080,8 @@
       <!-- BANNER DE UPGRADE -->
       <div id="vipBanner" class="vip-upgrade-card" style="display:none;">
         <div>
-          <h4>¿Compraste el curso completo?</h4>
-          <p>Activa tu membresía Premium de 1 año con tu código único.</p>
+          <h4>¿Compraste tu membresía o curso?</h4>
+          <p>Activa tu acceso de 1 mes o 1 año con tu código único.</p>
         </div>
         <button class="btn-claim-pill" onclick="openPlansModal()">Activar Aquí</button>
       </div>
@@ -1118,7 +1139,6 @@
     <div class="modal-content">
       <div class="video-frame-container">
         <div id="player"></div>
-        <!-- CORTINA DE BLOQUEO AL 80% EN VIDEOS > 1 HORA -->
         <div id="timeLockCurtain" class="time-lock-curtain">
           <div style="font-size: 2.2rem; margin-bottom: 6px;">🔒</div>
           <h4>Llegaste al límite gratuito</h4>
@@ -1172,7 +1192,6 @@
         <h3>Planes y Suscripciones</h3>
         <p>Aprende amigurumis a tu propio ritmo con precios especiales de lanzamiento.</p>
 
-        <!-- SELECTOR DE PERIODOS CON DESCUENTOS -->
         <div class="period-selector">
           <button type="button" class="period-btn active" onclick="setPlanPeriod('1m', this)">1 Mes</button>
           <button type="button" class="period-btn" onclick="setPlanPeriod('3m', this)">3 Meses (-10%)</button>
@@ -1230,13 +1249,13 @@
 
         <!-- SECCIÓN DE CANJE DE CÓDIGO -->
         <div class="redeem-section-inside">
-          <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">¿Ya compraste el curso o tienes tu código?</div>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Canjea aquí tu acceso de 1 año:</div>
+          <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">¿Ya compraste tu mes o curso?</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Canjea aquí tu código entregado tras pagar:</div>
           <div id="modalRedeemAlert" class="alert-msg"></div>
           <div class="code-input-box">
-            <input type="text" id="modalPromoCodeInput" placeholder="EJ: ARTE-88K2" maxlength="20">
+            <input type="text" id="modalPromoCodeInput" placeholder="EJ: PRO30-7XK2" maxlength="20">
           </div>
-          <button class="btn-main" id="btnModalRedeemSubmit" onclick="redeemPromoCodeFromModal()">Activar mi Membresía de 1 Año</button>
+          <button class="btn-main" id="btnModalRedeemSubmit" onclick="redeemPromoCodeFromModal()">Activar mi Membresía</button>
         </div>
 
         <button class="btn-action-outline" style="width:100%; margin-top:14px;" onclick="closePlansModal()">Cerrar y Volver</button>
@@ -1244,27 +1263,74 @@
     </div>
   </div>
 
-  <!-- MODAL EXCLUSIVO ADMIN (GENERADOR DE CÓDIGOS) -->
+  <!-- MODAL EXCLUSIVO ADMIN (GENERADOR + CONTROL DE USUARIOS) -->
   <div id="adminModal" class="modal">
     <div class="modal-content">
       <div class="plans-modal-body">
-        <div style="font-size:2rem; margin-bottom:6px;">⚙️</div>
-        <h3>Generador de Códigos VIP</h3>
-        <p>Crea lotes de códigos únicos de 1 año directamente en Firebase Firestore.</p>
+        <div style="font-size:1.8rem; margin-bottom:4px;">⚙️</div>
+        <h3>Panel Administrador</h3>
+        <p>Administra códigos y visualiza todos los correos registrados en la app.</p>
 
-        <div style="display:flex; gap:10px; margin-bottom:12px;">
-          <input type="text" id="adminPrefix" value="ARTE" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Prefijo">
-          <input type="number" id="adminQty" value="10" min="1" max="50" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Cantidad">
+        <!-- SUBPESTAÑAS DEL ADMIN -->
+        <div class="admin-nav-tabs">
+          <button type="button" class="admin-nav-btn active" id="tabBtnGenCodes" onclick="switchAdminSubTab('gencodes')">🎟️ Generar Códigos</button>
+          <button type="button" class="admin-nav-btn" id="tabBtnUsersList" onclick="switchAdminSubTab('userslist')">👥 Ver Usuarias (<span id="userCountBadge">0</span>)</button>
         </div>
 
-        <button class="btn-main" id="btnAdminGen" onclick="handleAdminGenerate()">Generar Códigos en Firebase</button>
+        <!-- SECCIÓN 1: GENERADOR -->
+        <div id="adminGenSection">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:10px; text-align:left;">
+            <div class="input-group" style="margin:0;">
+              <label>Plan:</label>
+              <select id="adminPlanType" onchange="autoUpdatePrefix()">
+                <option value="pro">Plan PRO</option>
+                <option value="premium" selected>Plan PREMIUM</option>
+              </select>
+            </div>
+            <div class="input-group" style="margin:0;">
+              <label>Duración:</label>
+              <select id="adminDuration" onchange="autoUpdatePrefix()">
+                <option value="30">1 Mes (30 días)</option>
+                <option value="365" selected>1 Año (365 días)</option>
+              </select>
+            </div>
+          </div>
 
-        <div id="adminResultBox" style="display:none;">
-          <div class="admin-codes-box" id="adminCodesList"></div>
-          <button class="btn-action-outline" style="width:100%; margin-bottom:10px;" onclick="copyGeneratedCodes()">📋 Copiar todos los códigos</button>
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <input type="text" id="adminPrefix" value="PREM365" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Prefijo">
+            <input type="number" id="adminQty" value="5" min="1" max="50" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Cantidad">
+          </div>
+
+          <button class="btn-main" id="btnAdminGen" onclick="handleAdminGenerate()">Generar Códigos en Firebase</button>
+
+          <div id="adminResultBox" style="display:none;">
+            <div class="admin-codes-box" id="adminCodesList"></div>
+            <button class="btn-action-outline" style="width:100%; margin-bottom:10px;" onclick="copyGeneratedCodes()">📋 Copiar todos los códigos</button>
+          </div>
         </div>
 
-        <button class="btn-action-outline" style="width:100%; margin-top:10px;" onclick="closeAdminModal()">Cerrar Administrador</button>
+        <!-- SECCIÓN 2: LISTA DE USUARIAS REGISTRADAS -->
+        <div id="adminUsersSection" style="display:none;">
+          <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." onkeyup="filterUsersTable()" style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:8px;">
+          
+          <div class="users-table-wrapper">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>Correo</th>
+                  <th>Plan</th>
+                  <th>Estado / Restante</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Cargando usuarias...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn-action-outline" style="width:100%;" onclick="fetchRegisteredUsers()">🔄 Actualizar lista</button>
+        </div>
+
+        <button class="btn-action-outline" style="width:100%; margin-top:12px;" onclick="closeAdminModal()">Cerrar Administrador</button>
       </div>
     </div>
   </div>
@@ -1283,9 +1349,9 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // BASE DE DATOS DE TUTORIALES PASO A PASO VERIFICADOS
+    // BASE DE DATOS DE TUTORIALES
     const catalog = [
-      // 1. RETO 10 DÍAS DE ANGELICA (Días 1 a 5 Libres | Días 6 a 10 Bloqueados en Gratis)
+      // 1. RETO 10 DÍAS DE ANGELICA
       { id: "c1", isChallenge: true, day: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
       { id: "c2", isChallenge: true, day: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
       { id: "c3", isChallenge: true, day: 3, title: "Día 3: El secreto del punto bajo perfecto en amigurumi", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "3wxz88z8D9s", duration: "11:03", mat: "Hilaza de muestra y marcador de vueltas." },
@@ -1324,11 +1390,12 @@
 
       // 4. SANRIO
       { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
-      { id: "sanrio2", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
-      { id: "sanrio3", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
-      { id: "sanrio4", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
+      { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
+      { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
+      { id: "sanrio4", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
+      { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
 
-      // 5. EL CHAVO DEL 8 (Incluye videos largos de más de 1 hora)
+      // 5. EL CHAVO DEL 8
       { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
       { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
       { id: "chavo3", title: "La Chilindrina Amigurumi - Tutorial Paso a Paso (Parte 1)", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
@@ -1364,8 +1431,8 @@
     let userPlan = 'free'; // 'free' | 'pro' | 'premium'
     let ytPlayer = null;
     let timeCheckInterval = null;
+    let allUsersList = [];
 
-    // PRECIOS Y DESCUENTOS ACTUALIZADOS (50% OFF LANZAMIENTO)
     const pricing = {
       '1m': { proCOP: "$10.000 COP", proUSD: "$2.50 USD", premCOP: "$20.000 COP", premUSD: "$5.00 USD" },
       '3m': { proCOP: "$27.000 COP", proUSD: "$6.75 USD", premCOP: "$51.000 COP", premUSD: "$12.75 USD" },
@@ -1412,15 +1479,23 @@
       }
     }
 
-    function handleFreeLogin(e) {
+    // ACCESO GRATIS (REGISTRA ÚLTIMA VISITA EN FIRESTORE)
+    async function handleFreeLogin(e) {
       e.preventDefault();
-      const email = document.getElementById('freeEmailInput').value.trim();
+      const email = document.getElementById('freeEmailInput').value.trim().toLowerCase();
       if (email) {
         localStorage.setItem('user_email', email);
+        try {
+          await db.collection("usuarios").doc(email).set({
+            email: email,
+            ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        } catch(err){}
         init();
       }
     }
 
+    // VALIDACIÓN DE CÓDIGO AL INICIO (SUMA DÍAS Y ASIGNA PLAN PRO O PREMIUM)
     async function handleCodeLogin(e) {
       e.preventDefault();
       const email = document.getElementById('codeEmailInput').value.trim().toLowerCase();
@@ -1440,20 +1515,23 @@
         if (!doc.exists) {
           showAlert(alertBox, 'El código ingresado no existe.', 'error');
           btn.disabled = false;
-          btn.innerText = 'Validar y Entrar como Premium';
+          btn.innerText = 'Validar y Entrar';
           return;
         }
 
         const data = doc.data();
         if (data.usado === true) {
-          showAlert(alertBox, 'Este código ya fue utilizado por otra alumna.', 'error');
+          showAlert(alertBox, 'Este código ya fue utilizado por otra persona.', 'error');
           btn.disabled = false;
-          btn.innerText = 'Validar y Entrar como Premium';
+          btn.innerText = 'Validar y Entrar';
           return;
         }
 
-        const unAnoDespues = new Date();
-        unAnoDespues.setDate(unAnoDespues.getDate() + 365);
+        const planAsignado = data.plan || 'premium';
+        const diasDuracion = parseInt(data.duracionDias) || 30;
+
+        const fechaExpira = new Date();
+        fechaExpira.setDate(fechaExpira.getDate() + diasDuracion);
 
         const batch = db.batch();
         batch.update(codeRef, {
@@ -1465,17 +1543,18 @@
         const userRef = db.collection("usuarios").doc(email);
         batch.set(userRef, {
           email: email,
-          plan: 'premium',
+          plan: planAsignado,
           codigoCanjeado: code,
           activadoEl: firebase.firestore.FieldValue.serverTimestamp(),
-          expira: firebase.firestore.Timestamp.fromDate(unAnoDespues)
+          expira: firebase.firestore.Timestamp.fromDate(fechaExpira),
+          ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
 
         await batch.commit();
 
         localStorage.setItem('user_email', email);
-        localStorage.setItem('user_plan_' + email, 'premium');
-        showAlert(alertBox, '¡Código activado con éxito! Entrando...', 'success');
+        localStorage.setItem('user_plan_' + email, planAsignado);
+        showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
 
         setTimeout(() => { init(); }, 1200);
 
@@ -1483,7 +1562,7 @@
         console.error("Error al validar:", err);
         showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
         btn.disabled = false;
-        btn.innerText = 'Validar y Entrar como Premium';
+        btn.innerText = 'Validar y Entrar';
       }
     }
 
@@ -1494,34 +1573,48 @@
       switchAuthTab('free');
     }
 
+    // VERIFICACIÓN AUTOMÁTICA DE VENCIMIENTO EN FIRESTORE
     async function checkUserMembership(email) {
       try {
         const userDoc = await db.collection("usuarios").doc(email).get();
         if (userDoc.exists) {
           const data = userDoc.data();
-          if (data.plan === 'premium' && data.expira && data.expira.toDate() > new Date()) {
-            userPlan = 'premium';
-            const dias = Math.ceil((data.expira.toDate() - new Date()) / (1000 * 60 * 60 * 24));
-            updateBadgeUI('👑 PREMIUM (' + dias + 'd)', 'badge-premium');
-          } else if (data.plan === 'pro') {
-            userPlan = 'pro';
-            updateBadgeUI('🔵 PRO', 'badge-pro');
+          const ahora = new Date();
+
+          if (data.expira && data.expira.toDate() > ahora) {
+            userPlan = data.plan || 'premium';
+            const diasRestantes = Math.ceil((data.expira.toDate() - ahora) / (1000 * 60 * 60 * 24));
+            
+            if (userPlan === 'premium') {
+              updateBadgeUI(`👑 PREMIUM (${diasRestantes}d)`, 'badge-premium');
+            } else {
+              updateBadgeUI(`🔵 PRO (${diasRestantes}d)`, 'badge-pro');
+            }
           } else {
+            // Membresía vencida o usuario gratis
             userPlan = 'free';
             updateBadgeUI('PLAN GRATIS', 'badge-free');
           }
+
+          // Actualizar último acceso
+          await db.collection("usuarios").doc(email).set({
+            ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+
         } else {
+          // Creación de usuario nuevo gratuito
           await db.collection("usuarios").doc(email).set({
             email: email,
             plan: 'free',
-            creado: firebase.firestore.FieldValue.serverTimestamp()
+            creado: firebase.firestore.FieldValue.serverTimestamp(),
+            ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
           });
           userPlan = 'free';
           updateBadgeUI('PLAN GRATIS', 'badge-free');
         }
       } catch (err) {
         userPlan = localStorage.getItem('user_plan_' + email) || 'free';
-        updateBadgeUI(userPlan === 'premium' ? '👑 PREMIUM' : 'PLAN GRATIS', userPlan === 'premium' ? 'badge-premium' : 'badge-free');
+        updateBadgeUI(userPlan === 'free' ? 'PLAN GRATIS' : userPlan.toUpperCase(), 'badge-free');
       }
       loadAppState();
     }
@@ -1538,14 +1631,16 @@
       renderGalleries();
     }
 
-    // REGLAS DE BLOQUEO PARA EL PLAN GRATIS
     function isVideoLockedForUser(v) {
-      if (userPlan === 'premium' || userPlan === 'pro') return false;
+      if (userPlan === 'premium') return false;
+      if (userPlan === 'pro') {
+        // En PRO tienen todo desbloqueado salvo si restringes el reto avanzado
+        return false;
+      }
 
-      // 1. Días 6 al 10 bloqueados en Gratis
+      // BLOQUEOS PARA PLAN GRATIS:
       if (v.isChallenge && v.day > 5) return true;
 
-      // 2. Videos de 2 o más partes: se bloquea de la parte 2 en adelante
       const t = v.title.toLowerCase();
       if (t.includes('parte 2') || t.includes('parte 3') || t.includes('parte final') || t.includes('2/2')) {
         return true;
@@ -1671,15 +1766,10 @@
       renderGalleries();
     }
 
-    function handleFilter() {
-      renderGalleries();
-    }
+    function handleFilter() { renderGalleries(); }
 
     function toggleFavView() {
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
+      if (userPlan === 'free') { openPlansModal(); return; }
       showingFavsOnly = !showingFavsOnly;
       const btn = document.getElementById('btnFavFilter');
       if (showingFavsOnly) btn.classList.add('active');
@@ -1689,20 +1779,14 @@
 
     function toggleCardFav(e, id) {
       e.stopPropagation();
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
+      if (userPlan === 'free') { openPlansModal(); return; }
       const current = localStorage.getItem('fav_' + id) === 'true';
       localStorage.setItem('fav_' + id, !current);
       renderGalleries();
     }
 
     function handleRoundChange(delta) {
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
+      if (userPlan === 'free') { openPlansModal(); return; }
       currentRounds = Math.max(0, currentRounds + delta);
       document.getElementById('roundNumber').innerText = currentRounds;
       if (currentVideo) {
@@ -1710,7 +1794,6 @@
       }
     }
 
-    // APERTURA DE REPRODUCTOR Y CONTROL DEL 80% EN VIDEOS > 1 HORA
     function openVideo(v) {
       currentVideo = v;
       document.getElementById('modalTitle').innerText = v.title;
@@ -1724,7 +1807,7 @@
       updateModalButtons();
 
       const totalSecs = parseDurationInSeconds(v.duration);
-      const isLongVideo = totalSecs >= 3600; // Más de 1 hora
+      const isLongVideo = totalSecs >= 3600;
 
       if (ytPlayer && ytPlayer.destroy) {
         ytPlayer.destroy();
@@ -1742,7 +1825,7 @@
               clearInterval(timeCheckInterval);
               timeCheckInterval = setInterval(() => {
                 const current = ytPlayer.getCurrentTime();
-                const limit = totalSecs * 0.8; // Pausa al 80%
+                const limit = totalSecs * 0.8;
                 if (current >= limit) {
                   ytPlayer.pauseVideo();
                   clearInterval(timeCheckInterval);
@@ -1785,10 +1868,7 @@
 
     function toggleCurrentFav() {
       if (!currentVideo) return;
-      if (userPlan === 'free') {
-        openPlansModal();
-        return;
-      }
+      if (userPlan === 'free') { openPlansModal(); return; }
       const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
       localStorage.setItem('fav_' + currentVideo.id, !isFav);
       updateModalButtons();
@@ -1798,9 +1878,7 @@
     function closeModal() {
       document.getElementById('videoModal').style.display = 'none';
       clearInterval(timeCheckInterval);
-      if (ytPlayer && ytPlayer.stopVideo) {
-        ytPlayer.stopVideo();
-      }
+      if (ytPlayer && ytPlayer.stopVideo) { ytPlayer.stopVideo(); }
     }
 
     function openPlansModal() {
@@ -1809,20 +1887,16 @@
       document.getElementById('plansModal').style.display = 'block';
     }
 
-    function closePlansModal() {
-      document.getElementById('plansModal').style.display = 'none';
-    }
+    function closePlansModal() { document.getElementById('plansModal').style.display = 'none'; }
 
+    // CANJE DESDE EL MODAL DE PLANES (LEE DURACIÓN Y PLAN DEL CÓDIGO)
     async function redeemPromoCodeFromModal() {
       const input = document.getElementById('modalPromoCodeInput');
       const code = input.value.trim().toUpperCase();
       const alertBox = document.getElementById('modalRedeemAlert');
       const btn = document.getElementById('btnModalRedeemSubmit');
 
-      if (!code) {
-        showAlert(alertBox, 'Escribe un código para validar.', 'error');
-        return;
-      }
+      if (!code) { showAlert(alertBox, 'Escribe un código para validar.', 'error'); return; }
 
       btn.disabled = true;
       btn.innerText = 'Validando en el sistema...';
@@ -1834,7 +1908,7 @@
         if (!doc.exists) {
           showAlert(alertBox, 'El código ingresado no existe o es incorrecto.', 'error');
           btn.disabled = false;
-          btn.innerText = 'Activar mi Membresía de 1 Año';
+          btn.innerText = 'Activar mi Membresía';
           return;
         }
 
@@ -1842,12 +1916,15 @@
         if (data.usado === true) {
           showAlert(alertBox, 'Este código ya fue utilizado por otra cuenta.', 'error');
           btn.disabled = false;
-          btn.innerText = 'Activar mi Membresía de 1 Año';
+          btn.innerText = 'Activar mi Membresía';
           return;
         }
 
-        const unAnoDespues = new Date();
-        unAnoDespues.setDate(unAnoDespues.getDate() + 365);
+        const planAsignado = data.plan || 'premium';
+        const diasDuracion = parseInt(data.duracionDias) || 30;
+
+        const fechaExpira = new Date();
+        fechaExpira.setDate(fechaExpira.getDate() + diasDuracion);
 
         const batch = db.batch();
         batch.update(codeRef, {
@@ -1859,23 +1936,25 @@
         const userRef = db.collection("usuarios").doc(currentUserEmail);
         batch.set(userRef, {
           email: currentUserEmail,
-          plan: 'premium',
+          plan: planAsignado,
           codigoCanjeado: code,
           activadoEl: firebase.firestore.FieldValue.serverTimestamp(),
-          expira: firebase.firestore.Timestamp.fromDate(unAnoDespues)
+          expira: firebase.firestore.Timestamp.fromDate(fechaExpira),
+          ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
         }, { merge: true });
 
         await batch.commit();
 
-        userPlan = 'premium';
-        localStorage.setItem('user_plan_' + currentUserEmail, 'premium');
-        showAlert(alertBox, '¡Felicidades! Membresía Premium activada por 1 año.', 'success');
-        updateBadgeUI('👑 PREMIUM (365d)', 'badge-premium');
+        userPlan = planAsignado;
+        localStorage.setItem('user_plan_' + currentUserEmail, planAsignado);
+        showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
+        
+        updateBadgeUI(`${planAsignado === 'premium' ? '👑 PREMIUM' : '🔵 PRO'} (${diasDuracion}d)`, planAsignado === 'premium' ? 'badge-premium' : 'badge-pro');
 
         setTimeout(() => {
           closePlansModal();
           btn.disabled = false;
-          btn.innerText = 'Activar mi Membresía de 1 Año';
+          btn.innerText = 'Activar mi Membresía';
           input.value = '';
           alertBox.style.display = 'none';
           renderChallenge();
@@ -1886,7 +1965,7 @@
         console.error("Error al canjear:", err);
         showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
         btn.disabled = false;
-        btn.innerText = 'Activar mi Membresía de 1 Año';
+        btn.innerText = 'Activar mi Membresía';
       }
     }
 
@@ -1904,17 +1983,46 @@
       if (clave === "admin123") {
         document.getElementById('adminResultBox').style.display = 'none';
         document.getElementById('adminModal').style.display = 'block';
+        switchAdminSubTab('gencodes');
+        fetchRegisteredUsers();
       } else if (clave !== null) {
         alert("Clave incorrecta.");
       }
     }
 
-    function closeAdminModal() {
-      document.getElementById('adminModal').style.display = 'none';
+    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+    function switchAdminSubTab(tab) {
+      const btnGen = document.getElementById('tabBtnGenCodes');
+      const btnUsers = document.getElementById('tabBtnUsersList');
+      const secGen = document.getElementById('adminGenSection');
+      const secUsers = document.getElementById('adminUsersSection');
+
+      if (tab === 'gencodes') {
+        btnGen.classList.add('active');
+        btnUsers.classList.remove('active');
+        secGen.style.display = 'block';
+        secUsers.style.display = 'none';
+      } else {
+        btnUsers.classList.add('active');
+        btnGen.classList.remove('active');
+        secGen.style.display = 'none';
+        secUsers.style.display = 'block';
+        fetchRegisteredUsers();
+      }
     }
 
+    function autoUpdatePrefix() {
+      const p = document.getElementById('adminPlanType').value.toUpperCase();
+      const d = document.getElementById('adminDuration').value;
+      document.getElementById('adminPrefix').value = `${p}${d}`;
+    }
+
+    // GENERAR CÓDIGOS ESPECIFICANDO PLAN Y DURACIÓN (1 MES O 1 AÑO)
     async function handleAdminGenerate() {
-      const prefijo = document.getElementById('adminPrefix').value.trim().toUpperCase() || "ARTE";
+      const plan = document.getElementById('adminPlanType').value;
+      const duracion = parseInt(document.getElementById('adminDuration').value);
+      const prefijo = document.getElementById('adminPrefix').value.trim().toUpperCase() || "CODE";
       const qty = parseInt(document.getElementById('adminQty').value) || 5;
       const btn = document.getElementById('btnAdminGen');
 
@@ -1933,6 +2041,8 @@
           const ref = db.collection("codigos").doc(codigo);
           batch.set(ref, {
             codigo: codigo,
+            plan: plan,
+            duracionDias: duracion,
             usado: false,
             usadoPor: null,
             creadoEl: firebase.firestore.FieldValue.serverTimestamp()
@@ -1961,6 +2071,76 @@
           alert("¡Lista de códigos copiada al portapapeles! Ya puedes enviárselos a tus alumnas.");
         });
       }
+    }
+
+    // LECTURA DE TODAS LAS USUARIAS REGISTRADAS EN FIRESTORE
+    async function fetchRegisteredUsers() {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Consultando base de datos...</td></tr>';
+
+      try {
+        const snap = await db.collection("usuarios").get();
+        allUsersList = [];
+        const ahora = new Date();
+
+        snap.forEach(doc => {
+          const u = doc.data();
+          allUsersList.push(u);
+        });
+
+        document.getElementById('userCountBadge').innerText = allUsersList.length;
+        renderUsersTable(allUsersList);
+
+      } catch (err) {
+        console.error("Error al cargar usuarias:", err);
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#c62828;">Error al leer usuarios de Firestore.</td></tr>';
+      }
+    }
+
+    function renderUsersTable(users) {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">No hay registros en la base de datos.</td></tr>';
+        return;
+      }
+
+      const ahora = new Date();
+
+      users.forEach(u => {
+        let planTag = `<span class="user-status-pill status-free">GRATIS</span>`;
+        let statusTag = `<span style="color:#888;">Sin vencimiento</span>`;
+
+        if (u.plan && u.plan !== 'free') {
+          const isPremium = u.plan === 'premium';
+          planTag = `<span class="user-status-pill ${isPremium ? 'status-active' : 'status-free'}" style="${isPremium ? 'background:#fef3c7; color:#b45309;' : 'background:#e0f2fe; color:#0369a1;'}">${u.plan.toUpperCase()}</span>`;
+
+          if (u.expira) {
+            const expDate = u.expira.toDate();
+            if (expDate > ahora) {
+              const dias = Math.ceil((expDate - ahora) / (1000 * 60 * 60 * 24));
+              statusTag = `<span class="user-status-pill status-active">Activo (${dias}d)</span>`;
+            } else {
+              statusTag = `<span class="user-status-pill status-expired">Vencido</span>`;
+            }
+          }
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight:600; word-break:break-all;">${u.email}</td>
+          <td>${planTag}</td>
+          <td>${statusTag}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterUsersTable() {
+      const q = document.getElementById('adminSearchUser').value.toLowerCase();
+      const filtered = allUsersList.filter(u => u.email.toLowerCase().includes(q));
+      renderUsersTable(filtered);
     }
 
     window.onload = init;
