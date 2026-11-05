@@ -1109,7 +1109,7 @@
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
       </div>
 
-      <!-- CONTENEDOR DINÁMICO DE CURSOS COMPLETOS (RETO 10 DÍAS + CURSO DE VELAS) -->
+      <!-- CONTENEDOR DINÁMICO DE CURSOS COMPLETOS CON BLOQUEO AL 50% -->
       <div id="coursesContainer"></div>
 
       <!-- SECCIONES DE CARRUSELES POR CATEGORÍA -->
@@ -1342,8 +1342,30 @@
     // DEFINICIÓN DE CURSOS COMPLETOS MULTI-LECCIÓN CON REGLA DEL 50%
     const courses = [
       {
-        id: "curso_velas",
-        title: "Curso: Fabricación de Velas Artesanales desde Cero",
+        id: "curso_velas_caseras",
+        title: "Curso: Velas Caseras Paso a Paso (15 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vc1", order: 1, title: "Clase 1: Materiales esenciales para empezar ideal principiantes", yt: "UaVymA9J3z4", duration: "06:50", mat: "Ceras de soja (bajo/alto punto), cera arena, parafina, esencias, colorantes y recipientes." },
+          { id: "vc2", order: 2, title: "Clase 2: El secreto de las velas de arena (sin fundir cera)", yt: "lvcgakOsrbk", duration: "02:56", mat: "Cera de soja en perlas (arena), recipientes de vidrio o carameleras, pabilo y esencias." },
+          { id: "vc3", order: 3, title: "Clase 3: Cómo hacer velas con moldes de silicona y cera de soja", yt: "ZS16cx0eP00", duration: "13:13", mat: "Cera de soja de alto punto de fusión, molde de silicona, perforador manual y pabilo encerado." },
+          { id: "vc4", order: 4, title: "Clase 4: Wax melts fáciles con cera de soja (bombones aromáticos)", yt: "vmAKZk-UrmY", duration: "06:47", mat: "Cera de soja alto punto, molde para bombones, pétalos de rosas secos, esencias y hornito." },
+          { id: "vc5", order: 5, title: "Clase 5: Velas con cera de coco paso a paso en carameleras", yt: "Bwj9L-IU_K0", duration: "06:55", mat: "Cera de coco vegetal, caramelera o frasco de vidrio, pabilo con ojalillo y pegatinas doble faz." },
+          { id: "vc6", order: 6, title: "Clase 6: Cómo hacer velas de miel con láminas de cera de abeja", yt: "fKizoWNIXsQ", duration: "05:40", mat: "Láminas de cera de abeja pura estriadas, pabilo de algodón y pistola de calor." },
+          { id: "vc7", order: 7, title: "Clase 7: Velas con moldes usando cera de abeja natural", yt: "W7ROnNiyaWs", duration: "08:25", mat: "Cera de abeja pura en bloque o láminas, moldes de osito/flores, soporte y perforador." },
+          { id: "vc8", order: 8, title: "Clase 8: Haz tus propias velas de souvenir sin gastar de más", yt: "_AsLCwO92KI", duration: "07:16", mat: "Parafina sólida económica, moldes de margarita, colorante para velas y balanza." },
+          { id: "vc9", order: 9, title: "Clase 9: Cómo hacer velas en parafina gel con papel de oro", yt: "4AXicjhNvc4", duration: "05:13", mat: "Parafina en gel transparente, láminas de papel de oro, pinzas y vaso de borosilicato." },
+          { id: "vc10", order: 10, title: "Clase 10: El secreto para hacer velas de masaje sin quemar la piel", yt: "6qXrzfEbnUA", duration: "04:36", mat: "Cera de soja de bajo punto de fusión (38°C), aceite esencial corporal y vaso con pico vertedor." },
+          { id: "vc11", order: 11, title: "Clase 11: Todo lo que debes saber sobre ceras para velas (tipos y usos)", yt: "n7Mf7-f0e2U", duration: "03:00", mat: "Cuaderno de apuntes para comparar soja, coco, parafina y abeja." },
+          { id: "vc12", order: 12, title: "Clase 12: Cómo lograr un marmolado perfecto y aroma potente", yt: "w5inEpLIwg8", duration: "09:26", mat: "Cera de coco, vaso transparente, colorante líquido rojo intenso y pipetas de dosificación." },
+          { id: "vc13", order: 13, title: "Clase 13: Velas con glitter y brillantina que no se hunden", yt: "RTGAX9SF140", duration: "07:49", mat: "Cera de coco, glitter/brillantina para velas, esencia fijadora y vaso de vidrio grueso." },
+          { id: "vc14", order: 14, title: "Clase 14: 3 Velas navideñas fáciles para regalar o vender", yt: "-ta_bGEcEKc", duration: "16:16", mat: "Latitas navideñas, molde con pinitos/bastones, mica roja y papel de oro." },
+          { id: "vc15", order: 15, title: "Clase 15: Cómo calcular cera, esencia, fundido y uso de la balanza", yt: "HPmxfkXgKeg", duration: "08:17", mat: "Balanza de precisión con tara, jarra de acero inoxidable y libreta para factor 0.9." }
+        ]
+      },
+      {
+        id: "curso_velas_hada",
+        title: "Curso: Velas Artesanales y Florivelas (Hada Creativa)",
         cat: "Cursos Completos",
         lessons: [
           { id: "vel1", order: 1, title: "Clase 1: Materiales básicos con poco presupuesto", yt: "NKv-ZVc54Ew", duration: "11:33", mat: "Cera de soya, báscula gramera, termómetro, pistola de calor o secadora, ollita de peltre, moldes y pabilos." },
@@ -1637,14 +1659,12 @@
       renderGalleries();
     }
 
-    // REGLA MATEMÁTICA DEL 50% PARA CUALQUIER CURSO
     function isLessonLockedInCourse(lesson, totalLessons) {
       if (userPlan === 'premium' || userPlan === 'pro') return false;
       const freeLimit = Math.ceil(totalLessons / 2);
       return lesson.order > freeLimit;
     }
 
-    // REGLA PARA VIDEOS AISLADOS (PARTE 2 EN ADELANTE)
     function isSingleVideoLocked(v) {
       if (userPlan === 'premium' || userPlan === 'pro') return false;
       const t = v.title.toLowerCase();
@@ -1659,7 +1679,6 @@
       return 0;
     }
 
-    // RENDERIZADO DINÁMICO DE CURSOS CON BLOQUEO AL 50%
     function renderCourses() {
       const container = document.getElementById('coursesContainer');
       container.innerHTML = '';
