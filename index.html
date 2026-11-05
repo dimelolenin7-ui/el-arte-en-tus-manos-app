@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>El Arte en Tus Manos | Academia de Amigurumis</title>
+  <title>El Arte en Tus Manos | Academia de Amigurumis y Manualidades</title>
   
   <meta name="theme-color" content="#b35a38">
   <link rel="icon" type="image/jpeg" href="IMG-20261103-WA0013.jpg">
@@ -382,8 +382,8 @@
       border-color: var(--primary);
     }
 
-    /* RETO 10 DÍAS */
-    .challenge-box {
+    /* MÓDULOS DE CURSOS Y RETOS */
+    .course-module-box {
       background: #fff;
       border-radius: var(--radius-md);
       border: 1px solid var(--border);
@@ -392,14 +392,14 @@
       box-shadow: var(--shadow-sm);
     }
 
-    .challenge-header {
+    .course-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
     }
 
-    .challenge-title {
+    .course-title {
       font-size: 0.95rem;
       font-weight: 700;
       color: var(--primary);
@@ -421,7 +421,7 @@
       transition: width 0.3s ease;
     }
 
-    .challenge-day-item {
+    .course-lesson-item {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -434,25 +434,25 @@
       position: relative;
     }
 
-    .challenge-day-item.locked {
+    .course-lesson-item.locked {
       background: #f3f0ec;
       opacity: 0.85;
       border-style: dashed;
     }
 
-    .challenge-day-item.done {
+    .course-lesson-item.done {
       border-color: #c8e6c9;
       background: #f1f8f3;
     }
 
-    .day-thumb {
+    .lesson-thumb {
       width: 60px;
       height: 42px;
       border-radius: 6px;
       object-fit: cover;
     }
 
-    .day-thumb.blur {
+    .lesson-thumb.blur {
       filter: grayscale(80%) blur(1px);
     }
 
@@ -922,7 +922,7 @@
     .alert-msg.error { background: #ffebee; color: #c62828; display: block; }
     .alert-msg.success { background: #e8f5e9; color: #2e7d32; display: block; }
 
-    /* PANEL ADMINISTRATIVO MEJORADO */
+    /* PANEL ADMINISTRATIVO */
     .admin-nav-tabs {
       display: flex;
       gap: 6px;
@@ -965,7 +965,6 @@
       white-space: pre-wrap;
     }
 
-    /* TABLA DE USUARIOS REGISTRADOS */
     .users-table-wrapper {
       max-height: 320px;
       overflow-y: auto;
@@ -1018,7 +1017,7 @@
     <div class="auth-card">
       <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
       <h1>El Arte en Tus Manos</h1>
-      <p>Academia interactiva oficial y biblioteca de videos de amigurumis.</p>
+      <p>Academia interactiva oficial y biblioteca de amigurumis y manualidades.</p>
       
       <div class="auth-tabs">
         <button type="button" class="auth-tab-btn active" id="tabBtnFree" onclick="switchAuthTab('free')">⚪ Acceso Gratis</button>
@@ -1089,12 +1088,13 @@
       <!-- BUSCADOR -->
       <div class="search-bar">
         <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Buscar por personaje, cantante, serie o técnica..." onkeyup="handleFilter()">
+        <input type="text" id="searchInput" placeholder="Buscar por tema, velas, personajes o técnicas..." onkeyup="handleFilter()">
       </div>
 
       <!-- PÍLDORAS -->
       <div class="pill-filters" id="pillsContainer">
         <button class="pill-btn active" onclick="setCategoryFilter('Todos', this)">✨ Todos</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Cursos Completos', this)">🎓 Cursos Completos</button>
         <button class="pill-btn" onclick="setCategoryFilter('Tecnicas, Tips y Consejos de amigurumis', this)">✂️ Técnicas y Tips</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de pokemon', this)">⚡ Pokémon</button>
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de san rio', this)">🎀 Sanrio</button>
@@ -1109,19 +1109,10 @@
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
       </div>
 
-      <!-- RETO OFICIAL DE 10 DÍAS DE ANGELICA -->
-      <div class="challenge-box" id="challengeModule">
-        <div class="challenge-header">
-          <div class="challenge-title">Curso: Amigurumis desde cero sin frustrarse</div>
-          <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" id="challengeProgressText">0 de 10 días</div>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="challengeProgressFill"></div>
-        </div>
-        <div id="challengeList"></div>
-      </div>
+      <!-- CONTENEDOR DINÁMICO DE CURSOS COMPLETOS (RETO 10 DÍAS + CURSO DE VELAS) -->
+      <div id="coursesContainer"></div>
 
-      <!-- SECCIONES DE CARRUSELES -->
+      <!-- SECCIONES DE CARRUSELES POR CATEGORÍA -->
       <div id="sectionsContainer"></div>
 
     </div>
@@ -1163,7 +1154,7 @@
         <div class="row-counter">
           <div>
             <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Contador de Vueltas</div>
-            <div style="font-size: 0.72rem; color: var(--text-muted);">Suma vueltas conforme tejes</div>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Suma vueltas conforme tejes o trabajas</div>
           </div>
           <div style="display: flex; align-items: center; gap: 12px;">
             <div class="count-display" id="roundNumber">0</div>
@@ -1176,7 +1167,7 @@
 
         <div class="materials-box">
           <h4>Materiales Sugeridos:</h4>
-          <p id="modalMaterials">Hilaza recomendada, aguja de crochet correspondiente, marcador y relleno siliconado.</p>
+          <p id="modalMaterials">Materiales listados en el tutorial correspondiente.</p>
         </div>
 
         <button class="btn-main" onclick="closeModal()">Cerrar y volver a la academia</button>
@@ -1190,7 +1181,7 @@
       <div class="plans-modal-body">
         <span class="promo-banner-badge">🎉 50% OFF • Lanzamiento App Nueva</span>
         <h3>Planes y Suscripciones</h3>
-        <p>Aprende amigurumis a tu propio ritmo con precios especiales de lanzamiento.</p>
+        <p>Aprende amigurumis y manualidades a tu ritmo con precios especiales.</p>
 
         <div class="period-selector">
           <button type="button" class="period-btn active" onclick="setPlanPeriod('1m', this)">1 Mes</button>
@@ -1210,10 +1201,10 @@
               </div>
             </div>
             <ul class="plan-perks-list">
-              <li>✓ Videos largos completos (sin cortes al 80%)</li>
-              <li>✓ Videos de 2 o más partes desbloqueados</li>
-              <li>✓ Contador de vueltas con memoria</li>
-              <li>✓ Guardado ilimitado en favoritos</li>
+              <li>✓ Cursos completos 100% desbloqueados</li>
+              <li>✓ Videos largos sin cortes al 80%</li>
+              <li>✓ Videos de 2 o más partes libres</li>
+              <li>✓ Contador de vueltas y favoritos</li>
             </ul>
             <div class="checkout-buttons-row">
               <a href="https://checkout.wompi.co/l/VPOS_WTHY53" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
@@ -1233,7 +1224,7 @@
               </div>
             </div>
             <ul class="plan-perks-list">
-              <li>✓ <strong>Reto de 10 Días Completo</strong> (Días 6 al 10 libres)</li>
+              <li>✓ <strong>Todos los cursos y retos completos</strong></li>
               <li>✓ Acceso total e ilimitado a toda la plataforma</li>
               <li>✓ Videos largos sin interrupciones</li>
               <li>✓ Fichas completas de materiales y tips</li>
@@ -1263,7 +1254,7 @@
     </div>
   </div>
 
-  <!-- MODAL EXCLUSIVO ADMIN (GENERADOR + CONTROL DE USUARIOS) -->
+  <!-- MODAL EXCLUSIVO ADMIN -->
   <div id="adminModal" class="modal">
     <div class="modal-content">
       <div class="plans-modal-body">
@@ -1271,13 +1262,12 @@
         <h3>Panel Administrador</h3>
         <p>Administra códigos y visualiza todos los correos registrados en la app.</p>
 
-        <!-- SUBPESTAÑAS DEL ADMIN -->
         <div class="admin-nav-tabs">
           <button type="button" class="admin-nav-btn active" id="tabBtnGenCodes" onclick="switchAdminSubTab('gencodes')">🎟️ Generar Códigos</button>
           <button type="button" class="admin-nav-btn" id="tabBtnUsersList" onclick="switchAdminSubTab('userslist')">👥 Ver Usuarias (<span id="userCountBadge">0</span>)</button>
         </div>
 
-        <!-- SECCIÓN 1: GENERADOR -->
+        <!-- GENERADOR -->
         <div id="adminGenSection">
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:10px; text-align:left;">
             <div class="input-group" style="margin:0;">
@@ -1309,7 +1299,7 @@
           </div>
         </div>
 
-        <!-- SECCIÓN 2: LISTA DE USUARIAS REGISTRADAS -->
+        <!-- LISTA USUARIAS -->
         <div id="adminUsersSection" style="display:none;">
           <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." onkeyup="filterUsersTable()" style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:8px;">
           
@@ -1349,21 +1339,43 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // BASE DE DATOS DE TUTORIALES
-    const catalog = [
-      // 1. RETO 10 DÍAS DE ANGELICA
-      { id: "c1", isChallenge: true, day: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
-      { id: "c2", isChallenge: true, day: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
-      { id: "c3", isChallenge: true, day: 3, title: "Día 3: El secreto del punto bajo perfecto en amigurumi", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "3wxz88z8D9s", duration: "11:03", mat: "Hilaza de muestra y marcador de vueltas." },
-      { id: "c4", isChallenge: true, day: 4, title: "Día 4: ¿Siempre te equivocas contando puntos? Haz esto", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "NIrjWGQpeFk", duration: "07:00", mat: "Marcadores de candado plásticos y libreta de notas." },
-      { id: "c5", isChallenge: true, day: 5, title: "Día 5: Por fin entendí los aumentos y disminuciones", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "E2gwK6Ptcn0", duration: "10:25", mat: "Hilo de algodón y ganchillo adecuado." },
-      { id: "c6", isChallenge: true, day: 6, title: "Día 6: La razón por la que tu amigurumi se ve torcido", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "KQ7VPtCzjqo", duration: "08:59", mat: "Tejido en espiral y hebras de contraste." },
-      { id: "c7", isChallenge: true, day: 7, title: "Día 7: Cómo rellenar amigurumis para que no queden deformes", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0gWEoJSxSBA", duration: "07:51", mat: "Vellón siliconado hipoalergénico y pinzas de punta." },
-      { id: "c8", isChallenge: true, day: 8, title: "Día 8: Cómo coser las piezas para que queden perfectas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BcgkftHq-bI", duration: "12:46", mat: "Aguja lanera sin punta y alfileres de cabeza redonda." },
-      { id: "c9", isChallenge: true, day: 9, title: "Día 9: Cómo bordar la cara de un amigurumi fácil", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "z7es_bzjhqY", duration: "16:15", mat: "Hilo de bordar tipo mouliné negro, aguja fina y alfileres." },
-      { id: "c10", isChallenge: true, day: 10, title: "Día 10: Secreto para que tus amigurumis se vean profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R9dyw35sZnA", duration: "06:57", mat: "Tu amigurumi listo para los toques finales y vaporizado." },
+    // DEFINICIÓN DE CURSOS COMPLETOS MULTI-LECCIÓN CON REGLA DEL 50%
+    const courses = [
+      {
+        id: "curso_velas",
+        title: "Curso: Fabricación de Velas Artesanales desde Cero",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vel1", order: 1, title: "Clase 1: Materiales básicos con poco presupuesto", yt: "NKv-ZVc54Ew", duration: "11:33", mat: "Cera de soya, báscula gramera, termómetro, pistola de calor o secadora, ollita de peltre, moldes y pabilos." },
+          { id: "vel2", order: 2, title: "Clase 2: Hagamos nuestras primeras velas de molde", yt: "JVxreEtItTU", duration: "19:52", mat: "Moldes limpios de flores, aceite desmoldante, colorante rojo/rosa, fragancia y pabilo." },
+          { id: "vel3", order: 3, title: "Clase 3: 3 Formas de envolver tus florivelas para vender", yt: "8K-qinqP8mk", duration: "11:31", mat: "Papel craft, papel contact/cinta, tela tul, celofán, listones, moños y etiquetas." },
+          { id: "vel4", order: 4, title: "Clase 4: Velas tipo postre con efecto chantillí", yt: "IdZ_hFd2DQk", duration: "15:39", mat: "Cera de bajo punto de fusión, vaso contenedor, estearina al 5%, manga pastelera, duya y chispas decorativas." },
+          { id: "vel5", order: 5, title: "Clase 5: Cómo lavar y cuidar tus moldes de silicón correctamente", yt: "U8m4XUVdDqE", duration: "09:49", mat: "Agua caliente, bicarbonato de sodio, jabón lavaplatos cortagrasa, cepillo suave y vaselina." },
+          { id: "vel6", order: 6, title: "Clase 6: 5 Cosas indispensables antes de emprender tu negocio", yt: "ge7r2Bymz_M", duration: "09:40", mat: "Libreta de cálculo de costos, empaques, fotos en redes y estrategia de precios." }
+        ]
+      },
+      {
+        id: "reto_amigurumi",
+        title: "Curso: Amigurumis desde cero sin frustrarse (Reto 10 Días)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "c1", order: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
+          { id: "c2", order: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
+          { id: "c3", order: 3, title: "Día 3: El secreto del punto bajo perfecto en amigurumi", yt: "3wxz88z8D9s", duration: "11:03", mat: "Hilaza de muestra y marcador de vueltas." },
+          { id: "c4", order: 4, title: "Día 4: ¿Siempre te equivocas contando puntos? Haz esto", yt: "NIrjWGQpeFk", duration: "07:00", mat: "Marcadores de candado plásticos y libreta de notas." },
+          { id: "c5", order: 5, title: "Día 5: Por fin entendí los aumentos y disminuciones", yt: "E2gwK6Ptcn0", duration: "10:25", mat: "Hilo de algodón y ganchillo adecuado." },
+          { id: "c6", order: 6, title: "Día 6: La razón por la que tu amigurumi se ve torcido", yt: "KQ7VPtCzjqo", duration: "08:59", mat: "Tejido en espiral y hebras de contraste." },
+          { id: "c7", order: 7, title: "Día 7: Cómo rellenar amigurumis para que no queden deformes", yt: "0gWEoJSxSBA", duration: "07:51", mat: "Vellón siliconado hipoalergénico y pinzas de punta." },
+          { id: "c8", order: 8, title: "Día 8: Cómo coser las piezas para que queden perfectas", yt: "BcgkftHq-bI", duration: "12:46", mat: "Aguja lanera sin punta y alfileres de cabeza redonda." },
+          { id: "c9", order: 9, title: "Día 9: Cómo bordar la cara de un amigurumi fácil", yt: "z7es_bzjhqY", duration: "16:15", mat: "Hilo de bordar tipo mouliné negro, aguja fina y alfileres." },
+          { id: "c10", order: 10, title: "Día 10: Secreto para que tus amigurumis se vean profesionales", yt: "R9dyw35sZnA", duration: "06:57", mat: "Tu amigurumi listo para los toques finales y vaporizado." }
+        ]
+      }
+    ];
 
-      // 2. TÉCNICAS, TIPS Y CONSEJOS
+    // CATÁLOGO GENERAL POR CATEGORÍAS
+    const catalog = [
+      // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
       { id: "tip2", title: "3 Tips que me ayudaron a mejorar mis amigurumis", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "XybZZDEEthQ", duration: "16:06", mat: "Muestras de tejido y diferentes grosores de hilaza." },
       { id: "tip3", title: "5 Tips clave para crear amigurumis profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "RtoeZoL67C4", duration: "10:13", mat: "Ganchillo fino y tejido de práctica." },
@@ -1377,7 +1389,7 @@
       { id: "tip11", title: "Tutorial completo: Cómo coser y ensamblar piezas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R-hlJoagL5g", duration: "52:36", mat: "Piezas tejidas, alfileres y aguja punta roma." },
       { id: "tip12", title: "Cómo hacer y diseñar tu propio patrón amigurumi desde cero", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "dv3rNYYrDK0", duration: "21:27", mat: "Cuaderno cuadriculado, lápiz y cinta métrica." },
 
-      // 3. POKÉMON
+      // POKÉMON
       { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
       { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
       { id: "poke3", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
@@ -1388,32 +1400,32 @@
       { id: "poke9", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
       { id: "poke10", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
 
-      // 4. SANRIO
+      // SANRIO
       { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
       { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
       { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
       { id: "sanrio4", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
       { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
 
-      // 5. EL CHAVO DEL 8
+      // EL CHAVO DEL 8
       { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
       { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
       { id: "chavo3", title: "La Chilindrina Amigurumi - Tutorial Paso a Paso (Parte 1)", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
       { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
 
-      // 6. MARIO BROS
+      // MARIO BROS
       { id: "mario1", title: "Super Mario Bros Amigurumi Completo Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
       { id: "mario2", title: "Luigi Amigurumi Tutorial - Super Mario Bros Paso a Paso", cat: "Amigurumis de mario bross", yt: "WEumJ70l_tg", duration: "58:08", mat: "Lana verde bosque, azul overol, botones amarillos y bigote." },
       { id: "mario3", title: "Yoshi Mario Bros - Crochet Amigurumi Tutorial", cat: "Amigurumis de mario bross", yt: "qeF2roklz8s", duration: "25:29", mat: "Lana verde manzana, blanco pecho, montura roja y botas." },
       { id: "mario4", title: "Toad Mario Bros Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de mario bross", yt: "0IP6gwyaSJI", duration: "41:51", mat: "Lana blanca, chaleco azul y círculos rojos cosidos." },
 
-      // 7. CANTANTES
+      // CANTANTES
       { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida y ganchillo 2.5mm." },
       { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 1)", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
       { id: "cant3", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 2)", cat: "Amigurumis de cantantes", yt: "4PfUtC_U1qA", duration: "45:49", mat: "Detalles finales y sombrero tejido." },
       { id: "cant4", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
 
-      // 8. OTRAS CATEGORÍAS
+      // OTRAS CATEGORÍAS
       { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera y ojitos 8mm." },
       { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural y sonajero interior." },
       { id: "bebe2", title: "Mantita de Apego Osito a Crochet (Parte 1)", cat: "Amigurumis para bebes", yt: "8mUmlnFoBXQ", duration: "31:59", mat: "Hilaza suave para bebé, relleno siliconado y ojitos bordados." },
@@ -1479,7 +1491,6 @@
       }
     }
 
-    // ACCESO GRATIS (REGISTRA ÚLTIMA VISITA EN FIRESTORE)
     async function handleFreeLogin(e) {
       e.preventDefault();
       const email = document.getElementById('freeEmailInput').value.trim().toLowerCase();
@@ -1495,7 +1506,6 @@
       }
     }
 
-    // VALIDACIÓN DE CÓDIGO AL INICIO (SUMA DÍAS Y ASIGNA PLAN PRO O PREMIUM)
     async function handleCodeLogin(e) {
       e.preventDefault();
       const email = document.getElementById('codeEmailInput').value.trim().toLowerCase();
@@ -1573,7 +1583,6 @@
       switchAuthTab('free');
     }
 
-    // VERIFICACIÓN AUTOMÁTICA DE VENCIMIENTO EN FIRESTORE
     async function checkUserMembership(email) {
       try {
         const userDoc = await db.collection("usuarios").doc(email).get();
@@ -1591,18 +1600,15 @@
               updateBadgeUI(`🔵 PRO (${diasRestantes}d)`, 'badge-pro');
             }
           } else {
-            // Membresía vencida o usuario gratis
             userPlan = 'free';
             updateBadgeUI('PLAN GRATIS', 'badge-free');
           }
 
-          // Actualizar último acceso
           await db.collection("usuarios").doc(email).set({
             ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
           }, { merge: true });
 
         } else {
-          // Creación de usuario nuevo gratuito
           await db.collection("usuarios").doc(email).set({
             email: email,
             plan: 'free',
@@ -1627,26 +1633,22 @@
     }
 
     function loadAppState() {
-      renderChallenge();
+      renderCourses();
       renderGalleries();
     }
 
-    function isVideoLockedForUser(v) {
-      if (userPlan === 'premium') return false;
-      if (userPlan === 'pro') {
-        // En PRO tienen todo desbloqueado salvo si restringes el reto avanzado
-        return false;
-      }
+    // REGLA MATEMÁTICA DEL 50% PARA CUALQUIER CURSO
+    function isLessonLockedInCourse(lesson, totalLessons) {
+      if (userPlan === 'premium' || userPlan === 'pro') return false;
+      const freeLimit = Math.ceil(totalLessons / 2);
+      return lesson.order > freeLimit;
+    }
 
-      // BLOQUEOS PARA PLAN GRATIS:
-      if (v.isChallenge && v.day > 5) return true;
-
+    // REGLA PARA VIDEOS AISLADOS (PARTE 2 EN ADELANTE)
+    function isSingleVideoLocked(v) {
+      if (userPlan === 'premium' || userPlan === 'pro') return false;
       const t = v.title.toLowerCase();
-      if (t.includes('parte 2') || t.includes('parte 3') || t.includes('parte final') || t.includes('2/2')) {
-        return true;
-      }
-
-      return false;
+      return (t.includes('parte 2') || t.includes('parte 3') || t.includes('parte final') || t.includes('2/2'));
     }
 
     function parseDurationInSeconds(durStr) {
@@ -1657,47 +1659,81 @@
       return 0;
     }
 
-    function renderChallenge() {
-      const listEl = document.getElementById('challengeList');
-      listEl.innerHTML = '';
-      const days = catalog.filter(v => v.isChallenge).sort((a, b) => a.day - b.day);
-      let doneCount = 0;
+    // RENDERIZADO DINÁMICO DE CURSOS CON BLOQUEO AL 50%
+    function renderCourses() {
+      const container = document.getElementById('coursesContainer');
+      container.innerHTML = '';
 
-      days.forEach(d => {
-        const isDone = localStorage.getItem('done_' + d.id) === 'true';
-        if (isDone) doneCount++;
-        const locked = isVideoLockedForUser(d);
+      if (selectedCategory !== 'Todos' && selectedCategory !== 'Cursos Completos') {
+        container.style.display = 'none';
+        return;
+      }
+      container.style.display = 'block';
 
-        const item = document.createElement('div');
-        item.className = 'challenge-day-item' + (isDone ? ' done' : '') + (locked ? ' locked' : '');
-        item.onclick = () => {
-          if (locked) { openPlansModal(); } else { openVideo(d); }
-        };
+      courses.forEach(course => {
+        const total = course.lessons.length;
+        const freeLimit = Math.ceil(total / 2);
 
-        item.innerHTML = `
-          <img src="https://img.youtube.com/vi/${d.yt}/hqdefault.jpg" class="day-thumb ${locked ? 'blur' : ''}" alt="${d.title}">
-          <div style="flex:1;">
-            <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">
-              DÍA ${d.day} (${d.duration}) ${locked ? '🔒 Bloqueado' : ''}
+        let doneCount = 0;
+        course.lessons.forEach(l => {
+          if (localStorage.getItem('done_' + l.id) === 'true') doneCount++;
+        });
+
+        const box = document.createElement('div');
+        box.className = 'course-module-box';
+
+        box.innerHTML = `
+          <div class="course-header">
+            <div class="course-title">${course.title}</div>
+            <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">
+              ${doneCount} de ${total} clases (${userPlan === 'free' ? `${freeLimit} libres` : '100% libre'})
             </div>
-            <div style="font-size:0.8rem; font-weight:600; line-height:1.2;">${d.title}</div>
           </div>
-          <div style="font-size:1.1rem;">${locked ? '🔒' : (isDone ? '✅' : '⚪')}</div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: ${(doneCount / total) * 100}%;"></div>
+          </div>
+          <div class="lessons-list"></div>
         `;
-        listEl.appendChild(item);
-      });
 
-      const fillPct = (doneCount / days.length) * 100;
-      document.getElementById('challengeProgressFill').style.width = fillPct + '%';
-      document.getElementById('challengeProgressText').innerText = `${doneCount} de ${days.length} días completados`;
+        const listEl = box.querySelector('.lessons-list');
+
+        course.lessons.forEach(l => {
+          const isDone = localStorage.getItem('done_' + l.id) === 'true';
+          const isLocked = isLessonLockedInCourse(l, total);
+
+          const item = document.createElement('div');
+          item.className = 'course-lesson-item' + (isDone ? ' done' : '') + (isLocked ? ' locked' : '');
+          item.onclick = () => {
+            if (isLocked) { openPlansModal(); } else { openVideo(l, course.title); }
+          };
+
+          item.innerHTML = `
+            <img src="https://img.youtube.com/vi/${l.yt}/hqdefault.jpg" class="lesson-thumb ${isLocked ? 'blur' : ''}" alt="${l.title}">
+            <div style="flex:1;">
+              <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">
+                CLASE ${l.order} (${l.duration}) ${isLocked ? '🔒 Bloqueado (Mitad PRO)' : ''}
+              </div>
+              <div style="font-size:0.8rem; font-weight:600; line-height:1.2;">${l.title}</div>
+            </div>
+            <div style="font-size:1.1rem;">${isLocked ? '🔒' : (isDone ? '✅' : '⚪')}</div>
+          `;
+          listEl.appendChild(item);
+        });
+
+        container.appendChild(box);
+      });
     }
 
     function renderGalleries() {
       const container = document.getElementById('sectionsContainer');
       container.innerHTML = '';
 
+      if (selectedCategory === 'Cursos Completos') {
+        return;
+      }
+
       const query = document.getElementById('searchInput').value.toLowerCase();
-      let filtered = catalog.filter(v => !v.isChallenge);
+      let filtered = catalog;
 
       if (showingFavsOnly) {
         filtered = filtered.filter(v => localStorage.getItem('fav_' + v.id) === 'true');
@@ -1713,7 +1749,7 @@
 
       const categories = [...new Set(filtered.map(v => v.cat))];
 
-      if (categories.length === 0) {
+      if (categories.length === 0 && selectedCategory !== 'Todos') {
         container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay tutoriales que coincidan con la búsqueda.</div>`;
         return;
       }
@@ -1731,7 +1767,7 @@
 
         catVideos.forEach(v => {
           const isFav = localStorage.getItem('fav_' + v.id) === 'true';
-          const locked = isVideoLockedForUser(v);
+          const locked = isSingleVideoLocked(v);
 
           const card = document.createElement('div');
           card.className = 'video-card';
@@ -1763,10 +1799,14 @@
       selectedCategory = category;
       document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      renderCourses();
       renderGalleries();
     }
 
-    function handleFilter() { renderGalleries(); }
+    function handleFilter() {
+      renderCourses();
+      renderGalleries();
+    }
 
     function toggleFavView() {
       if (userPlan === 'free') { openPlansModal(); return; }
@@ -1794,11 +1834,11 @@
       }
     }
 
-    function openVideo(v) {
+    function openVideo(v, courseTitle = null) {
       currentVideo = v;
       document.getElementById('modalTitle').innerText = v.title;
-      document.getElementById('modalCategory').innerText = v.cat + ' • Duración: ' + v.duration;
-      document.getElementById('modalMaterials').innerText = v.mat || 'Ganchillo recomendado, hilaza de algodón y marcador de vueltas.';
+      document.getElementById('modalCategory').innerText = (courseTitle ? courseTitle : v.cat) + ' • Duración: ' + v.duration;
+      document.getElementById('modalMaterials').innerText = v.mat || 'Materiales e implementos sugeridos en la clase.';
       document.getElementById('timeLockCurtain').style.display = 'none';
 
       currentRounds = parseInt(localStorage.getItem('round_' + v.id) || '0');
@@ -1863,7 +1903,7 @@
       const isDone = localStorage.getItem('done_' + currentVideo.id) === 'true';
       localStorage.setItem('done_' + currentVideo.id, !isDone);
       updateModalButtons();
-      renderChallenge();
+      renderCourses();
     }
 
     function toggleCurrentFav() {
@@ -1889,7 +1929,6 @@
 
     function closePlansModal() { document.getElementById('plansModal').style.display = 'none'; }
 
-    // CANJE DESDE EL MODAL DE PLANES (LEE DURACIÓN Y PLAN DEL CÓDIGO)
     async function redeemPromoCodeFromModal() {
       const input = document.getElementById('modalPromoCodeInput');
       const code = input.value.trim().toUpperCase();
@@ -1957,7 +1996,7 @@
           btn.innerText = 'Activar mi Membresía';
           input.value = '';
           alertBox.style.display = 'none';
-          renderChallenge();
+          renderCourses();
           renderGalleries();
         }, 1800);
 
@@ -2018,7 +2057,6 @@
       document.getElementById('adminPrefix').value = `${p}${d}`;
     }
 
-    // GENERAR CÓDIGOS ESPECIFICANDO PLAN Y DURACIÓN (1 MES O 1 AÑO)
     async function handleAdminGenerate() {
       const plan = document.getElementById('adminPlanType').value;
       const duracion = parseInt(document.getElementById('adminDuration').value);
@@ -2073,7 +2111,6 @@
       }
     }
 
-    // LECTURA DE TODAS LAS USUARIAS REGISTRADAS EN FIRESTORE
     async function fetchRegisteredUsers() {
       const tbody = document.getElementById('usersTableBody');
       tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Consultando base de datos...</td></tr>';
