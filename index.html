@@ -1637,7 +1637,7 @@
     let selectedCategory = 'Todos';
     let showingFavsOnly = false;
     let currentUserEmail = null;
-    let userPlan = 'free'; // 'free' | 'pro' | 'premium'
+    let userPlan = 'free';
     let ytPlayer = null;
     let timeCheckInterval = null;
     let allUsersList = [];
@@ -1665,6 +1665,7 @@
         document.getElementById('authScreen').style.display = 'none';
         document.getElementById('appScreen').style.display = 'block';
         checkUserMembership(currentUserEmail);
+        history.pushState({ app: true }, '');
       }
     }
 
@@ -1775,6 +1776,7 @@
 
     function handleLogout() {
       localStorage.removeItem('user_email');
+      currentUserEmail = null;
       document.getElementById('appScreen').style.display = 'none';
       document.getElementById('authScreen').style.display = 'flex';
       switchAuthTab('free');
@@ -1886,7 +1888,6 @@
         box.className = 'course-module-box';
         box.id = 'course_box_' + course.id;
 
-        // El primer curso (Amigurumis) se muestra abierto inicialmente, los demás compactos
         if (index === 0) {
           box.classList.add('open');
         }
@@ -2070,6 +2071,7 @@
       clearInterval(timeCheckInterval);
 
       document.getElementById('videoModal').style.display = 'block';
+      history.pushState({ modalOpen: true }, '');
 
       ytPlayer = new YT.Player('player', {
         videoId: v.yt,
@@ -2140,9 +2142,37 @@
       document.getElementById('modalRedeemAlert').style.display = 'none';
       document.getElementById('modalPromoCodeInput').value = '';
       document.getElementById('plansModal').style.display = 'block';
+      history.pushState({ modalOpen: true }, '');
     }
 
     function closePlansModal() { document.getElementById('plansModal').style.display = 'none'; }
+
+    // GESTIÓN DEL BOTÓN ATRÁS DEL CELULAR (EVITA SALIR DE LA APP)
+    window.addEventListener('popstate', (e) => {
+      const videoM = document.getElementById('videoModal');
+      const plansM = document.getElementById('plansModal');
+      const adminM = document.getElementById('adminModal');
+
+      if (videoM && videoM.style.display === 'block') {
+        closeModal();
+        history.pushState({ app: true }, '');
+        return;
+      }
+      if (plansM && plansM.style.display === 'block') {
+        closePlansModal();
+        history.pushState({ app: true }, '');
+        return;
+      }
+      if (adminM && adminM.style.display === 'block') {
+        closeAdminModal();
+        history.pushState({ app: true }, '');
+        return;
+      }
+
+      if (currentUserEmail && document.getElementById('appScreen').style.display !== 'none') {
+        history.pushState({ app: true }, '');
+      }
+    });
 
     async function redeemPromoCodeFromModal() {
       const input = document.getElementById('modalPromoCodeInput');
@@ -2239,6 +2269,7 @@
         document.getElementById('adminModal').style.display = 'block';
         switchAdminSubTab('gencodes');
         fetchRegisteredUsers();
+        history.pushState({ modalOpen: true }, '');
       } else if (clave !== null) {
         alert("Clave incorrecta.");
       }
