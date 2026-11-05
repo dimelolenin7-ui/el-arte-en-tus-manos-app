@@ -382,36 +382,84 @@
       border-color: var(--primary);
     }
 
-    /* MÓDULOS DE CURSOS Y RETOS */
+    /* MÓDULOS DE CURSOS PLEGABLES (ACORDEÓN) */
     .course-module-box {
       background: #fff;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      padding: 16px;
-      margin-bottom: 20px;
+      border: 1.5px solid var(--border);
+      margin-bottom: 12px;
       box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: all 0.25s ease;
     }
 
-    .course-header {
+    .course-header-toggle {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      padding: 14px 16px;
+      background: #fff;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .course-header-toggle:hover {
+      background: #faf8f5;
+    }
+
+    .course-header-left {
+      flex: 1;
+      padding-right: 10px;
     }
 
     .course-title {
       font-size: 0.95rem;
       font-weight: 700;
       color: var(--primary);
+      line-height: 1.25;
+    }
+
+    .course-meta-txt {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    .course-arrow-icon {
+      font-size: 0.85rem;
+      color: var(--primary);
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+    }
+
+    .course-module-box.open .course-arrow-icon {
+      transform: rotate(180deg);
+    }
+
+    .course-content-body {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid #f0ebe4;
+    }
+
+    .course-module-box.open .course-content-body {
+      display: block;
     }
 
     .progress-bar-bg {
       width: 100%;
-      height: 8px;
+      height: 7px;
       background: #ede4d8;
       border-radius: 10px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin: 14px 0 12px;
     }
 
     .progress-bar-fill {
@@ -1109,7 +1157,7 @@
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
       </div>
 
-      <!-- CONTENEDOR DINÁMICO DE CURSOS COMPLETOS CON BLOQUEO AL 50% -->
+      <!-- CONTENEDOR DINÁMICO DE CURSOS PLEGABLES (ORDEN CRONOLÓGICO) -->
       <div id="coursesContainer"></div>
 
       <!-- SECCIONES DE CARRUSELES POR CATEGORÍA -->
@@ -1339,8 +1387,83 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // DEFINICIÓN DE CURSOS COMPLETOS MULTI-LECCIÓN CON REGLA DEL 50%
+    // LISTADO OFICIAL DE CURSOS EN ORDEN CRONOLÓGICO (DE MÁS ANTIGUO A MÁS RECIENTE)
     const courses = [
+      // 1. CURSO MÁS ANTIGUO: RETO 10 DÍAS DE AMIGURUMIS
+      {
+        id: "reto_amigurumi",
+        title: "Curso: Amigurumis desde cero sin frustrarse (Reto 10 Días)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "c1", order: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
+          { id: "c2", order: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
+          { id: "c3", order: 3, title: "Día 3: El secreto del punto bajo perfecto en amigurumi", yt: "3wxz88z8D9s", duration: "11:03", mat: "Hilaza de muestra y marcador de vueltas." },
+          { id: "c4", order: 4, title: "Día 4: ¿Siempre te equivocas contando puntos? Haz esto", yt: "NIrjWGQpeFk", duration: "07:00", mat: "Marcadores de candado plásticos y libreta de notas." },
+          { id: "c5", order: 5, title: "Día 5: Por fin entendí los aumentos y disminuciones", yt: "E2gwK6Ptcn0", duration: "10:25", mat: "Hilo de algodón y ganchillo adecuado." },
+          { id: "c6", order: 6, title: "Día 6: La razón por la que tu amigurumi se ve torcido", yt: "KQ7VPtCzjqo", duration: "08:59", mat: "Tejido en espiral y hebras de contraste." },
+          { id: "c7", order: 7, title: "Día 7: Cómo rellenar amigurumis para que no queden deformes", yt: "0gWEoJSxSBA", duration: "07:51", mat: "Vellón siliconado hipoalergénico y pinzas de punta." },
+          { id: "c8", order: 8, title: "Día 8: Cómo coser las piezas para que queden perfectas", yt: "BcgkftHq-bI", duration: "12:46", mat: "Aguja lanera sin punta y alfileres de cabeza redonda." },
+          { id: "c9", order: 9, title: "Día 9: Cómo bordar la cara de un amigurumi fácil", yt: "z7es_bzjhqY", duration: "16:15", mat: "Hilo de bordar tipo mouliné negro, aguja fina y alfileres." },
+          { id: "c10", order: 10, title: "Día 10: Secreto para que tus amigurumis se vean profesionales", yt: "R9dyw35sZnA", duration: "06:57", mat: "Tu amigurumi listo para los toques finales y vaporizado." }
+        ]
+      },
+
+      // 2. CURSO DE VELAS ARTESANALES (HADA CREATIVA - 6 CLASES)
+      {
+        id: "curso_velas_hada",
+        title: "Curso: Velas Artesanales y Florivelas (Hada Creativa)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vel1", order: 1, title: "Clase 1: Materiales básicos con poco presupuesto", yt: "NKv-ZVc54Ew", duration: "11:33", mat: "Cera de soya, báscula gramera, termómetro, pistola de calor o secadora, ollita de peltre, moldes y pabilos." },
+          { id: "vel2", order: 2, title: "Clase 2: Hagamos nuestras primeras velas de molde", yt: "JVxreEtItTU", duration: "19:52", mat: "Moldes limpios de flores, aceite desmoldante, colorante rojo/rosa, fragancia y pabilo." },
+          { id: "vel3", order: 3, title: "Clase 3: 3 Formas de envolver tus florivelas para vender", yt: "8K-qinqP8mk", duration: "11:31", mat: "Papel craft, papel contact/cinta, tela tul, celofán, listones, moños y etiquetas." },
+          { id: "vel4", order: 4, title: "Clase 4: Velas tipo postre con efecto chantillí", yt: "IdZ_hFd2DQk", duration: "15:39", mat: "Cera de bajo punto de fusión, vaso contenedor, estearina al 5%, manga pastelera, duya y chispas decorativas." },
+          { id: "vel5", order: 5, title: "Clase 5: Cómo lavar y cuidar tus moldes de silicón correctamente", yt: "U8m4XUVdDqE", duration: "09:49", mat: "Agua caliente, bicarbonato de sodio, jabón lavaplatos cortagrasa, cepillo suave y vaselina." },
+          { id: "vel6", order: 6, title: "Clase 6: 5 Cosas indispensables antes de emprender tu negocio", yt: "ge7r2Bymz_M", duration: "09:40", mat: "Libreta de cálculo de costos, empaques, fotos en redes y estrategia de precios." }
+        ]
+      },
+
+      // 3. CURSO DE VELAS CASERAS PASO A PASO (15 CLASES)
+      {
+        id: "curso_velas_caseras",
+        title: "Curso: Velas Caseras Paso a Paso (15 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vc1", order: 1, title: "Clase 1: Materiales esenciales para empezar ideal principiantes", yt: "UaVymA9J3z4", duration: "06:50", mat: "Ceras de soja (bajo/alto punto), cera arena, parafina, esencias, colorantes y recipientes." },
+          { id: "vc2", order: 2, title: "Clase 2: El secreto de las velas de arena (sin fundir cera)", yt: "lvcgakOsrbk", duration: "02:56", mat: "Cera de soja en perlas (arena), recipientes de vidrio o carameleras, pabilo y esencias." },
+          { id: "vc3", order: 3, title: "Clase 3: Cómo hacer velas con moldes de silicona y cera de soja", yt: "ZS16cx0eP00", duration: "13:13", mat: "Cera de soja de alto punto de fusión, molde de silicona, perforador manual y pabilo encerado." },
+          { id: "vc4", order: 4, title: "Clase 4: Wax melts fáciles con cera de soja (bombones aromáticos)", yt: "vmAKZk-UrmY", duration: "06:47", mat: "Cera de soja alto punto, molde para bombones, pétalos de rosas secos, esencias y hornito." },
+          { id: "vc5", order: 5, title: "Clase 5: Velas con cera de coco paso a paso en carameleras", yt: "Bwj9L-IU_K0", duration: "06:55", mat: "Cera de coco vegetal, caramelera o frasco de vidrio, pabilo con ojalillo y pegatinas doble faz." },
+          { id: "vc6", order: 6, title: "Clase 6: Cómo hacer velas de miel con láminas de cera de abeja", yt: "fKizoWNIXsQ", duration: "05:40", mat: "Láminas de cera de abeja pura estriadas, pabilo de algodón y pistola de calor." },
+          { id: "vc7", order: 7, title: "Clase 7: Velas con moldes usando cera de abeja natural", yt: "W7ROnNiyaWs", duration: "08:25", mat: "Cera de abeja pura en bloque o láminas, moldes de osito/flores, soporte y perforador." },
+          { id: "vc8", order: 8, title: "Clase 8: Haz tus propias velas de souvenir sin gastar de más", yt: "_AsLCwO92KI", duration: "07:16", mat: "Parafina sólida económica, moldes de margarita, colorante para velas y balanza." },
+          { id: "vc9", order: 9, title: "Clase 9: Cómo hacer velas en parafina gel con papel de oro", yt: "4AXicjhNvc4", duration: "05:13", mat: "Parafina en gel transparente, láminas de papel de oro, pinzas y vaso de borosilicato." },
+          { id: "vc10", order: 10, title: "Clase 10: El secreto para hacer velas de masaje sin quemar la piel", yt: "6qXrzfEbnUA", duration: "04:36", mat: "Cera de soja de bajo punto de fusión (38°C), aceite esencial corporal y vaso con pico vertedor." },
+          { id: "vc11", order: 11, title: "Clase 11: Todo lo que debes saber sobre ceras para velas (tipos y usos)", yt: "n7Mf7-f0e2U", duration: "03:00", mat: "Cuaderno de apuntes para comparar soja, coco, parafina y abeja." },
+          { id: "vc12", order: 12, title: "Clase 12: Cómo lograr un marmolado perfecto y aroma potente", yt: "w5inEpLIwg8", duration: "09:26", mat: "Cera de coco, vaso transparente, colorante líquido rojo intenso y pipetas de dosificación." },
+          { id: "vc13", order: 13, title: "Clase 13: Velas con glitter y brillantina que no se hunden", yt: "RTGAX9SF140", duration: "07:49", mat: "Cera de coco, glitter/brillantina para velas, esencia fijadora y vaso de vidrio grueso." },
+          { id: "vc14", order: 14, title: "Clase 14: 3 Velas navideñas fáciles para regalar o vender", yt: "-ta_bGEcEKc", duration: "16:16", mat: "Latitas navideñas, molde con pinitos/bastones, mica roja y papel de oro." },
+          { id: "vc15", order: 15, title: "Clase 15: Cómo calcular cera, esencia, fundido y uso de la balanza", yt: "HPmxfkXgKeg", duration: "08:17", mat: "Balanza de precisión con tara, jarra de acero inoxidable y libreta para factor 0.9." }
+        ]
+      },
+
+      // 4. CURSO: EMPRENDE CON VELAS AROMÁTICAS (YELLINETH EMPRENDE - 7 CLASES)
+      {
+        id: "curso_velas_emprende",
+        title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "cve1", order: 1, title: "Clase 1: Cómo hacer velas aromáticas para vender desde casa (Principiantes)", yt: "2Rmd7MqbJ7o", duration: "15:15", mat: "Cera de soya, mecha adecuada, termómetro digital, esencias para velas y recipientes resistentes al calor." },
+          { id: "cve2", order: 2, title: "Clase 2: Los 7 errores que arruinan tus velas (y cómo evitarlos)", yt: "G7k7HKR-Zlk", duration: "13:57", mat: "Cuaderno para apuntar control de temperaturas, pruebas de combustión y mechas." },
+          { id: "cve3", order: 3, title: "Clase 3: ¿Cuánto cuesta hacer una vela? Aprende a calcular el precio", yt: "KkUORKvik0Y", duration: "08:58", mat: "Fórmulas para sumar cera, mecha, envase, etiqueta, electricidad, desgaste y margen." },
+          { id: "cve4", order: 4, title: "Clase 4: Cómo vender velas aromáticas y conseguir primeros clientes", yt: "UhEtpTQuGX0", duration: "10:54", mat: "Técnicas de fotos con luz natural, argumentos de venta en WhatsApp y testimonios." },
+          { id: "cve5", order: 5, title: "Clase 5: El error que casi nadie sabe al decorar una vela antes de vender", yt: "XO6fNqiMrQk", duration: "11:15", mat: "Diferencias clave entre velas para combustión y velas decorativas para exhibición." },
+          { id: "cve6", order: 6, title: "Clase 6: Velas de cera de soja desde cero: receta exacta con cantidades", yt: "l2qdcZ6GnY4", duration: "14:07", mat: "200g cera de soja, 18g fragancia (9%), mecha CD12/CD14, vaso 230ml y temperaturas 75°C/49°C." },
+          { id: "cve7", order: 7, title: "Clase 7: Cómo hacer velas de gel transparentes desde cero (sin burbujas)", yt: "c5xOkXxKTM8", duration: "16:21", mat: "200g gel de vela densidad media, mecha de zinc, conchas/piedras térmicas y vertido en pared." }
+        ]
+      },
+
+      // 5. CURSO BÁSICO DE VELAS (PINK BOSS LAB - 8 CLASES)
       {
         id: "curso_basico_pinkboss",
         title: "Curso: Básico de Velas (Pink Boss Lab)",
@@ -1356,6 +1479,8 @@
           { id: "pb8", order: 8, title: "Clase 8: Tutorial de florivelas con plantillas para vender", yt: "2ti2ATEIrPw", duration: "06:30", mat: "Moldes de flores, palitos para ramo, plantillas de papel y mechas delgadas." }
         ]
       },
+
+      // 6. CURSO DE VELAS DE COLORES Y TÉCNICAS ESPECIALES (19 CLASES)
       {
         id: "curso_velas_colores",
         title: "Curso: Velas de Colores, Marmolados y Diseños Especiales",
@@ -1381,76 +1506,10 @@
           { id: "col18", order: 18, title: "Clase 18: Velas con efecto mosaico y retazos reutilizados", yt: "UGoOvXN9aEI", duration: "08:40", mat: "Cera sobrante picada en dados y vertido translúcido envolvente." },
           { id: "col19", order: 19, title: "Clase 19: Acabado profesional: Pulido, sellado y brillo final", yt: "1yikoFZsD-U", duration: "09:15", mat: "Paño de microfibra, vaselina líquida y plancha térmica niveladora." }
         ]
-      },
-      {
-        id: "curso_velas_emprende",
-        title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
-        cat: "Cursos Completos",
-        lessons: [
-          { id: "cve1", order: 1, title: "Clase 1: Cómo hacer velas aromáticas para vender desde casa (Principiantes)", yt: "2Rmd7MqbJ7o", duration: "15:15", mat: "Cera de soya, mecha adecuada, termómetro digital, esencias para velas y recipientes resistentes al calor." },
-          { id: "cve2", order: 2, title: "Clase 2: Los 7 errores que arruinan tus velas (y cómo evitarlos)", yt: "G7k7HKR-Zlk", duration: "13:57", mat: "Cuaderno para apuntar control de temperaturas, pruebas de combustión y mechas." },
-          { id: "cve3", order: 3, title: "Clase 3: ¿Cuánto cuesta hacer una vela? Aprende a calcular el precio", yt: "KkUORKvik0Y", duration: "08:58", mat: "Fórmulas para sumar cera, mecha, envase, etiqueta, electricidad, desgaste y margen." },
-          { id: "cve4", order: 4, title: "Clase 4: Cómo vender velas aromáticas y conseguir primeros clientes", yt: "UhEtpTQuGX0", duration: "10:54", mat: "Técnicas de fotos con luz natural, argumentos de venta en WhatsApp y testimonios." },
-          { id: "cve5", order: 5, title: "Clase 5: El error que casi nadie sabe al decorar una vela antes de vender", yt: "XO6fNqiMrQk", duration: "11:15", mat: "Diferencias clave entre velas para combustión y velas decorativas para exhibición." },
-          { id: "cve6", order: 6, title: "Clase 6: Velas de cera de soja desde cero: receta exacta con cantidades", yt: "l2qdcZ6GnY4", duration: "14:07", mat: "200g cera de soja, 18g fragancia (9%), mecha CD12/CD14, vaso 230ml y temperaturas 75°C/49°C." },
-          { id: "cve7", order: 7, title: "Clase 7: Cómo hacer velas de gel transparentes desde cero (sin burbujas)", yt: "c5xOkXxKTM8", duration: "16:21", mat: "200g gel de vela densidad media, mecha de zinc, conchas/piedras térmicas y vertido en pared." }
-        ]
-      },
-      {
-        id: "curso_velas_caseras",
-        title: "Curso: Velas Caseras Paso a Paso (15 Clases)",
-        cat: "Cursos Completos",
-        lessons: [
-          { id: "vc1", order: 1, title: "Clase 1: Materiales esenciales para empezar ideal principiantes", yt: "UaVymA9J3z4", duration: "06:50", mat: "Ceras de soja (bajo/alto punto), cera arena, parafina, esencias, colorantes y recipientes." },
-          { id: "vc2", order: 2, title: "Clase 2: El secreto de las velas de arena (sin fundir cera)", yt: "lvcgakOsrbk", duration: "02:56", mat: "Cera de soja en perlas (arena), recipientes de vidrio o carameleras, pabilo y esencias." },
-          { id: "vc3", order: 3, title: "Clase 3: Cómo hacer velas con moldes de silicona y cera de soja", yt: "ZS16cx0eP00", duration: "13:13", mat: "Cera de soja de alto punto de fusión, molde de silicona, perforador manual y pabilo encerado." },
-          { id: "vc4", order: 4, title: "Clase 4: Wax melts fáciles con cera de soja (bombones aromáticos)", yt: "vmAKZk-UrmY", duration: "06:47", mat: "Cera de soja alto punto, molde para bombones, pétalos de rosas secos, esencias y hornito." },
-          { id: "vc5", order: 5, title: "Clase 5: Velas con cera de coco paso a paso en carameleras", yt: "Bwj9L-IU_K0", duration: "06:55", mat: "Cera de coco vegetal, caramelera o frasco de vidrio, pabilo con ojalillo y pegatinas doble faz." },
-          { id: "vc6", order: 6, title: "Clase 6: Cómo hacer velas de miel con láminas de cera de abeja", yt: "fKizoWNIXsQ", duration: "05:40", mat: "Láminas de cera de abeja pura estriadas, pabilo de algodón y pistola de calor." },
-          { id: "vc7", order: 7, title: "Clase 7: Velas con moldes usando cera de abeja natural", yt: "W7ROnNiyaWs", duration: "08:25", mat: "Cera de abeja pura en bloque o láminas, moldes de osito/flores, soporte y perforador." },
-          { id: "vc8", order: 8, title: "Clase 8: Haz tus propias velas de souvenir sin gastar de más", yt: "_AsLCwO92KI", duration: "07:16", mat: "Parafina sólida económica, moldes de margarita, colorante para velas y balanza." },
-          { id: "vc9", order: 9, title: "Clase 9: Cómo hacer velas en parafina gel con papel de oro", yt: "4AXicjhNvc4", duration: "05:13", mat: "Parafina en gel transparente, láminas de papel de oro, pinzas y vaso de borosilicato." },
-          { id: "vc10", order: 10, title: "Clase 10: El secreto para hacer velas de masaje sin quemar la piel", yt: "6qXrzfEbnUA", duration: "04:36", mat: "Cera de soja de bajo punto de fusión (38°C), aceite esencial corporal y vaso con pico vertedor." },
-          { id: "vc11", order: 11, title: "Clase 11: Todo lo que debes saber sobre ceras para velas (tipos y usos)", yt: "n7Mf7-f0e2U", duration: "03:00", mat: "Cuaderno de apuntes para comparar soja, coco, parafina y abeja." },
-          { id: "vc12", order: 12, title: "Clase 12: Cómo lograr un marmolado perfecto y aroma potente", yt: "w5inEpLIwg8", duration: "09:26", mat: "Cera de coco, vaso transparente, colorante líquido rojo intenso y pipetas de dosificación." },
-          { id: "vc13", order: 13, title: "Clase 13: Velas con glitter y brillantina que no se hunden", yt: "RTGAX9SF140", duration: "07:49", mat: "Cera de coco, glitter/brillantina para velas, esencia fijadora y vaso de vidrio grueso." },
-          { id: "vc14", order: 14, title: "Clase 14: 3 Velas navideñas fáciles para regalar o vender", yt: "-ta_bGEcEKc", duration: "16:16", mat: "Latitas navideñas, molde con pinitos/bastones, mica roja y papel de oro." },
-          { id: "vc15", order: 15, title: "Clase 15: Cómo calcular cera, esencia, fundido y uso de la balanza", yt: "HPmxfkXgKeg", duration: "08:17", mat: "Balanza de precisión con tara, jarra de acero inoxidable y libreta para factor 0.9." }
-        ]
-      },
-      {
-        id: "curso_velas_hada",
-        title: "Curso: Velas Artesanales y Florivelas (Hada Creativa)",
-        cat: "Cursos Completos",
-        lessons: [
-          { id: "vel1", order: 1, title: "Clase 1: Materiales básicos con poco presupuesto", yt: "NKv-ZVc54Ew", duration: "11:33", mat: "Cera de soya, báscula gramera, termómetro, pistola de calor o secadora, ollita de peltre, moldes y pabilos." },
-          { id: "vel2", order: 2, title: "Clase 2: Hagamos nuestras primeras velas de molde", yt: "JVxreEtItTU", duration: "19:52", mat: "Moldes limpios de flores, aceite desmoldante, colorante rojo/rosa, fragancia y pabilo." },
-          { id: "vel3", order: 3, title: "Clase 3: 3 Formas de envolver tus florivelas para vender", yt: "8K-qinqP8mk", duration: "11:31", mat: "Papel craft, papel contact/cinta, tela tul, celofán, listones, moños y etiquetas." },
-          { id: "vel4", order: 4, title: "Clase 4: Velas tipo postre con efecto chantillí", yt: "IdZ_hFd2DQk", duration: "15:39", mat: "Cera de bajo punto de fusión, vaso contenedor, estearina al 5%, manga pastelera, duya y chispas decorativas." },
-          { id: "vel5", order: 5, title: "Clase 5: Cómo lavar y cuidar tus moldes de silicón correctamente", yt: "U8m4XUVdDqE", duration: "09:49", mat: "Agua caliente, bicarbonato de sodio, jabón lavaplatos cortagrasa, cepillo suave y vaselina." },
-          { id: "vel6", order: 6, title: "Clase 6: 5 Cosas indispensables antes de emprender tu negocio", yt: "ge7r2Bymz_M", duration: "09:40", mat: "Libreta de cálculo de costos, empaques, fotos en redes y estrategia de precios." }
-        ]
-      },
-      {
-        id: "reto_amigurumi",
-        title: "Curso: Amigurumis desde cero sin frustrarse (Reto 10 Días)",
-        cat: "Cursos Completos",
-        lessons: [
-          { id: "c1", order: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
-          { id: "c2", order: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
-          { id: "c3", order: 3, title: "Día 3: El secreto del punto bajo perfecto en amigurumi", yt: "3wxz88z8D9s", duration: "11:03", mat: "Hilaza de muestra y marcador de vueltas." },
-          { id: "c4", order: 4, title: "Día 4: ¿Siempre te equivocas contando puntos? Haz esto", yt: "NIrjWGQpeFk", duration: "07:00", mat: "Marcadores de candado plásticos y libreta de notas." },
-          { id: "c5", order: 5, title: "Día 5: Por fin entendí los aumentos y disminuciones", yt: "E2gwK6Ptcn0", duration: "10:25", mat: "Hilo de algodón y ganchillo adecuado." },
-          { id: "c6", order: 6, title: "Día 6: La razón por la que tu amigurumi se ve torcido", yt: "KQ7VPtCzjqo", duration: "08:59", mat: "Tejido en espiral y hebras de contraste." },
-          { id: "c7", order: 7, title: "Día 7: Cómo rellenar amigurumis para que no queden deformes", yt: "0gWEoJSxSBA", duration: "07:51", mat: "Vellón siliconado hipoalergénico y pinzas de punta." },
-          { id: "c8", order: 8, title: "Día 8: Cómo coser las piezas para que queden perfectas", yt: "BcgkftHq-bI", duration: "12:46", mat: "Aguja lanera sin punta y alfileres de cabeza redonda." },
-          { id: "c9", order: 9, title: "Día 9: Cómo bordar la cara de un amigurumi fácil", yt: "z7es_bzjhqY", duration: "16:15", mat: "Hilo de bordar tipo mouliné negro, aguja fina y alfileres." },
-          { id: "c10", order: 10, title: "Día 10: Secreto para que tus amigurumis se vean profesionales", yt: "R9dyw35sZnA", duration: "06:57", mat: "Tu amigurumi listo para los toques finales y vaporizado." }
-        ]
       }
     ];
 
-    // CATÁLOGO GENERAL POR CATEGORÍAS
+    // CATÁLOGO GENERAL POR CATEGORÍAS (TUTORIALES AISLADOS)
     const catalog = [
       // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
@@ -1734,6 +1793,15 @@
       return 0;
     }
 
+    // TOGGLE ACORDEÓN PARA ABRIR Y CERRAR CURSOS
+    function toggleCourseAccordion(courseId) {
+      const el = document.getElementById('course_box_' + courseId);
+      if (el) {
+        el.classList.toggle('open');
+      }
+    }
+
+    // RENDERIZADO DE CURSOS EN ORDEN CRONOLÓGICO CON DISEÑO PLEGABLE
     function renderCourses() {
       const container = document.getElementById('coursesContainer');
       container.innerHTML = '';
@@ -1744,7 +1812,7 @@
       }
       container.style.display = 'block';
 
-      courses.forEach(course => {
+      courses.forEach((course, index) => {
         const total = course.lessons.length;
         const freeLimit = Math.ceil(total / 2);
 
@@ -1755,18 +1823,29 @@
 
         const box = document.createElement('div');
         box.className = 'course-module-box';
+        box.id = 'course_box_' + course.id;
+
+        // El primer curso (Amigurumis) se muestra abierto inicialmente, los demás compactos
+        if (index === 0) {
+          box.classList.add('open');
+        }
 
         box.innerHTML = `
-          <div class="course-header">
-            <div class="course-title">${course.title}</div>
-            <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">
-              ${doneCount} de ${total} clases (${userPlan === 'free' ? `${freeLimit} libres` : '100% libre'})
+          <div class="course-header-toggle" onclick="toggleCourseAccordion('${course.id}')">
+            <div class="course-header-left">
+              <div class="course-title">${course.title}</div>
+              <div class="course-meta-txt">
+                📚 ${total} clases • ${doneCount} completadas • ${userPlan === 'free' ? `${freeLimit} libres (50%)` : '100% Desbloqueado'}
+              </div>
             </div>
+            <div class="course-arrow-icon">▼</div>
           </div>
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill" style="width: ${(doneCount / total) * 100}%;"></div>
+          <div class="course-content-body">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: ${(doneCount / total) * 100}%;"></div>
+            </div>
+            <div class="lessons-list"></div>
           </div>
-          <div class="lessons-list"></div>
         `;
 
         const listEl = box.querySelector('.lessons-list');
@@ -1777,7 +1856,8 @@
 
           const item = document.createElement('div');
           item.className = 'course-lesson-item' + (isDone ? ' done' : '') + (isLocked ? ' locked' : '');
-          item.onclick = () => {
+          item.onclick = (e) => {
+            e.stopPropagation();
             if (isLocked) { openPlansModal(); } else { openVideo(l, course.title); }
           };
 
