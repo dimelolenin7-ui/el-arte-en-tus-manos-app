@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>El Arte en Tus Manos | Academia de Amigurumis y Manualidades</title>
+  
+  <meta name="theme-color" content="#b35a38">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/jpeg" href="IMG-20261103-WA0013.jpg">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FIREBASE SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- YOUTUBE IFRAME API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <style>
+    :root {
+      --bg: #fbf8f4;
+      --card-bg: #ffffff;
+      --primary: #b35a38;
+      --primary-hover: #984627;
+      --primary-soft: #fcf1eb;
+      --accent: #5e7a68;
+      --accent-soft: #eef4f0;
+      --text: #2d2621;
+      --text-muted: #7d7268;
+      --border: #ede4d8;
+      --gold: #d4a373;
+      --shadow-sm: 0 2px 8px rgba(92, 60, 42, 0.05);
+      --shadow-md: 0 4px 16px rgba(92, 60, 42, 0.08);
+      --radius-md: 14px;
+      --radius-lg: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, .font-serif {
+      font-family: 'Cinzel', serif;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 14px;
+      width: 100%;
+    }
+
+    /* BOTÓN INSTALACIÓN APP SIEMPRE VISIBLE EN WEB */
+    .btn-install-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #b35a38, #d4a373);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(179, 90, 56, 0.25);
+      margin-bottom: 14px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-install-banner:active {
+      transform: scale(0.98);
+    }
+
+    /* PANTALLA LOGIN */
+    #authScreen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      padding: 28px 20px 24px;
+    }
+
+    .brand-logo-main {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 14px;
+      box-shadow: 0 6px 18px rgba(179, 90, 56, 0.18);
+      border: 3px solid #fff;
+    }
+
+    .auth-card h1 {
+      font-size: 1.45rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .auth-card p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 16px;
+      gap: 4px;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 8px 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .auth-tab-btn.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .input-group {
+      text-align: left;
+      margin-bottom: 12px;
+    }
+
+    .input-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.92rem;
+      outline: none;
+      background: #faf8f5;
+      font-family: inherit;
+    }
+
+    .input-group input:focus, .input-group select:focus {
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .btn-main {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 13px;
+      font-size: 0.96rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(179, 90, 56, 0.22);
+    }
+
+    .btn-view-plans-link {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+      color: #1b5e20;
+      background: #e8f5e9;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* BARRA SUPERIOR */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: rgba(251, 248, 244, 0.96);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--primary-soft);
+    }
+
+    .brand-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    .user-plan-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .badge-free { background: #eee; color: #666; }
+    .badge-pro { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-premium { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-top {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .btn-top.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .btn-plans-nav {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      color: #b78103;
+      font-weight: 700;
+    }
+
+    .btn-admin {
+      background: #2d2621;
+      color: #fff;
+      border: none;
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+
+    .vip-upgrade-card {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 1px solid #fed7aa;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .vip-upgrade-card h4 {
+      font-size: 0.88rem;
+      color: #9a3412;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .vip-upgrade-card p {
+      font-size: 0.75rem;
+      color: #7c2d12;
+    }
+
+    .btn-claim-pill {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* BUSCADOR */
+    .search-bar {
+      position: relative;
+      margin: 8px 0 10px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 11px 14px 11px 40px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* PÍLDORAS */
+    .pill-filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 0 14px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .pill-filters::-webkit-scrollbar { display: none; }
+
+    .pill-btn {
+      white-space: nowrap;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .pill-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* MÓDULOS DE CURSOS PLEGABLES (ACORDEÓN) */
+    .course-module-box {
+      background: #fff;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .course-header-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: #fff;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .course-header-toggle:hover {
+      background: #faf8f5;
+    }
+
+    .course-header-left {
+      flex: 1;
+      padding-right: 10px;
+    }
+
+    .course-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.25;
+    }
+
+    .course-meta-txt {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    .course-arrow-icon {
+      font-size: 0.85rem;
+      color: var(--primary);
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+    }
+
+    .course-module-box.open .course-arrow-icon {
+      transform: rotate(180deg);
+    }
+
+    .course-content-body {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid #f0ebe4;
+    }
+
+    .course-module-box.open .course-content-body {
+      display: block;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 7px;
+      background: #ede4d8;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 14px 0 12px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .course-lesson-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      background: #faf8f5;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .course-lesson-item.locked {
+      background: #f3f0ec;
+      opacity: 0.85;
+      border-style: dashed;
+    }
+
+    .course-lesson-item.done {
+      border-color: #c8e6c9;
+      background: #f1f8f3;
+    }
+
+    .lesson-thumb {
+      width: 60px;
+      height: 42px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .lesson-thumb.blur {
+      filter: grayscale(80%) blur(1px);
+    }
+
+    /* CARRUSELES Y TARJETAS */
+    .section-head {
+      margin: 18px 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-head h2 {
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .carousel {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .carousel::-webkit-scrollbar { display: none; }
+
+    .video-card {
+      min-width: 205px;
+      max-width: 205px;
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      scroll-snap-align: start;
+      position: relative;
+    }
+
+    .thumb-wrapper {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      background: #111;
+    }
+
+    .thumb-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tag-duration {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: rgba(0, 0, 0, 0.78);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .tag-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .lock-overlay-badge {
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 20, 16, 0.65);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      backdrop-filter: blur(2px);
+      gap: 4px;
+    }
+
+    .card-fav-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .card-info { padding: 10px; }
+
+    .card-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.3;
+    }
+
+    /* FOOTER DL COMPANY */
+    .dl-footer {
+      background: #0f0f11;
+      color: #9c9a97;
+      text-align: center;
+      padding: 24px 16px;
+      margin-top: auto;
+      border-top: 1px solid #202022;
+    }
+
+    .dl-footer-logo {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    .dl-footer p {
+      font-size: 0.72rem;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .dl-footer .dl-brand {
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    /* MODALES */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 100;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 18px;
+      max-width: 560px;
+      margin: 10px auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .video-frame-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+
+    #player { width: 100%; height: 100%; }
+
+    .time-lock-curtain {
+      position: absolute;
+      inset: 0;
+      background: rgba(18, 14, 12, 0.94);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      z-index: 10;
+    }
+
+    .time-lock-curtain h4 {
+      font-size: 1.15rem;
+      color: #fed7aa;
+      margin-bottom: 6px;
+    }
+
+    .time-lock-curtain p {
+      font-size: 0.82rem;
+      color: #d1d5db;
+      margin-bottom: 16px;
+      max-width: 320px;
+    }
+
+    .modal-body { padding: 16px; }
+
+    .modal-actions-row {
+      display: flex;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .btn-action-outline {
+      flex: 1;
+      padding: 9px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-action-outline.marked {
+      background: #e8f5e9;
+      border-color: #a5d6a7;
+      color: #2e7d32;
+    }
+
+    .row-counter {
+      background: var(--primary-soft);
+      border: 1.5px dashed var(--primary);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .count-display {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .count-btns button {
+      background: #fff;
+      border: 1px solid var(--border);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .materials-box {
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+      font-size: 0.82rem;
+    }
+
+    .materials-box h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    /* MODAL DE PLANES */
+    .plans-modal-body {
+      padding: 22px 16px;
+      text-align: center;
+    }
+
+    .promo-banner-badge {
+      display: inline-block;
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .plans-modal-body h3 {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .plans-modal-body p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .period-selector {
+      display: flex;
+      gap: 4px;
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 16px;
+    }
+
+    .period-btn {
+      flex: 1;
+      padding: 8px 2px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .period-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .plans-cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .plan-card-item {
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #faf8f5;
+    }
+
+    .plan-card-item.featured {
+      border-color: #f59e0b;
+      background: #fffbeb;
+      position: relative;
+    }
+
+    .badge-featured-tag {
+      position: absolute;
+      top: -10px;
+      right: 14px;
+      background: #f59e0b;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+    }
+
+    .plan-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .plan-title-txt {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .plan-price-wrapper { text-align: right; }
+    .plan-price-cop { font-size: 1.05rem; font-weight: 800; color: var(--primary); }
+    .plan-price-usd { font-size: 0.74rem; color: var(--text-muted); font-weight: 600; }
+
+    .plan-perks-list {
+      list-style: none;
+      font-size: 0.78rem;
+      color: #555;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .plan-perks-list li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .checkout-buttons-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .btn-pay-gateway {
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-wompi { background: #002b49; color: #fff; }
+    .btn-mp { background: #009ee3; color: #fff; }
+    .btn-paypal { background: #ffc439; color: #111; }
+
+    .redeem-section-inside {
+      background: #fff;
+      border: 1.5px dashed var(--primary);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .code-input-box { margin: 10px 0; }
+
+    .code-input-box input {
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      font-size: 1.05rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      border-radius: 10px;
+      border: 1.5px solid var(--primary);
+      background: #faf8f5;
+      outline: none;
+    }
+
+    .alert-msg {
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .alert-msg.error { background: #ffebee; color: #c62828; display: block; }
+    .alert-msg.success { background: #e8f5e9; color: #2e7d32; display: block; }
+
+    /* PANEL ADMINISTRATIVO */
+    .admin-nav-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      background: #faf8f5;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .admin-nav-btn {
+      flex: 1;
+      padding: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border: none;
+      background: none;
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .admin-nav-btn.active {
+      background: #fff;
+      color: var(--primary);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .admin-codes-box {
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      max-height: 180px;
+      overflow-y: auto;
+      text-align: left;
+      font-family: monospace;
+      font-size: 0.85rem;
+      margin: 14px 0;
+      white-space: pre-wrap;
+    }
+
+    .users-table-wrapper {
+      max-height: 320px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      margin: 12px 0;
+      text-align: left;
+    }
+
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+
+    .users-table th {
+      background: #faf8f5;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+    }
+
+    .users-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #f0ebe4;
+    }
+
+    .user-status-pill {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status-active { background: #e8f5e9; color: #2e7d32; }
+    .status-expired { background: #ffebee; color: #c62828; }
+    .status-free { background: #f3f4f6; color: #4b5563; }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA INICIAL DE ACCESO -->
+  <section id="authScreen">
+    <div class="auth-card">
+      <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
+      <h1>El Arte en Tus Manos</h1>
+      <p>Academia interactiva oficial y biblioteca de amigurumis y manualidades.</p>
+
+      <!-- BOTÓN DIRECTO DE INSTALACIÓN EN LOGIN -->
+      <button type="button" class="btn-install-banner" id="btnInstallAppLogin" onclick="triggerPwaInstall()">
+        📲 Instalar App en tu Celular
+      </button>
+      
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tabBtnFree" onclick="switchAuthTab('free')">⚪ Acceso Gratis</button>
+        <button type="button" class="auth-tab-btn" id="tabBtnCode" onclick="switchAuthTab('code')">👑 Tengo Código</button>
+      </div>
+
+      <div id="authAlert" class="alert-msg"></div>
+
+      <!-- FORMULARIO ACCESO GRATIS -->
+      <form id="freeLoginForm" onsubmit="handleFreeLogin(event)">
+        <div class="input-group">
+          <label for="freeEmailInput">Ingresa tu correo electrónico</label>
+          <input type="email" id="freeEmailInput" placeholder="tu-correo@ejemplo.com" required>
+        </div>
+        <button type="submit" class="btn-main">Entrar a la Academia (Gratis)</button>
+      </form>
+
+      <!-- FORMULARIO ACTIVAR CON CÓDIGO -->
+      <form id="codeLoginForm" onsubmit="handleCodeLogin(event)" style="display:none;">
+        <div class="input-group">
+          <label for="codeEmailInput">Tu correo electrónico</label>
+          <input type="email" id="codeEmailInput" placeholder="alumna@ejemplo.com" required>
+        </div>
+        <div class="input-group">
+          <label for="initialPromoCode">Código de membresía (entregado al pagar)</label>
+          <input type="text" id="initialPromoCode" placeholder="EJ: PRO30-7XK2" style="text-transform:uppercase; letter-spacing:1px; font-weight:700;" required>
+        </div>
+        <button type="submit" class="btn-main" id="btnCodeSubmit">Validar y Entrar</button>
+      </form>
+
+      <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y precios en oferta? Ver aquí</span>
+
+      <a href="https://wa.me/" target="_blank" class="btn-whatsapp">
+        <span>💬 ¿Dudas o ayuda con tu compra? WhatsApp</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- PANTALLA PRINCIPAL -->
+  <main id="appScreen" style="display: none;">
+    <header class="top-bar">
+      <div class="top-left">
+        <img src="IMG-20261103-WA0013.jpg" alt="Logo" class="nav-logo">
+        <div>
+          <div class="brand-title">El Arte en Tus Manos</div>
+          <span id="userBadge" class="user-plan-badge badge-free">PLAN GRATIS</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="btn-top btn-plans-nav" onclick="openPlansModal()">⭐ Planes</button>
+        <button class="btn-top" id="btnFavFilter" onclick="toggleFavView()">❤️ Favoritos</button>
+        <button class="btn-admin" onclick="openAdminModal()">⚙️</button>
+        <button class="btn-top" onclick="handleLogout()">Salir</button>
+      </div>
+    </header>
+
+    <div class="container">
+
+      <!-- BOTÓN DIRECTO DE INSTALACIÓN DENTRO DE LA ACADEMIA -->
+      <button type="button" class="btn-install-banner" id="btnInstallAppMain" onclick="triggerPwaInstall()">
+        📲 Instalar App en tu Celular (Acceso Directo)
+      </button>
+      
+      <!-- BANNER DE UPGRADE -->
+      <div id="vipBanner" class="vip-upgrade-card" style="display:none;">
+        <div>
+          <h4>¿Compraste tu membresía o curso?</h4>
+          <p>Activa tu acceso de 1 mes o 1 año con tu código único.</p>
+        </div>
+        <button class="btn-claim-pill" onclick="openPlansModal()">Activar Aquí</button>
+      </div>
+
+      <!-- BUSCADOR -->
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Buscar por tema, velas, personajes o técnicas..." onkeyup="handleFilter()">
+      </div>
+
+      <!-- PÍLDORAS -->
+      <div class="pill-filters" id="pillsContainer">
+        <button class="pill-btn active" onclick="setCategoryFilter('Todos', this)">✨ Todos</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Cursos Completos', this)">🎓 Cursos Completos</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Tecnicas, Tips y Consejos de amigurumis', this)">✂️ Técnicas y Tips</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de pokemon', this)">⚡ Pokémon</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de san rio', this)">🎀 Sanrio</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis del chavo del 8', this)">🧢 El Chavo del 8</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de mario bross', this)">🍄 Mario Bros</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de cantantes', this)">🎤 Cantantes</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de osos y peluches', this)">🧸 Osos y Peluches</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis para bebes', this)">👶 Para Bebés</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de profesiones', this)">🩺 Profesiones</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis religiosos', this)">🕊️ Religiosos</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis navideños', this)">🎄 Navideños</button>
+        <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
+      </div>
+
+      <!-- CONTENEDOR DINÁMICO DE CURSOS PLEGABLES (ORDEN CRONOLÓGICO) -->
+      <div id="coursesContainer"></div>
+
+      <!-- SECCIONES DE CARRUSELES POR CATEGORÍA -->
+      <div id="sectionsContainer"></div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER DL COMPANY -->
+  <footer class="dl-footer">
+    <img src="file_00000000bf5081f5835c0e1472172313.png" alt="DL COMPANY -TECNOLOGY-" class="dl-footer-logo">
+    <p>Desarrollado y administrado por <span class="dl-brand">DL COMPANY -TECNOLOGY-</span></p>
+    <p style="font-size: 0.65rem; color: #666; margin-top: 4px;">Plataforma Oficial de Capacitación &copy; 2026</p>
+  </footer>
+
+  <!-- REPRODUCTOR MODAL & CONTADOR -->
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <div class="video-frame-container">
+        <div id="player"></div>
+        <div id="timeLockCurtain" class="time-lock-curtain">
+          <div style="font-size: 2.2rem; margin-bottom: 6px;">🔒</div>
+          <h4>Llegaste al límite gratuito</h4>
+          <p>Has disfrutado del 80% de esta clase magistral. Para ver los toques finales y costuras, desbloquea el Plan PRO o Premium.</p>
+          <button class="btn-main" style="max-width: 220px;" onclick="closeModal(); openPlansModal();">Ver Planes en Oferta</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <h3 id="modalTitle" style="font-size: 1.05rem; margin-bottom: 2px;"></h3>
+        <p id="modalCategory" style="font-size: 0.78rem; color: var(--text-muted);"></p>
+
+        <div class="modal-actions-row">
+          <button id="btnMarkDone" class="btn-action-outline" onclick="toggleCurrentDone()">
+            <span id="markIcon">✓</span> <span id="markText">Marcar como visto</span>
+          </button>
+          <button id="btnFavModal" class="btn-action-outline" onclick="toggleCurrentFav()">
+            <span id="favModalIcon">🤍</span> <span id="favModalText">Favorito</span>
+          </button>
+        </div>
+
+        <div class="row-counter">
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Contador de Vueltas</div>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Suma vueltas conforme tejes o trabajas</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="count-display" id="roundNumber">0</div>
+            <div class="count-btns">
+              <button onclick="handleRoundChange(-1)">−</button>
+              <button onclick="handleRoundChange(1)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="materials-box">
+          <h4>Materiales Sugeridos:</h4>
+          <p id="modalMaterials">Materiales listados en el tutorial correspondiente.</p>
+        </div>
+
+        <button class="btn-main" onclick="closeModal()">Cerrar y volver a la academia</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE PLANES Y PRECIOS -->
+  <div id="plansModal" class="modal">
+    <div class="modal-content">
+      <div class="plans-modal-body">
+        <span class="promo-banner-badge">🎉 50% OFF • Lanzamiento App Nueva</span>
+        <h3>Planes y Suscripciones</h3>
+        <p>Aprende amigurumis y manualidades a tu ritmo con precios especiales.</p>
+
+        <div class="period-selector">
+          <button type="button" class="period-btn active" onclick="setPlanPeriod('1m', this)">1 Mes</button>
+          <button type="button" class="period-btn" onclick="setPlanPeriod('3m', this)">3 Meses (-10%)</button>
+          <button type="button" class="period-btn" onclick="setPlanPeriod('6m', this)">6 Meses (-20%)</button>
+          <button type="button" class="period-btn" onclick="setPlanPeriod('1y', this)">1 Año (-45%)</button>
+        </div>
+
+        <div class="plans-cards-grid">
+          <!-- PLAN PRO -->
+          <div class="plan-card-item">
+            <div class="plan-header-row">
+              <span class="plan-title-txt">🔵 Plan PRO</span>
+              <div class="plan-price-wrapper">
+                <div class="plan-price-cop" id="proPriceCOP">$10.000 COP</div>
+                <div class="plan-price-usd" id="proPriceUSD">$2.50 USD</div>
+              </div>
+            </div>
+            <ul class="plan-perks-list">
+              <li>✓ Cursos completos 100% desbloqueados</li>
+              <li>✓ Videos largos sin cortes al 80%</li>
+              <li>✓ Videos de 2 o más partes libres</li>
+              <li>✓ Contador de vueltas y favoritos</li>
+            </ul>
+            <div class="checkout-buttons-row">
+              <a href="https://checkout.wompi.co/l/VPOS_WTHY53" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
+              <a href="https://mpago.li/1nVSCMe" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago (Latam)</a>
+              <a href="https://paypal.me/Leninbenjumea/2.50USD" target="_blank" class="btn-pay-gateway btn-paypal">PayPal (Dólares USD)</a>
+            </div>
+          </div>
+
+          <!-- PLAN PREMIUM -->
+          <div class="plan-card-item featured">
+            <span class="badge-featured-tag">Recomendado</span>
+            <div class="plan-header-row">
+              <span class="plan-title-txt">👑 Plan PREMIUM (Alumnas)</span>
+              <div class="plan-price-wrapper">
+                <div class="plan-price-cop" id="premPriceCOP">$20.000 COP</div>
+                <div class="plan-price-usd" id="premPriceUSD">$5.00 USD</div>
+              </div>
+            </div>
+            <ul class="plan-perks-list">
+              <li>✓ <strong>Todos los cursos y retos completos</strong></li>
+              <li>✓ Acceso total e ilimitado a toda la plataforma</li>
+              <li>✓ Videos largos sin interrupciones</li>
+              <li>✓ Fichas completas de materiales y tips</li>
+              <li>✓ <strong>Soporte prioritario</strong> directo por WhatsApp</li>
+            </ul>
+            <div class="checkout-buttons-row">
+              <a href="https://checkout.wompi.co/l/VPOS_WTHY53" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
+              <a href="https://mpago.li/2pczvz2" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago (Latam)</a>
+              <a href="https://paypal.me/Leninbenjumea/5.00USD" target="_blank" class="btn-pay-gateway btn-paypal">PayPal (Dólares USD)</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN DE CANJE DE CÓDIGO -->
+        <div class="redeem-section-inside">
+          <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">¿Ya compraste tu mes o curso?</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Canjea aquí tu código entregado tras pagar:</div>
+          <div id="modalRedeemAlert" class="alert-msg"></div>
+          <div class="code-input-box">
+            <input type="text" id="modalPromoCodeInput" placeholder="EJ: PRO30-7XK2" maxlength="20">
+          </div>
+          <button class="btn-main" id="btnModalRedeemSubmit" onclick="redeemPromoCodeFromModal()">Activar mi Membresía</button>
+        </div>
+
+        <button class="btn-action-outline" style="width:100%; margin-top:14px;" onclick="closePlansModal()">Cerrar y Volver</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EXCLUSIVO ADMIN -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <div class="plans-modal-body">
+        <div style="font-size:1.8rem; margin-bottom:4px;">⚙️</div>
+        <h3>Panel Administrador</h3>
+        <p>Administra códigos y visualiza todos los correos registrados en la app.</p>
+
+        <div class="admin-nav-tabs">
+          <button type="button" class="admin-nav-btn active" id="tabBtnGenCodes" onclick="switchAdminSubTab('gencodes')">🎟️ Generar Códigos</button>
+          <button type="button" class="admin-nav-btn" id="tabBtnUsersList" onclick="switchAdminSubTab('userslist')">👥 Ver Usuarias (<span id="userCountBadge">0</span>)</button>
+        </div>
+
+        <!-- GENERADOR -->
+        <div id="adminGenSection">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:10px; text-align:left;">
+            <div class="input-group" style="margin:0;">
+              <label>Plan:</label>
+              <select id="adminPlanType" onchange="autoUpdatePrefix()">
+                <option value="pro">Plan PRO</option>
+                <option value="premium" selected>Plan PREMIUM</option>
+              </select>
+            </div>
+            <div class="input-group" style="margin:0;">
+              <label>Duración:</label>
+              <select id="adminDuration" onchange="autoUpdatePrefix()">
+                <option value="30">1 Mes (30 días)</option>
+                <option value="365" selected>1 Año (365 días)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <input type="text" id="adminPrefix" value="PREM365" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Prefijo">
+            <input type="number" id="adminQty" value="5" min="1" max="50" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Cantidad">
+          </div>
+
+          <button class="btn-main" id="btnAdminGen" onclick="handleAdminGenerate()">Generar Códigos en Firebase</button>
+
+          <div id="adminResultBox" style="display:none;">
+            <div class="admin-codes-box" id="adminCodesList"></div>
+            <button class="btn-action-outline" style="width:100%; margin-bottom:10px;" onclick="copyGeneratedCodes()">📋 Copiar todos los códigos</button>
+          </div>
+        </div>
+
+        <!-- LISTA USUARIAS -->
+        <div id="adminUsersSection" style="display:none;">
+          <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." onkeyup="filterUsersTable()" style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:8px;">
+          
+          <div class="users-table-wrapper">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>Correo</th>
+                  <th>Plan</th>
+                  <th>Estado / Restante</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Cargando usuarias...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn-action-outline" style="width:100%;" onclick="fetchRegisteredUsers()">🔄 Actualizar lista</button>
+        </div>
+
+        <button class="btn-action-outline" style="width:100%; margin-top:12px;" onclick="closeAdminModal()">Cerrar Administrador</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // CONFIGURACIÓN OFICIAL DE FIREBASE
+    const firebaseConfig = {
+      apiKey: "AIzaSyB1HEIr7bK8erNQ64_Ln78MeNxIJlVI_1E",
+      authDomain: "el-arte-en-tus-manos.firebaseapp.com",
+      projectId: "el-arte-en-tus-manos",
+      storageBucket: "el-arte-en-tus-manos.firebasestorage.app",
+      messagingSenderId: "201090015928",
+      appId: "1:201090015928:web:612e0fa487d868c02f0a4d"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // LISTADO OFICIAL DE CURSOS EN ORDEN CRONOLÓGICO (DE MÁS ANTIGUO A MÁS RECIENTE)
+    const courses = [
+      // 1. RETO 10 DÍAS DE AMIGURUMIS
+      {
+        id: "reto_amigurumi",
+        title: "Curso: Amigurumis desde cero sin frustrarse (Reto 10 Días)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "c1", order: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
+          { id: "c2", order: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
+          { id: "c3", order: 3, title: "Día 3: El secreto del punto bajo perfecto en amigurumi", yt: "3wxz88z8D9s", duration: "11:03", mat: "Hilaza de muestra y marcador de vueltas." },
+          { id: "c4", order: 4, title: "Día 4: ¿Siempre te equivocas contando puntos? Haz esto", yt: "NIrjWGQpeFk", duration: "07:00", mat: "Marcadores de candado plásticos y libreta de notas." },
+          { id: "c5", order: 5, title: "Día 5: Por fin entendí los aumentos y disminuciones", yt: "E2gwK6Ptcn0", duration: "10:25", mat: "Hilo de algodón y ganchillo adecuado." },
+          { id: "c6", order: 6, title: "Día 6: La razón por la que tu amigurumi se ve torcido", yt: "KQ7VPtCzjqo", duration: "08:59", mat: "Tejido en espiral y hebras de contraste." },
+          { id: "c7", order: 7, title: "Día 7: Cómo rellenar amigurumis para que no queden deformes", yt: "0gWEoJSxSBA", duration: "07:51", mat: "Vellón siliconado hipoalergénico y pinzas de punta." },
+          { id: "c8", order: 8, title: "Día 8: Cómo coser las piezas para que queden perfectas", yt: "BcgkftHq-bI", duration: "12:46", mat: "Aguja lanera sin punta y alfileres de cabeza redonda." },
+          { id: "c9", order: 9, title: "Día 9: Cómo bordar la cara de un amigurumi fácil", yt: "z7es_bzjhqY", duration: "16:15", mat: "Hilo de bordar tipo mouliné negro, aguja fina y alfileres." },
+          { id: "c10", order: 10, title: "Día 10: Secreto para que tus amigurumis se vean profesionales", yt: "R9dyw35sZnA", duration: "06:57", mat: "Tu amigurumi listo para los toques finales y vaporizado." }
+        ]
+      },
+
+      // 2. CURSO DE VELAS ARTESANALES (HADA CREATIVA - 6 CLASES)
+      {
+        id: "curso_velas_hada",
+        title: "Curso: Velas Artesanales y Florivelas (Hada Creativa)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vel1", order: 1, title: "Clase 1: Materiales básicos con poco presupuesto", yt: "NKv-ZVc54Ew", duration: "11:33", mat: "Cera de soya, báscula gramera, termómetro, pistola de calor o secadora, ollita de peltre, moldes y pabilos." },
+          { id: "vel2", order: 2, title: "Clase 2: Hagamos nuestras primeras velas de molde", yt: "JVxreEtItTU", duration: "19:52", mat: "Moldes limpios de flores, aceite desmoldante, colorante rojo/rosa, fragancia y pabilo." },
+          { id: "vel3", order: 3, title: "Clase 3: 3 Formas de envolver tus florivelas para vender", yt: "8K-qinqP8mk", duration: "11:31", mat: "Papel craft, papel contact/cinta, tela tul, celofán, listones, moños y etiquetas." },
+          { id: "vel4", order: 4, title: "Clase 4: Velas tipo postre con efecto chantillí", yt: "IdZ_hFd2DQk", duration: "15:39", mat: "Cera de bajo punto de fusión, vaso contenedor, estearina al 5%, manga pastelera, duya y chispas decorativas." },
+          { id: "vel5", order: 5, title: "Clase 5: Cómo lavar y cuidar tus moldes de silicón correctamente", yt: "U8m4XUVdDqE", duration: "09:49", mat: "Agua caliente, bicarbonato de sodio, jabón lavaplatos cortagrasa, cepillo suave y vaselina." },
+          { id: "vel6", order: 6, title: "Clase 6: 5 Cosas indispensables antes de emprender tu negocio", yt: "ge7r2Bymz_M", duration: "09:40", mat: "Libreta de cálculo de costos, empaques, fotos en redes y estrategia de precios." }
+        ]
+      },
+
+      // 3. CURSO DE VELAS CASERAS PASO A PASO (15 CLASES)
+      {
+        id: "curso_velas_caseras",
+        title: "Curso: Velas Caseras Paso a Paso (15 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vc1", order: 1, title: "Clase 1: Materiales esenciales para empezar ideal principiantes", yt: "UaVymA9J3z4", duration: "06:50", mat: "Ceras de soja (bajo/alto punto), cera arena, parafina, esencias, colorantes y recipientes." },
+          { id: "vc2", order: 2, title: "Clase 2: El secreto de las velas de arena (sin fundir cera)", yt: "lvcgakOsrbk", duration: "02:56", mat: "Cera de soja en perlas (arena), recipientes de vidrio o carameleras, pabilo y esencias." },
+          { id: "vc3", order: 3, title: "Clase 3: Cómo hacer velas con moldes de silicona y cera de soja", yt: "ZS16cx0eP00", duration: "13:13", mat: "Cera de soja de alto punto de fusión, molde de silicona, perforador manual y pabilo encerado." },
+          { id: "vc4", order: 4, title: "Clase 4: Wax melts fáciles con cera de soja (bombones aromáticos)", yt: "vmAKZk-UrmY", duration: "06:47", mat: "Cera de soja alto punto, molde para bombones, pétalos de rosas secos, esencias y hornito." },
+          { id: "vc5", order: 5, title: "Clase 5: Velas con cera de coco paso a paso en carameleras", yt: "Bwj9L-IU_K0", duration: "06:55", mat: "Cera de coco vegetal, caramelera o frasco de vidrio, pabilo con ojalillo y pegatinas doble faz." },
+          { id: "vc6", order: 6, title: "Clase 6: Cómo hacer velas de miel con láminas de cera de abeja", yt: "fKizoWNIXsQ", duration: "05:40", mat: "Láminas de cera de abeja pura estriadas, pabilo de algodón y pistola de calor." },
+          { id: "vc7", order: 7, title: "Clase 7: Velas con moldes usando cera de abeja natural", yt: "W7ROnNiyaWs", duration: "08:25", mat: "Cera de abeja pura en bloque o láminas, moldes de osito/flores, soporte y perforador." },
+          { id: "vc8", order: 8, title: "Clase 8: Haz tus propias velas de souvenir sin gastar de más", yt: "_AsLCwO92KI", duration: "07:16", mat: "Parafina sólida económica, moldes de margarita, colorante para velas y balanza." },
+          { id: "vc9", order: 9, title: "Clase 9: Cómo hacer velas en parafina gel con papel de oro", yt: "4AXicjhNvc4", duration: "05:13", mat: "Parafina en gel transparente, láminas de papel de oro, pinzas y vaso de borosilicato." },
+          { id: "vc10", order: 10, title: "Clase 10: El secreto para hacer velas de masaje sin quemar la piel", yt: "6qXrzfEbnUA", duration: "04:36", mat: "Cera de soja de bajo punto de fusión (38°C), aceite esencial corporal y vaso con pico vertedor." },
+          { id: "vc11", order: 11, title: "Clase 11: Todo lo que debes saber sobre ceras para velas (tipos y usos)", yt: "n7Mf7-f0e2U", duration: "03:00", mat: "Cuaderno de apuntes para comparar soja, coco, parafina y abeja." },
+          { id: "vc12", order: 12, title: "Clase 12: Cómo lograr un marmolado perfecto y aroma potente", yt: "w5inEpLIwg8", duration: "09:26", mat: "Cera de coco, vaso transparente, colorante líquido rojo intenso y pipetas de dosificación." },
+          { id: "vc13", order: 13, title: "Clase 13: Velas con glitter y brillantina que no se hunden", yt: "RTGAX9SF140", duration: "07:49", mat: "Cera de coco, glitter/brillantina para velas, esencia fijadora y vaso de vidrio grueso." },
+          { id: "vc14", order: 14, title: "Clase 14: 3 Velas navideñas fáciles para regalar o vender", yt: "-ta_bGEcEKc", duration: "16:16", mat: "Latitas navideñas, molde con pinitos/bastones, mica roja y papel de oro." },
+          { id: "vc15", order: 15, title: "Clase 15: Cómo calcular cera, esencia, fundido y uso de la balanza", yt: "HPmxfkXgKeg", duration: "08:17", mat: "Balanza de precisión con tara, jarra de acero inoxidable y libreta para factor 0.9." }
+        ]
+      },
+
+      // 4. CURSO: EMPRENDE CON VELAS AROMÁTICAS (YELLINETH EMPRENDE - 7 CLASES)
+      {
+        id: "curso_velas_emprende",
+        title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "cve1", order: 1, title: "Clase 1: Cómo hacer velas aromáticas para vender desde casa (Principiantes)", yt: "2Rmd7MqbJ7o", duration: "15:15", mat: "Cera de soya, mecha adecuada, termómetro digital, esencias para velas y recipientes resistentes al calor." },
+          { id: "cve2", order: 2, title: "Clase 2: Los 7 errores que arruinan tus velas (y cómo evitarlos)", yt: "G7k7HKR-Zlk", duration: "13:57", mat: "Cuaderno para apuntar control de temperaturas, pruebas de combustión y mechas." },
+          { id: "cve3", order: 3, title: "Clase 3: ¿Cuánto cuesta hacer una vela? Aprende a calcular el precio", yt: "KkUORKvik0Y", duration: "08:58", mat: "Fórmulas para sumar cera, mecha, envase, etiqueta, electricidad, desgaste y margen." },
+          { id: "cve4", order: 4, title: "Clase 4: Cómo vender velas aromáticas y conseguir primeros clientes", yt: "UhEtpTQuGX0", duration: "10:54", mat: "Técnicas de fotos con luz natural, argumentos de venta en WhatsApp y testimonios." },
+          { id: "cve5", order: 5, title: "Clase 5: El error que casi nadie sabe al decorar una vela antes de vender", yt: "XO6fNqiMrQk", duration: "11:15", mat: "Diferencias clave entre velas para combustión y velas decorativas para exhibición." },
+          { id: "cve6", order: 6, title: "Clase 6: Velas de cera de soja desde cero: receta exacta con cantidades", yt: "l2qdcZ6GnY4", duration: "14:07", mat: "200g cera de soja, 18g fragancia (9%), mecha CD12/CD14, vaso 230ml y temperaturas 75°C/49°C." },
+          { id: "cve7", order: 7, title: "Clase 7: Cómo hacer velas de gel transparentes desde cero (sin burbujas)", yt: "c5xOkXxKTM8", duration: "16:21", mat: "200g gel de vela densidad media, mecha de zinc, conchas/piedras térmicas y vertido en pared." }
+        ]
+      },
+
+      // 5. CURSO BÁSICO DE VELAS (PINK BOSS LAB - 8 CLASES)
+      {
+        id: "curso_basico_pinkboss",
+        title: "Curso: Básico de Velas (Pink Boss Lab)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "pb1", order: 1, title: "Clase 1: Curso Básico de Velas (Teoría, Puntos de Fusión y Práctica)", yt: "jGVVycqMAlA", duration: "43:44", mat: "Cera de vaso/soya, balanza, termómetro, pabilo de algodón y ollita de aluminio." },
+          { id: "pb2", order: 2, title: "Clase 2: Claves para lograr el éxito con tu negocio de velas", yt: "outMzyMFhns", duration: "09:03", mat: "Libreta de apuntes, enfoque en catálogo y estrategias de redes sociales." },
+          { id: "pb3", order: 3, title: "Clase 3: Los básicos y herramientas indispensables para hacer velas", yt: "XfM6Wl-k7gU", duration: "10:14", mat: "Cera en perlas, fragancias concentradas, stickers para mechas y pistola de calor." },
+          { id: "pb4", order: 4, title: "Clase 4: Tutorial de velas para otoño y temporada", yt: "G-B7xiv45Ek", duration: "49:03", mat: "Tazas de cerámica, cera de soya, ácido esteárico, batidora y colorantes otoñales." },
+          { id: "pb5", order: 5, title: "Clase 5: Tutorial de velas para vender en Navidad", yt: "OHLp-oaLGKU", duration: "36:37", mat: "Latitas navideñas, molde muñeco de nieve, árbol de pino y mica dorada." },
+          { id: "pb6", order: 6, title: "Clase 6: Tutorial de velas aromáticas para Año Nuevo", yt: "w0qqYL_2XiQ", duration: "42:19", mat: "Naranja natural, canela en rama, clavos de olor y cabuya rústica." },
+          { id: "pb7", order: 7, title: "Clase 7: Vela mágica con mensaje oculto (San Valentín)", yt: "NaCQiKJuXFw", duration: "02:15", mat: "Vaso de vidrio transparente, letras de mostacilla, alambre guía y cera de soya." },
+          { id: "pb8", order: 8, title: "Clase 8: Tutorial de florivelas con plantillas para vender", yt: "2ti2ATEIrPw", duration: "06:30", mat: "Moldes de flores, palitos para ramo, plantillas de papel y mechas delgadas." }
+        ]
+      },
+
+      // 6. CURSO DE VELAS DE COLORES Y TÉCNICAS ESPECIALES (19 CLASES)
+      {
+        id: "curso_velas_colores",
+        title: "Curso: Velas de Colores, Marmolados y Diseños Especiales",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "col1", order: 1, title: "Clase 1: Velas con colores desde el molde de cartulina", yt: "LS4hR9eEBAg", duration: "09:54", mat: "Cartulina, cinta masking, plastilina escolar, parafina sólida y cubitos teñidos." },
+          { id: "col2", order: 2, title: "Clase 2: Velas marmoladas reciclando rollos de cartón", yt: "nIWtyqoEp9M", duration: "07:38", mat: "Rollos de papel higiénico, retazos de cera blanca y de color, aceite desmoldante." },
+          { id: "col3", order: 3, title: "Clase 3: Decoración de fantasía con flores secas prensadas", yt: "Qqx_vDzwe9M", duration: "06:00", mat: "Vela base lisa, flores prensadas, cuchara caliente, pasta dimensional y strass." },
+          { id: "col4", order: 4, title: "Clase 4: Cómo hacer fanales y farolitos translúcidos de parafina", yt: "vtVzbIFjE2o", duration: "11:07", mat: "Dos moldes concéntricos, piedras para peso, hojas/pétalos y parafina clara." },
+          { id: "col5", order: 5, title: "Clase 5: Velas artesanales con degradé y capas de color", yt: "NC9flKHooao", duration: "08:15", mat: "Colorantes para velas, jarras dosificadoras y tiempos de enfriado por capa." },
+          { id: "col6", order: 6, title: "Clase 6: Técnica de teñido por inmersión y baño de color", yt: "lSeqaAhtEzc", duration: "07:40", mat: "Vela blanca lisa, recipiente hondo con parafina teñida a 75°C y agua fría." },
+          { id: "col7", order: 7, title: "Clase 7: Efecto rústico y texturizado sobre velas cilíndricas", yt: "HjwqdV2UawM", duration: "08:50", mat: "Cuchillas, cepillo de cerdas duras y baño de cera a baja temperatura." },
+          { id: "col8", order: 8, title: "Clase 8: Velas geométricas bicolores en moldes acrílicos", yt: "bdUoB5KLuE0", duration: "09:10", mat: "Moldes facetados, sellador para mechas y doble vertido angular." },
+          { id: "col9", order: 9, title: "Clase 9: Velas con inclusiones florales y botánicas", yt: "xePhJy6bidY", duration: "10:05", mat: "Hojas deshidratadas, parafina microcristalina y calor perimetral." },
+          { id: "col10", order: 10, title: "Clase 10: Velas marmoladas en molde metálico tradicional", yt: "7G_sL5OhQOw", duration: "08:30", mat: "Molde de hojalata, desmoldante de silicona y mezclas cromáticas frías." },
+          { id: "col11", order: 11, title: "Clase 11: Cómo combinar anilinas y pigmentos sin grumos", yt: "CdsTWAVS-hs", duration: "07:25", mat: "Solventes oleosos, cera líquida precalentada y batidor fino." },
+          { id: "col12", order: 12, title: "Clase 12: Velas flotantes multicolor para centros de mesa", yt: "5VxWXqSBDaQ", duration: "06:45", mat: "Moldes pequeños chatos, pabilo corto con base y colores vivos." },
+          { id: "col13", order: 13, title: "Clase 13: Velas con efecto arena y texturas volcánicas", yt: "eJO0WzGiTJQ", duration: "09:50", mat: "Cera granulada, pigmentos minerales y calor sectorizado." },
+          { id: "col14", order: 14, title: "Clase 14: Velas esculturales en espiral con cera modelable", yt: "-QxxjcMhc8U", duration: "08:12", mat: "Velas cónicas calientes en agua tibia y torsión manual." },
+          { id: "col15", order: 15, title: "Clase 15: Velas tipo panal con cera de abeja teñida", yt: "YBm9L5iHB6s", duration: "07:30", mat: "Láminas teñidas artesanales, secador y corte en diagonal." },
+          { id: "col16", order: 16, title: "Clase 16: Velas en capas diagonales con inclinación en vaso", yt: "90HcelxIS-g", duration: "11:20", mat: "Soporte inclinado para vasos, 4 tonos de color y tiempos de cuajado." },
+          { id: "col17", order: 17, title: "Clase 17: Clase magistral en vivo: Secretos del color y quemado limpio", yt: "2sxO9LgAbH0", duration: "55:10", mat: "Sesión interactiva completa resolviendo fallas comunes de quemado." },
+          { id: "col18", order: 18, title: "Clase 18: Velas con efecto mosaico y retazos reutilizados", yt: "UGoOvXN9aEI", duration: "08:40", mat: "Cera sobrante picada en dados y vertido translúcido envolvente." },
+          { id: "col19", order: 19, title: "Clase 19: Acabado profesional: Pulido, sellado y brillo final", yt: "1yikoFZsD-U", duration: "09:15", mat: "Paño de microfibra, vaselina líquida y plancha térmica niveladora." }
+        ]
+      },
+
+      // 7. CURSO DE VELAS NAVIDEÑAS (7 CLASES)
+      {
+        id: "curso_velas_navidenas",
+        title: "Curso: Velas Navideñas para Decorar y Vender",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vn1", order: 1, title: "Clase 1: Velas temáticas de Navidad paso a paso (Técnica básica)", yt: "9QR-abICbbI", duration: "12:10", mat: "Cera de soya, mecha para vela, moldes navideños y colorantes rojo y verde." },
+          { id: "vn2", order: 2, title: "Clase 2: Faroles y fanales decorativos para Nochebuena", yt: "n6TIeFBgN_Q", duration: "14:25", mat: "Parafina translúcida, molde cilíndrico, hojas secas de pino y escarcha." },
+          { id: "vn3", order: 3, title: "Clase 3: Velas aromáticas con canela, naranja y clavo navideño", yt: "ePx3dxAl3ls", duration: "11:40", mat: "Cera de vaso, ramas de canela aromática, rodajas de naranja deshidratada." },
+          { id: "vn4", order: 4, title: "Clase 4: Diseños de velas con efecto nieve y pino escarchado", yt: "cIqjB4eN44M", duration: "10:50", mat: "Cera batida espumosa, brillantina fina blanca y mecha encerada." },
+          { id: "vn5", order: 5, title: "Clase 5: Velas en recipientes de cristal con lazos y decoraciones festivas", yt: "W2dIamEhjr0", duration: "13:15", mat: "Vasos de vidrio, etiquetas navideñas, cintas decorativas y mecha con chapeta." },
+          { id: "vn6", order: 6, title: "Clase 6: Centros de mesa con velas flotantes navideñas", yt: "SeUS9ut2AHc", duration: "09:30", mat: "Moldes pequeños de flores/estrellas, colorante dorado y agua para flotación." },
+          { id: "vn7", order: 7, title: "Clase 7: Empaque, presentación y combos de regalo navideño", yt: "Yr4nVT1Izcg", duration: "15:05", mat: "Cajas de cartón kraft, viruta de madera, papel celofán y tarjetas de felicitación." }
+        ]
+      },
+
+      // 8. CURSO: EMPRENDIMIENTO DE VELAS (15 CLASES)
+      {
+        id: "curso_emprendimiento_velas",
+        title: "Curso: Emprendimiento y Negocio de Velas Exitoso (15 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "ev1", order: 1, title: "Clase 1: Cómo iniciar tu marca de velas desde cero con poco dinero", yt: "SwOMW7oZoV8", duration: "14:20", mat: "Libreta de planificación, definición de nicho de mercado y catálogo inicial." },
+          { id: "ev2", order: 2, title: "Clase 2: Registro de costos, presupuestos y punto de equilibrio", yt: "i5IJCs-MJek", duration: "12:45", mat: "Plantilla de costos, calculadora de materias primas y horas de mano de obra." },
+          { id: "ev3", order: 3, title: "Clase 3: Búsqueda y selección de proveedores de cera y esencias", yt: "EVjVxCRyb5M", duration: "11:10", mat: "Listado de verificación de calidad de insumos y fichas técnicas." },
+          { id: "ev4", order: 4, title: "Clase 4: Creación de identidad de marca, logo y etiquetas atractivas", yt: "wg0dBxF871A", duration: "13:30", mat: "Papel autoadhesivo fotográfico, programas de diseño y medidas de etiquetas." },
+          { id: "ev5", order: 5, title: "Clase 5: Fotografía de producto con celular y buena iluminación natural", yt: "5Mt27YOsGSc", duration: "10:15", mat: "Fondos claros, luz de ventana, reflectores caseros y encuadre vertical." },
+          { id: "ev6", order: 6, title: "Clase 6: Cómo publicar y vender en Instagram y TikTok sin pagar anuncios", yt: "Uyi2qU_KyVU", duration: "16:40", mat: "Estructura de reels, videos del proceso artesanal y llamados a la acción." },
+          { id: "ev7", order: 7, title: "Clase 7: Atención al cliente y cierre de ventas efectivo por WhatsApp", yt: "7nwrEUutusg", duration: "12:05", mat: "Respuestas rápidas programadas, catálogo digital y mensajes de seguimiento." },
+          { id: "ev8", order: 8, title: "Clase 8: Packaging profesional, unboxing y experiencia del cliente", yt: "QBMs-Lt7Y40", duration: "14:55", mat: "Papel de seda, stickers de cierre, tarjetas de agradecimiento y aromatizador." },
+          { id: "ev9", order: 9, title: "Clase 9: Envíos nacionales seguros para evitar roturas o derretimiento", yt: "i1b_iPl377o", duration: "11:35", mat: "Plástico burbuja, cajas reforzadas, relleno y precintos de seguridad." },
+          { id: "ev10", order: 10, title: "Clase 10: Estrategia de promociones, lanzamientos y fechas especiales", yt: "lPLR0fr0IAM", duration: "13:50", mat: "Calendario comercial anual, preventas exclusivas y ofertas limitadas." },
+          { id: "ev11", order: 11, title: "Clase 11: Cómo conseguir ventas corporativas para empresas y eventos", yt: "ya54Sz_M2Mo", duration: "15:20", mat: "Propuestas comerciales en PDF, precios por volumen y muestras de cortesía." },
+          { id: "ev12", order: 12, title: "Clase 12: Manejo de inventario y optimización de tiempos de producción", yt: "KlF7TD9V_0M", duration: "12:30", mat: "Formatos de stock de cera, mechas y envases para evitar faltantes." },
+          { id: "ev13", order: 13, title: "Clase 13: Aspectos legales básicos, formalización y seguridad", yt: "NzdZeOfWqT4", duration: "14:10", mat: "Etiquetas de advertencia de seguridad, normas contra incendios y registros." },
+          { id: "ev14", order: 14, title: "Clase 14: Fidelización de clientas y cómo generar compras recurrentes", yt: "0fLSvF8Z_c8", duration: "10:45", mat: "Descuentos por recompra, programas de recomendación y club VIP." },
+          { id: "ev15", order: 15, title: "Clase 15: Plan de escalamiento para convertir tu hobby en empresa", yt: "OF8Doo7cCDU", duration: "18:25", mat: "Metas de facturación mensual, reinversión y expansión del catálogo." }
+        ]
+      },
+
+      // 9. CURSO DE VELAS ARTESANALES COMPLETO (12 CLASES)
+      {
+        id: "curso_velas_artesanales_pro",
+        title: "Curso: Velas Artesanales Completo (12 Clases Paso a Paso)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "vap1", order: 1, title: "Clase 1: Introducción a la cerería artesanal y tipos de ceras naturales", yt: "w0uVLOt-C2I", duration: "13:40", mat: "Cera de soya, cera de palma, cera de abejas y tablas comparativas de calor." },
+          { id: "vap2", order: 2, title: "Clase 2: Cálculo milimétrico de gramajes, mermas y concentración aromática", yt: "-eGj79duJe0", duration: "11:50", mat: "Balanza de precisión, densidad 0.9 y proporciones de fragancia del 6% al 10%." },
+          { id: "vap3", order: 3, title: "Clase 3: Selección científica del pabilo según diámetro y tipo de cera", yt: "msLv7J9SLx8", duration: "10:35", mat: "Pabilos de algodón trenzado, almas de papel, madera y medidor de calibre." },
+          { id: "vap4", order: 4, title: "Clase 4: Control térmico de fusión, vertido y prevención de 'wet spots'", yt: "MPNnUvYW-QA", duration: "12:15", mat: "Termómetro digital, pistola de calor y precalentamiento de vasos de cristal." },
+          { id: "vap5", order: 5, title: "Clase 5: Elaboración paso a paso de velas aromáticas en envase de vidrio", yt: "aLehZNXkzg4", duration: "15:20", mat: "Frascos de vidrio grueso, pabilo centrado, adhesivo de mecha y vertido suave." },
+          { id: "vap6", order: 6, title: "Clase 6: Fabricación de velas sin contenedor en moldes de silicona", yt: "5EnDri9essw", duration: "14:10", mat: "Cera de soya de alto punto de fusión, molde geométrico y desmoldado seguro." },
+          { id: "vap7", order: 7, title: "Clase 7: Corrección de rechupe, hundimientos y grietas superficiales", yt: "d31NAAK5sZE", duration: "09:45", mat: "Pistola de calor profesional y segunda capa de sellado niveladora." },
+          { id: "vap8", order: 8, title: "Clase 8: Técnicas de coloración con anilinas a la grasa y pigmentos", yt: "ZNt-xlXwumw", duration: "12:55", mat: "Pigmentos en hojuelas, anilina líquida y pruebas de color en papel secante." },
+          { id: "vap9", order: 9, title: "Clase 9: Velas con inclusiones botánicas y flores secas de seguridad", yt: "69h_RWXbA1A", duration: "13:30", mat: "Flores prensadas deshidratadas, fijación en pared y mecha centralizada." },
+          { id: "vap10", order: 10, title: "Clase 10: Elaboración de wax melts y tabletas aromáticas para quemador", yt: "Ui4cb2SxvQE", duration: "11:05", mat: "Moldes para bombones, cera vegetal y alta concentración aromática sin pabilo." },
+          { id: "vap11", order: 11, title: "Clase 11: Control de calidad: Prueba de quemado, piscina y retención de olor", yt: "o2pRWa_-9sc", duration: "14:40", mat: "Cronómetro, libreta de registro de horas y pruebas de difusión en ambiente." },
+          { id: "vap12", order: 12, title: "Clase 12: Acabado estético final, etiquetado y precauciones de uso", yt: "RfeEa1Cj4Y0", duration: "16:00", mat: "Etiquetas con advertencias obligatorias, recorte de mecha a 0.5 cm y sellado." }
+        ]
+      }
+    ];
+
+    // CATÁLOGO GENERAL POR CATEGORÍAS (TUTORIALES AISLADOS)
+    const catalog = [
+      // TÉCNICAS Y TIPS
+      { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
+      { id: "tip2", title: "3 Tips que me ayudaron a mejorar mis amigurumis", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "XybZZDEEthQ", duration: "16:06", mat: "Muestras de tejido y diferentes grosores de hilaza." },
+      { id: "tip3", title: "5 Tips clave para crear amigurumis profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "RtoeZoL67C4", duration: "10:13", mat: "Ganchillo fino y tejido de práctica." },
+      { id: "tip4", title: "Disminución Invisible: Lo mejor para amigurumis prolijos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "TinE9oBTmNc", duration: "04:07", mat: "Hilaza de muestra y marcador de puntos." },
+      { id: "tip5", title: "Nueva técnica de cambio de color sin escalones ni saltos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jIZL1mqaZOY", duration: "09:27", mat: "Dos colores contrastantes de hilaza de algodón." },
+      { id: "tip6", title: "Cómo realizar disminuciones y cambios de color perfectos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "xCTM50a3i9c", duration: "08:02", mat: "Ganchillo 2.5mm e hilaza suave." },
+      { id: "tip7", title: "Cómo colocar ojos de seguridad sin sufrir en el intento", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0W2qrvAHuvk", duration: "04:54", mat: "Ojos de seguridad con trabas y tejido de práctica." },
+      { id: "tip8", title: "La técnica perfecta para poner ojos de seguridad firmes", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "FYR8qhL4C7M", duration: "03:20", mat: "Arandelas de seguridad y pinzas." },
+      { id: "tip9", title: "Cómo bordar ojitos tiernos y nariz paso a paso", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "uNtEHnJME4o", duration: "10:53", mat: "Hilo mouliné negro, rosa y aguja de bordar fina." },
+      { id: "tip10", title: "Cómo bordar caritas en amigurumis: cejas y pestañas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "4gplLLWPEAA", duration: "02:40", mat: "Alfileres de guía y aguja lanera fina." },
+      { id: "tip11", title: "Tutorial completo: Cómo coser y ensamblar piezas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R-hlJoagL5g", duration: "52:36", mat: "Piezas tejidas, alfileres y aguja punta roma." },
+      { id: "tip12", title: "Cómo hacer y diseñar tu propio patrón amigurumi desde cero", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "dv3rNYYrDK0", duration: "21:27", mat: "Cuaderno cuadriculado, lápiz y cinta métrica." },
+
+      // POKÉMON
+      { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
+      { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
+      { id: "poke3", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
+      { id: "poke4", title: "Squirtle Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de pokemon", yt: "uRZrmMET2Bo", duration: "29:40", mat: "Lana celeste claro, caparazón marrón y borde crema." },
+      { id: "poke5", title: "Bulbasaur Pokémon Tutorial Nivel Intermedio", cat: "Amigurumis de pokemon", yt: "8kkWegwFuZg", duration: "37:04", mat: "Lana verde azulado, bulbo verde hoja y manchas oscuras." },
+      { id: "poke6", title: "Eevee Pokémon Tutorial Amigurumi", cat: "Amigurumis de pokemon", yt: "qOG63iTH_U8", duration: "25:45", mat: "Lana marrón claro, cuello crema esponjoso y orejas largas." },
+      { id: "poke7", title: "Snorlax Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "HVVIC3W7Rho", duration: "32:25", mat: "Lana azul marino, barriga color crema y garras bordadas." },
+      { id: "poke9", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
+      { id: "poke10", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
+
+      // SANRIO
+      { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
+      { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
+      { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
+      { id: "sanrio4", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
+      { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
+
+      // EL CHAVO DEL 8
+      { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
+      { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
+      { id: "chavo3", title: "La Chilindrina Amigurumi - Tutorial Paso a Paso (Parte 1)", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
+      { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
+
+      // MARIO BROS
+      { id: "mario1", title: "Super Mario Bros Amigurumi Completo Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
+      { id: "mario2", title: "Luigi Amigurumi Tutorial - Super Mario Bros Paso a Paso", cat: "Amigurumis de mario bross", yt: "WEumJ70l_tg", duration: "58:08", mat: "Lana verde bosque, azul overol, botones amarillos y bigote." },
+      { id: "mario3", title: "Yoshi Mario Bros - Crochet Amigurumi Tutorial", cat: "Amigurumis de mario bross", yt: "qeF2roklz8s", duration: "25:29", mat: "Lana verde manzana, blanco pecho, montura roja y botas." },
+      { id: "mario4", title: "Toad Mario Bros Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de mario bross", yt: "0IP6gwyaSJI", duration: "41:51", mat: "Lana blanca, chaleco azul y círculos rojos cosidos." },
+
+      // CANTANTES
+      { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida y ganchillo 2.5mm." },
+      { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 1)", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
+      { id: "cant3", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 2)", cat: "Amigurumis de cantantes", yt: "4PfUtC_U1qA", duration: "45:49", mat: "Detalles finales y sombrero tejido." },
+      { id: "cant4", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
+
+      // OTRAS CATEGORÍAS
+      { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera y ojitos 8mm." },
+      { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural y sonajero interior." },
+      { id: "bebe2", title: "Mantita de Apego Osito a Crochet (Parte 1)", cat: "Amigurumis para bebes", yt: "8mUmlnFoBXQ", duration: "31:59", mat: "Hilaza suave para bebé, relleno siliconado y ojitos bordados." },
+      { id: "prof1", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "1NIia8gAeJs", duration: "35:40", mat: "Lana blanca médica, celeste/rosa pastel, detalles bordados." },
+      { id: "rel1", title: "Virgen María Amigurumi - Tutorial Completo Paso a Paso", cat: "Amigurumis religiosos", yt: "UH-ghvSAHgc", duration: "42:15", mat: "Lana blanca perla, celeste cielo, color piel y corona dorada." },
+      { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Lana roja carmín, blanca rizada, pompón y ojitos negros." },
+      { id: "super1", title: "Spider-Man Colgante para Auto a Crochet", cat: "Amigurumis de super heroes", yt: "IQY6ZP71wHo", duration: "32:00", mat: "Lana roja y azul francia, hilo negro para bordar la telaraña." }
+    ];
+
+    let currentVideo = null;
+    let currentRounds = 0;
+    let selectedCategory = 'Todos';
+    let showingFavsOnly = false;
+    let currentUserEmail = null;
+    let userPlan = 'free';
+    let ytPlayer = null;
+    let timeCheckInterval = null;
+    let allUsersList = [];
+    let deferredPrompt = null;
+
+    const pricing = {
+      '1m': { proCOP: "$10.000 COP", proUSD: "$2.50 USD", premCOP: "$20.000 COP", premUSD: "$5.00 USD" },
+      '3m': { proCOP: "$27.000 COP", proUSD: "$6.75 USD", premCOP: "$51.000 COP", premUSD: "$12.75 USD" },
+      '6m': { proCOP: "$48.000 COP", proUSD: "$12.00 USD", premCOP: "$90.000 COP", premUSD: "$22.50 USD" },
+      '1y': { proCOP: "$66.000 COP", proUSD: "$16.50 USD", premCOP: "$132.000 COP", premUSD: "$33.00 USD" }
+    };
+
+    function setPlanPeriod(period, btn) {
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('proPriceCOP').innerText = pricing[period].proCOP;
+      document.getElementById('proPriceUSD').innerText = pricing[period].proUSD;
+      document.getElementById('premPriceCOP').innerText = pricing[period].premCOP;
+      document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
+    }
+
+    function init() {
+      // Ocultar botones de instalación si la app ya se ejecuta instalada (Standalone)
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        const bL = document.getElementById('btnInstallAppLogin');
+        const bM = document.getElementById('btnInstallAppMain');
+        if (bL) bL.style.display = 'none';
+        if (bM) bM.style.display = 'none';
+      }
+
+      const email = localStorage.getItem('user_email');
+      if (email) {
+        currentUserEmail = email.toLowerCase().trim();
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('appScreen').style.display = 'block';
+        checkUserMembership(currentUserEmail);
+        armarCandadoHistorial();
+      }
+    }
+
+    function switchAuthTab(type) {
+      const btnFree = document.getElementById('tabBtnFree');
+      const btnCode = document.getElementById('tabBtnCode');
+      const formFree = document.getElementById('freeLoginForm');
+      const formCode = document.getElementById('codeLoginForm');
+      document.getElementById('authAlert').style.display = 'none';
+
+      if (type === 'free') {
+        btnFree.classList.add('active');
+        btnCode.classList.remove('active');
+        formFree.style.display = 'block';
+        formCode.style.display = 'none';
+      } else {
+        btnCode.classList.add('active');
+        btnFree.classList.remove('active');
+        formFree.style.display = 'none';
+        formCode.style.display = 'block';
+      }
+    }
+
+    async function handleFreeLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('freeEmailInput').value.trim().toLowerCase();
+      if (email) {
+        localStorage.setItem('user_email', email);
+        try {
+          await db.collection("usuarios").doc(email).set({
+            email: email,
+            ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        } catch(err){}
+        init();
+      }
+    }
+
+    async function handleCodeLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('codeEmailInput').value.trim().toLowerCase();
+      const code = document.getElementById('initialPromoCode').value.trim().toUpperCase();
+      const alertBox = document.getElementById('authAlert');
+      const btn = document.getElementById('btnCodeSubmit');
+
+      if (!email || !code) return;
+
+      btn.disabled = true;
+      btn.innerText = 'Validando tu código...';
+
+      try {
+        const codeRef = db.collection("codigos").doc(code);
+        const doc = await codeRef.get();
+
+        if (!doc.exists) {
+          showAlert(alertBox, 'El código ingresado no existe.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Validar y Entrar';
+          return;
+        }
+
+        const data = doc.data();
+        if (data.usado === true) {
+          showAlert(alertBox, 'Este código ya fue utilizado por otra persona.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Validar y Entrar';
+          return;
+        }
+
+        const planAsignado = data.plan || 'premium';
+        const diasDuracion = parseInt(data.duracionDias) || 30;
+
+        const fechaExpira = new Date();
+        fechaExpira.setDate(fechaExpira.getDate() + diasDuracion);
+
+        const batch = db.batch();
+        batch.update(codeRef, {
+          usado: true,
+          usadoPor: email,
+          fechaUso: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const userRef = db.collection("usuarios").doc(email);
+        batch.set(userRef, {
+          email: email,
+          plan: planAsignado,
+          codigoCanjeado: code,
+          activadoEl: firebase.firestore.FieldValue.serverTimestamp(),
+          expira: firebase.firestore.Timestamp.fromDate(fechaExpira),
+          ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        await batch.commit();
+
+        localStorage.setItem('user_email', email);
+        localStorage.setItem('user_plan_' + email, planAsignado);
+        showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
+
+        setTimeout(() => { init(); }, 1200);
+
+      } catch (err) {
+        console.error("Error al validar:", err);
+        showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
+        btn.disabled = false;
+        btn.innerText = 'Validar y Entrar';
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('user_email');
+      currentUserEmail = null;
+      document.getElementById('appScreen').style.display = 'none';
+      document.getElementById('authScreen').style.display = 'flex';
+      switchAuthTab('free');
+    }
+
+    async function checkUserMembership(email) {
+      try {
+        const userDoc = await db.collection("usuarios").doc(email).get();
+        if (userDoc.exists) {
+          const data = userDoc.data();
+          const ahora = new Date();
+
+          if (data.expira && data.expira.toDate() > ahora) {
+            userPlan = data.plan || 'premium';
+            const diasRestantes = Math.ceil((data.expira.toDate() - ahora) / (1000 * 60 * 60 * 24));
+            
+            if (userPlan === 'premium') {
+              updateBadgeUI(`👑 PREMIUM (${diasRestantes}d)`, 'badge-premium');
+            } else {
+              updateBadgeUI(`🔵 PRO (${diasRestantes}d)`, 'badge-pro');
+            }
+          } else {
+            userPlan = 'free';
+            updateBadgeUI('PLAN GRATIS', 'badge-free');
+          }
+
+          await db.collection("usuarios").doc(email).set({
+            ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+
+        } else {
+          await db.collection("usuarios").doc(email).set({
+            email: email,
+            plan: 'free',
+            creado: firebase.firestore.FieldValue.serverTimestamp(),
+            ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          userPlan = 'free';
+          updateBadgeUI('PLAN GRATIS', 'badge-free');
+        }
+      } catch (err) {
+        userPlan = localStorage.getItem('user_plan_' + email) || 'free';
+        updateBadgeUI(userPlan === 'free' ? 'PLAN GRATIS' : userPlan.toUpperCase(), 'badge-free');
+      }
+      loadAppState();
+    }
+
+    function updateBadgeUI(text, badgeClass) {
+      const badge = document.getElementById('userBadge');
+      badge.innerText = text;
+      badge.className = 'user-plan-badge ' + badgeClass;
+      document.getElementById('vipBanner').style.display = (userPlan === 'premium') ? 'none' : 'flex';
+    }
+
+    function loadAppState() {
+      renderCourses();
+      renderGalleries();
+    }
+
+    function isLessonLockedInCourse(lesson, totalLessons) {
+      if (userPlan === 'premium' || userPlan === 'pro') return false;
+      const freeLimit = Math.ceil(totalLessons / 2);
+      return lesson.order > freeLimit;
+    }
+
+    function isSingleVideoLocked(v) {
+      if (userPlan === 'premium' || userPlan === 'pro') return false;
+      const t = v.title.toLowerCase();
+      return (t.includes('parte 2') || t.includes('parte 3') || t.includes('parte final') || t.includes('2/2'));
+    }
+
+    function parseDurationInSeconds(durStr) {
+      if (!durStr) return 0;
+      const parts = durStr.split(':').map(Number);
+      if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return 0;
+    }
+
+    // TOGGLE ACORDEÓN PARA ABRIR Y CERRAR CURSOS
+    function toggleCourseAccordion(courseId) {
+      const el = document.getElementById('course_box_' + courseId);
+      if (el) {
+        el.classList.toggle('open');
+      }
+    }
+
+    // RENDERIZADO DE CURSOS EN ORDEN CRONOLÓGICO CON DISEÑO PLEGABLE
+    function renderCourses() {
+      const container = document.getElementById('coursesContainer');
+      container.innerHTML = '';
+
+      if (selectedCategory !== 'Todos' && selectedCategory !== 'Cursos Completos') {
+        container.style.display = 'none';
+        return;
+      }
+      container.style.display = 'block';
+
+      courses.forEach((course, index) => {
+        const total = course.lessons.length;
+        const freeLimit = Math.ceil(total / 2);
+
+        let doneCount = 0;
+        course.lessons.forEach(l => {
+          if (localStorage.getItem('done_' + l.id) === 'true') doneCount++;
+        });
+
+        const box = document.createElement('div');
+        box.className = 'course-module-box';
+        box.id = 'course_box_' + course.id;
+
+        if (index === 0) {
+          box.classList.add('open');
+        }
+
+        box.innerHTML = `
+          <div class="course-header-toggle" onclick="toggleCourseAccordion('${course.id}')">
+            <div class="course-header-left">
+              <div class="course-title">${course.title}</div>
+              <div class="course-meta-txt">
+                📚 ${total} clases • ${doneCount} completadas • ${userPlan === 'free' ? `${freeLimit} libres (50%)` : '100% Desbloqueado'}
+              </div>
+            </div>
+            <div class="course-arrow-icon">▼</div>
+          </div>
+          <div class="course-content-body">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: ${(doneCount / total) * 100}%;"></div>
+            </div>
+            <div class="lessons-list"></div>
+          </div>
+        `;
+
+        const listEl = box.querySelector('.lessons-list');
+
+        course.lessons.forEach(l => {
+          const isDone = localStorage.getItem('done_' + l.id) === 'true';
+          const isLocked = isLessonLockedInCourse(l, total);
+
+          const item = document.createElement('div');
+          item.className = 'course-lesson-item' + (isDone ? ' done' : '') + (isLocked ? ' locked' : '');
+          item.onclick = (e) => {
+            e.stopPropagation();
+            if (isLocked) { openPlansModal(); } else { openVideo(l, course.title); }
+          };
+
+          item.innerHTML = `
+            <img src="https://img.youtube.com/vi/${l.yt}/hqdefault.jpg" class="lesson-thumb ${isLocked ? 'blur' : ''}" alt="${l.title}">
+            <div style="flex:1;">
+              <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">
+                CLASE ${l.order} (${l.duration}) ${isLocked ? '🔒 Bloqueado (Mitad PRO)' : ''}
+              </div>
+              <div style="font-size:0.8rem; font-weight:600; line-height:1.2;">${l.title}</div>
+            </div>
+            <div style="font-size:1.1rem;">${isLocked ? '🔒' : (isDone ? '✅' : '⚪')}</div>
+          `;
+          listEl.appendChild(item);
+        });
+
+        container.appendChild(box);
+      });
+    }
+
+    function renderGalleries() {
+      const container = document.getElementById('sectionsContainer');
+      container.innerHTML = '';
+
+      if (selectedCategory === 'Cursos Completos') {
+        return;
+      }
+
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = catalog;
+
+      if (showingFavsOnly) {
+        filtered = filtered.filter(v => localStorage.getItem('fav_' + v.id) === 'true');
+      }
+
+      if (selectedCategory !== 'Todos') {
+        filtered = filtered.filter(v => v.cat === selectedCategory);
+      }
+
+      if (query) {
+        filtered = filtered.filter(v => v.title.toLowerCase().includes(query) || v.cat.toLowerCase().includes(query));
+      }
+
+      const categories = [...new Set(filtered.map(v => v.cat))];
+
+      if (categories.length === 0 && selectedCategory !== 'Todos') {
+        container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay tutoriales que coincidan con la búsqueda.</div>`;
+        return;
+      }
+
+      categories.forEach(catName => {
+        const catVideos = filtered.filter(v => v.cat === catName);
+
+        const secHead = document.createElement('div');
+        secHead.className = 'section-head';
+        secHead.innerHTML = `<h2>${catName}</h2><span style="font-size:0.75rem; color:var(--text-muted);">${catVideos.length} tutoriales</span>`;
+        container.appendChild(secHead);
+
+        const carousel = document.createElement('div');
+        carousel.className = 'carousel';
+
+        catVideos.forEach(v => {
+          const isFav = localStorage.getItem('fav_' + v.id) === 'true';
+          const locked = isSingleVideoLocked(v);
+
+          const card = document.createElement('div');
+          card.className = 'video-card';
+          card.onclick = (e) => {
+            if (e.target.closest('.card-fav-btn')) return;
+            if (locked) { openPlansModal(); } else { openVideo(v); }
+          };
+
+          card.innerHTML = `
+            <div class="thumb-wrapper">
+              <span class="tag-badge">${v.cat.split(' ')[0]}</span>
+              <span class="tag-duration">${v.duration}</span>
+              ${locked ? '<div class="lock-overlay-badge"><span>🔒</span><span>PRO / PREMIUM</span></div>' : ''}
+              <button class="card-fav-btn" onclick="toggleCardFav(event, '${v.id}')">${isFav ? '❤️' : '🤍'}</button>
+              <img src="https://img.youtube.com/vi/${v.yt}/hqdefault.jpg" alt="${v.title}">
+            </div>
+            <div class="card-info">
+              <div class="card-title">${v.title}</div>
+            </div>
+          `;
+          carousel.appendChild(card);
+        });
+
+        container.appendChild(carousel);
+      });
+    }
+
+    function setCategoryFilter(category, btn) {
+      selectedCategory = category;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCourses();
+      renderGalleries();
+    }
+
+    function handleFilter() {
+      renderCourses();
+      renderGalleries();
+    }
+
+    function toggleFavView() {
+      if (userPlan === 'free') { openPlansModal(); return; }
+      showingFavsOnly = !showingFavsOnly;
+      const btn = document.getElementById('btnFavFilter');
+      if (showingFavsOnly) btn.classList.add('active');
+      else btn.classList.remove('active');
+      renderGalleries();
+    }
+
+    function toggleCardFav(e, id) {
+      e.stopPropagation();
+      if (userPlan === 'free') { openPlansModal(); return; }
+      const current = localStorage.getItem('fav_' + id) === 'true';
+      localStorage.setItem('fav_' + id, !current);
+      renderGalleries();
+    }
+
+    function handleRoundChange(delta) {
+      if (userPlan === 'free') { openPlansModal(); return; }
+      currentRounds = Math.max(0, currentRounds + delta);
+      document.getElementById('roundNumber').innerText = currentRounds;
+      if (currentVideo) {
+        localStorage.setItem('round_' + currentVideo.id, currentRounds);
+      }
+    }
+
+    function openVideo(v, courseTitle = null) {
+      currentVideo = v;
+      document.getElementById('modalTitle').innerText = v.title;
+      document.getElementById('modalCategory').innerText = (courseTitle ? courseTitle : v.cat) + ' • Duración: ' + v.duration;
+      document.getElementById('modalMaterials').innerText = v.mat || 'Materiales e implementos sugeridos en la clase.';
+      document.getElementById('timeLockCurtain').style.display = 'none';
+
+      currentRounds = parseInt(localStorage.getItem('round_' + v.id) || '0');
+      document.getElementById('roundNumber').innerText = currentRounds;
+
+      updateModalButtons();
+
+      const totalSecs = parseDurationInSeconds(v.duration);
+      const isLongVideo = totalSecs >= 3600;
+
+      if (ytPlayer && ytPlayer.destroy) {
+        ytPlayer.destroy();
+      }
+      clearInterval(timeCheckInterval);
+
+      document.getElementById('videoModal').style.display = 'block';
+      history.pushState({ modalOpen: true }, '');
+
+      ytPlayer = new YT.Player('player', {
+        videoId: v.yt,
+        playerVars: { autoplay: 1, rel: 0, modestbranding: 1 },
+        events: {
+          'onStateChange': (event) => {
+            if (event.data === YT.PlayerState.PLAYING && userPlan === 'free' && isLongVideo) {
+              clearInterval(timeCheckInterval);
+              timeCheckInterval = setInterval(() => {
+                const current = ytPlayer.getCurrentTime();
+                const limit = totalSecs * 0.8;
+                if (current >= limit) {
+                  ytPlayer.pauseVideo();
+                  clearInterval(timeCheckInterval);
+                  document.getElementById('timeLockCurtain').style.display = 'flex';
+                }
+              }, 1000);
+            }
+          }
+        }
+      });
+    }
+
+    function updateModalButtons() {
+      if (!currentVideo) return;
+      const isDone = localStorage.getItem('done_' + currentVideo.id) === 'true';
+      const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
+
+      const btnDone = document.getElementById('btnMarkDone');
+      if (isDone) {
+        btnDone.classList.add('marked');
+        document.getElementById('markIcon').innerText = '✅';
+        document.getElementById('markText').innerText = 'Completado';
+      } else {
+        btnDone.classList.remove('marked');
+        document.getElementById('markIcon').innerText = '✓';
+        document.getElementById('markText').innerText = 'Marcar como visto';
+      }
+
+      document.getElementById('favModalIcon').innerText = isFav ? '❤️' : '🤍';
+      document.getElementById('favModalText').innerText = isFav ? 'En favoritos' : 'Favorito';
+    }
+
+    function toggleCurrentDone() {
+      if (!currentVideo) return;
+      const isDone = localStorage.getItem('done_' + currentVideo.id) === 'true';
+      localStorage.setItem('done_' + currentVideo.id, !isDone);
+      updateModalButtons();
+      renderCourses();
+    }
+
+    function toggleCurrentFav() {
+      if (!currentVideo) return;
+      if (userPlan === 'free') { openPlansModal(); return; }
+      const isFav = localStorage.getItem('fav_' + currentVideo.id) === 'true';
+      localStorage.setItem('fav_' + currentVideo.id, !isFav);
+      updateModalButtons();
+      renderGalleries();
+    }
+
+    function closeModal() {
+      document.getElementById('videoModal').style.display = 'none';
+      clearInterval(timeCheckInterval);
+      if (ytPlayer && ytPlayer.stopVideo) { ytPlayer.stopVideo(); }
+    }
+
+    function openPlansModal() {
+      document.getElementById('modalRedeemAlert').style.display = 'none';
+      document.getElementById('modalPromoCodeInput').value = '';
+      document.getElementById('plansModal').style.display = 'block';
+      history.pushState({ modalOpen: true }, '');
+    }
+
+    function closePlansModal() { document.getElementById('plansModal').style.display = 'none'; }
+
+    // GESTIÓN DEL BOTÓN ATRÁS DEL CELULAR (EVITA SALIR DE LA APP)
+    window.addEventListener('popstate', (e) => {
+      const videoM = document.getElementById('videoModal');
+      const plansM = document.getElementById('plansModal');
+      const adminM = document.getElementById('adminModal');
+
+      let modalAbierto = false;
+
+      // 1. Si hay un modal o video abierto, cerrarlo
+      if (videoM && videoM.style.display === 'block') {
+        closeModal();
+        modalAbierto = true;
+      }
+      if (plansM && plansM.style.display === 'block') {
+        closePlansModal();
+        modalAbierto = true;
+      }
+      if (adminM && adminM.style.display === 'block') {
+        closeAdminModal();
+        modalAbierto = true;
+      }
+
+      // 2. Reactivar el candado inmediatamente para no salir de la página
+      armarCandadoHistorial();
+
+      // 3. Si estaba en la pantalla principal sin modales, mostrar aviso
+      if (!modalAbierto && currentUserEmail && document.getElementById('appScreen').style.display !== 'none') {
+        mostrarAvisoPermanencia();
+      }
+    });
+
+    // Pequeño aviso visual flotante al intentar dar atrás
+    function mostrarAvisoPermanencia() {
+      let toast = document.getElementById('stayToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'stayToast';
+        toast.style.position = 'fixed';
+        toast.style.bottom = '30px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = 'rgba(45, 38, 33, 0.92)';
+        toast.style.color = '#fff';
+        toast.style.padding = '10px 18px';
+        toast.style.borderRadius = '20px';
+        toast.style.fontSize = '0.78rem';
+        toast.style.fontWeight = '600';
+        toast.style.zIndex = '9999';
+        toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+        toast.style.transition = 'opacity 0.3s ease';
+        toast.innerText = 'Usa el botón "Salir" arriba para cerrar sesión';
+        document.body.appendChild(toast);
+      }
+      toast.style.display = 'block';
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => { toast.style.display = 'none'; }, 300);
+      }, 2000);
+    }
+
+    // CAPTURA Y LANZAMIENTO DEL PROMPT DE INSTALACIÓN (PWA)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const bLogin = document.getElementById('btnInstallAppLogin');
+      const bMain = document.getElementById('btnInstallAppMain');
+      if (bLogin) bLogin.style.display = 'flex';
+      if (bMain) bMain.style.display = 'flex';
+    });
+
+    function triggerPwaInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            const bLogin = document.getElementById('btnInstallAppLogin');
+            const bMain = document.getElementById('btnInstallAppMain');
+            if (bLogin) bLogin.style.display = 'none';
+            if (bMain) bMain.style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        // Guía universal en caso de que el navegador no active el diálogo directo
+        const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (esIOS) {
+          alert('Para instalar en iPhone:\n1. Toca el botón Compartir (el cuadro con la flecha arriba).\n2. Selecciona "Agregar a pantalla de inicio".');
+        } else {
+          alert('Para instalar en tu celular:\n1. Toca los tres puntos (⋮) en la esquina superior de tu navegador.\n2. Elige "Instalar aplicación" o "Agregar a pantalla principal".');
+        }
+      }
+    }
+
+    async function redeemPromoCodeFromModal() {
+      const input = document.getElementById('modalPromoCodeInput');
+      const code = input.value.trim().toUpperCase();
+      const alertBox = document.getElementById('modalRedeemAlert');
+      const btn = document.getElementById('btnModalRedeemSubmit');
+
+      if (!code) { showAlert(alertBox, 'Escribe un código para validar.', 'error'); return; }
+
+      btn.disabled = true;
+      btn.innerText = 'Validando en el sistema...';
+
+      try {
+        const codeRef = db.collection("codigos").doc(code);
+        const doc = await codeRef.get();
+
+        if (!doc.exists) {
+          showAlert(alertBox, 'El código ingresado no existe o es incorrecto.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Activar mi Membresía';
+          return;
+        }
+
+        const data = doc.data();
+        if (data.usado === true) {
+          showAlert(alertBox, 'Este código ya fue utilizado por otra cuenta.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Activar mi Membresía';
+          return;
+        }
+
+        const planAsignado = data.plan || 'premium';
+        const diasDuracion = parseInt(data.duracionDias) || 30;
+
+        const fechaExpira = new Date();
+        fechaExpira.setDate(fechaExpira.getDate() + diasDuracion);
+
+        const batch = db.batch();
+        batch.update(codeRef, {
+          usado: true,
+          usadoPor: currentUserEmail,
+          fechaUso: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const userRef = db.collection("usuarios").doc(currentUserEmail);
+        batch.set(userRef, {
+          email: currentUserEmail,
+          plan: planAsignado,
+          codigoCanjeado: code,
+          activadoEl: firebase.firestore.FieldValue.serverTimestamp(),
+          expira: firebase.firestore.Timestamp.fromDate(fechaExpira),
+          ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        await batch.commit();
+
+        userPlan = planAsignado;
+        localStorage.setItem('user_plan_' + currentUserEmail, planAsignado);
+        showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
+        
+        updateBadgeUI(`${planAsignado === 'premium' ? '👑 PREMIUM' : '🔵 PRO'} (${diasDuracion}d)`, planAsignado === 'premium' ? 'badge-premium' : 'badge-pro');
+
+        setTimeout(() => {
+          closePlansModal();
+          btn.disabled = false;
+          btn.innerText = 'Activar mi Membresía';
+          input.value = '';
+          alertBox.style.display = 'none';
+          renderCourses();
+          renderGalleries();
+        }, 1800);
+
+      } catch (err) {
+        console.error("Error al canjear:", err);
+        showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
+        btn.disabled = false;
+        btn.innerText = 'Activar mi Membresía';
+      }
+    }
+
+    function showAlert(box, msg, type) {
+      box.innerText = msg;
+      box.className = 'alert-msg ' + type;
+      box.style.display = 'block';
+    }
+
+    // PANEL ADMINISTRATIVO
+    let generatedList = [];
+
+    function openAdminModal() {
+      const clave = prompt("Ingresa la clave de administrador:");
+      if (clave === "admin123") {
+        document.getElementById('adminResultBox').style.display = 'none';
+        document.getElementById('adminModal').style.display = 'block';
+        switchAdminSubTab('gencodes');
+        fetchRegisteredUsers();
+        history.pushState({ modalOpen: true }, '');
+      } else if (clave !== null) {
+        alert("Clave incorrecta.");
+      }
+    }
+
+    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+    function switchAdminSubTab(tab) {
+      const btnGen = document.getElementById('tabBtnGenCodes');
+      const btnUsers = document.getElementById('tabBtnUsersList');
+      const secGen = document.getElementById('adminGenSection');
+      const secUsers = document.getElementById('adminUsersSection');
+
+      if (tab === 'gencodes') {
+        btnGen.classList.add('active');
+        btnUsers.classList.remove('active');
+        secGen.style.display = 'block';
+        secUsers.style.display = 'none';
+      } else {
+        btnUsers.classList.add('active');
+        btnGen.classList.remove('active');
+        secGen.style.display = 'none';
+        secUsers.style.display = 'block';
+        fetchRegisteredUsers();
+      }
+    }
+
+    function autoUpdatePrefix() {
+      const p = document.getElementById('adminPlanType').value.toUpperCase();
+      const d = document.getElementById('adminDuration').value;
+      document.getElementById('adminPrefix').value = `${p}${d}`;
+    }
+
+    async function handleAdminGenerate() {
+      const plan = document.getElementById('adminPlanType').value;
+      const duracion = parseInt(document.getElementById('adminDuration').value);
+      const prefijo = document.getElementById('adminPrefix').value.trim().toUpperCase() || "CODE";
+      const qty = parseInt(document.getElementById('adminQty').value) || 5;
+      const btn = document.getElementById('btnAdminGen');
+
+      btn.disabled = true;
+      btn.innerText = `Generando ${qty} códigos en Firebase...`;
+      generatedList = [];
+
+      try {
+        const batch = db.batch();
+
+        for (let i = 0; i < qty; i++) {
+          const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+          const codigo = `${prefijo}-${rand}`;
+          generatedList.push(codigo);
+
+          const ref = db.collection("codigos").doc(codigo);
+          batch.set(ref, {
+            codigo: codigo,
+            plan: plan,
+            duracionDias: duracion,
+            usado: false,
+            usadoPor: null,
+            creadoEl: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+
+        await batch.commit();
+
+        document.getElementById('adminCodesList').innerText = generatedList.join("\n");
+        document.getElementById('adminResultBox').style.display = 'block';
+        btn.disabled = false;
+        btn.innerText = "¡Códigos Creados con Éxito!";
+        setTimeout(() => { btn.innerText = "Generar Más Códigos"; }, 2000);
+
+      } catch (err) {
+        console.error("Error al generar códigos:", err);
+        alert("Error de conexión con Firebase. Revisa las reglas de seguridad.");
+        btn.disabled = false;
+        btn.innerText = "Generar Códigos en Firebase";
+      }
+    }
+
+    function copyGeneratedCodes() {
+      if (generatedList.length > 0) {
+        navigator.clipboard.writeText(generatedList.join("\n")).then(() => {
+          alert("¡Lista de códigos copiada al portapapeles! Ya puedes enviárselos a tus alumnas.");
+        });
+      }
+    }
+
+    async function fetchRegisteredUsers() {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Consultando base de datos...</td></tr>';
+
+      try {
+        const snap = await db.collection("usuarios").get();
+        allUsersList = [];
+        const ahora = new Date();
+
+        snap.forEach(doc => {
+          const u = doc.data();
+          allUsersList.push(u);
+        });
+
+        document.getElementById('userCountBadge').innerText = allUsersList.length;
+        renderUsersTable(allUsersList);
+
+      } catch (err) {
+        console.error("Error al cargar usuarias:", err);
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#c62828;">Error al leer usuarios de Firestore.</td></tr>';
+      }
+    }
+
+    function renderUsersTable(users) {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">No hay registros en la base de datos.</td></tr>';
+        return;
+      }
+
+      const ahora = new Date();
+
+      users.forEach(u => {
+        let planTag = `<span class="user-status-pill status-free">GRATIS</span>`;
+        let statusTag = `<span style="color:#888;">Sin vencimiento</span>`;
+
+        if (u.plan && u.plan !== 'free') {
+          const isPremium = u.plan === 'premium';
+          planTag = `<span class="user-status-pill ${isPremium ? 'status-active' : 'status-free'}" style="${isPremium ? 'background:#fef3c7; color:#b45309;' : 'background:#e0f2fe; color:#0369a1;'}">${u.plan.toUpperCase()}</span>`;
+
+          if (u.expira) {
+            const expDate = u.expira.toDate();
+            if (expDate > ahora) {
+              const dias = Math.ceil((expDate - ahora) / (1000 * 60 * 60 * 24));
+              statusTag = `<span class="user-status-pill status-active">Activo (${dias}d)</span>`;
+            } else {
+              statusTag = `<span class="user-status-pill status-expired">Vencido</span>`;
+            }
+          }
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight:600; word-break:break-all;">${u.email}</td>
+          <td>${planTag}</td>
+          <td>${statusTag}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterUsersTable() {
+      const q = document.getElementById('adminSearchUser').value.toLowerCase();
+      const filtered = allUsersList.filter(u => u.email.toLowerCase().includes(q));
+      renderUsersTable(filtered);
+    }
+
+    // BLOQUEADOR PERMANENTE DE RETROCESO (REGLA DE NO SALIR DE LA APP)
+    function armarCandadoHistorial() {
+      window.history.pushState({ appLocked: true }, "", window.location.href);
+    }
+
+    // ACTIVACIÓN DE DESCARGA / INSTALACIÓN (SERVICE WORKER)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch((err) => {
+          console.log('SW no registrado', err);
+        });
+      });
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
