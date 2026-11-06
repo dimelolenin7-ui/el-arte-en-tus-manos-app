@@ -6,6 +6,7 @@
   <title>El Arte en Tus Manos | Academia de Amigurumis y Manualidades</title>
   
   <meta name="theme-color" content="#b35a38">
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/jpeg" href="IMG-20261103-WA0013.jpg">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2071,6 +2072,7 @@
       clearInterval(timeCheckInterval);
 
       document.getElementById('videoModal').style.display = 'block';
+      history.pushState({ modalOpen: true }, '');
 
       ytPlayer = new YT.Player('player', {
         videoId: v.yt,
@@ -2141,6 +2143,7 @@
       document.getElementById('modalRedeemAlert').style.display = 'none';
       document.getElementById('modalPromoCodeInput').value = '';
       document.getElementById('plansModal').style.display = 'block';
+      history.pushState({ modalOpen: true }, '');
     }
 
     function closePlansModal() { document.getElementById('plansModal').style.display = 'none'; }
@@ -2240,6 +2243,7 @@
         document.getElementById('adminModal').style.display = 'block';
         switchAdminSubTab('gencodes');
         fetchRegisteredUsers();
+        history.pushState({ modalOpen: true }, '');
       } else if (clave !== null) {
         alert("Clave incorrecta.");
       }
@@ -2460,6 +2464,15 @@
         toast.style.opacity = '0';
         setTimeout(() => { toast.style.display = 'none'; }, 300);
       }, 2000);
+    }
+
+    // ACTIVACIÓN DE DESCARGA / INSTALACIÓN (PWA)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch((err) => {
+          console.log('SW no registrado', err);
+        });
+      });
     }
 
     window.onload = init;
