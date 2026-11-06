@@ -66,7 +66,7 @@
       width: 100%;
     }
 
-    /* BOTÓN INSTALACIÓN APP SIEMPRE VISIBLE EN WEB */
+    /* BOTÓN INSTALACIÓN APP */
     .btn-install-banner {
       display: flex;
       align-items: center;
@@ -407,7 +407,7 @@
       border-color: var(--primary);
     }
 
-    /* MÓDULOS DE CURSOS PLEGABLES (ACORDEÓN) */
+    /* MÓDULOS DE CURSOS PLEGABLES */
     .course-module-box {
       background: #fff;
       border-radius: var(--radius-md);
@@ -1092,7 +1092,6 @@
       <h1>El Arte en Tus Manos</h1>
       <p>Academia interactiva oficial y biblioteca de amigurumis y manualidades.</p>
 
-      <!-- BOTÓN DIRECTO DE INSTALACIÓN EN LOGIN -->
       <button type="button" class="btn-install-banner" id="btnInstallAppLogin" onclick="triggerPwaInstall()">
         📲 Instalar App en tu Celular
       </button>
@@ -1104,7 +1103,6 @@
 
       <div id="authAlert" class="alert-msg"></div>
 
-      <!-- FORMULARIO ACCESO GRATIS -->
       <form id="freeLoginForm" onsubmit="handleFreeLogin(event)">
         <div class="input-group">
           <label for="freeEmailInput">Ingresa tu correo electrónico</label>
@@ -1113,7 +1111,6 @@
         <button type="submit" class="btn-main">Entrar a la Academia (Gratis)</button>
       </form>
 
-      <!-- FORMULARIO ACTIVAR CON CÓDIGO -->
       <form id="codeLoginForm" onsubmit="handleCodeLogin(event)" style="display:none;">
         <div class="input-group">
           <label for="codeEmailInput">Tu correo electrónico</label>
@@ -1154,12 +1151,10 @@
 
     <div class="container">
 
-      <!-- BOTÓN DIRECTO DE INSTALACIÓN DENTRO DE LA ACADEMIA -->
       <button type="button" class="btn-install-banner" id="btnInstallAppMain" onclick="triggerPwaInstall()">
         📲 Instalar App en tu Celular (Acceso Directo)
       </button>
       
-      <!-- BANNER DE UPGRADE -->
       <div id="vipBanner" class="vip-upgrade-card" style="display:none;">
         <div>
           <h4>¿Compraste tu membresía o curso?</h4>
@@ -1168,13 +1163,11 @@
         <button class="btn-claim-pill" onclick="openPlansModal()">Activar Aquí</button>
       </div>
 
-      <!-- BUSCADOR -->
       <div class="search-bar">
         <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Buscar por tema, velas, jabones, yeso, personajes o técnicas..." onkeyup="handleFilter()">
+        <input type="text" id="searchInput" placeholder="Buscar por tema, velas, jabones, yeso, resina, porcelana..." onkeyup="handleFilter()">
       </div>
 
-      <!-- PÍLDORAS -->
       <div class="pill-filters" id="pillsContainer">
         <button class="pill-btn active" onclick="setCategoryFilter('Todos', this)">✨ Todos</button>
         <button class="pill-btn" onclick="setCategoryFilter('Cursos Completos', this)">🎓 Cursos Completos</button>
@@ -1192,7 +1185,7 @@
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
       </div>
 
-      <!-- CONTENEDOR DINÁMICO DE CURSOS PLEGABLES (ORDEN CRONOLÓGICO) -->
+      <!-- CONTENEDOR DINÁMICO DE CURSOS PLEGABLES -->
       <div id="coursesContainer"></div>
 
       <!-- SECCIONES DE CARRUSELES POR CATEGORÍA -->
@@ -1201,7 +1194,6 @@
     </div>
   </main>
 
-  <!-- FOOTER DL COMPANY -->
   <footer class="dl-footer">
     <img src="file_00000000bf5081f5835c0e1472172313.png" alt="DL COMPANY -TECNOLOGY-" class="dl-footer-logo">
     <p>Desarrollado y administrado por <span class="dl-brand">DL COMPANY -TECNOLOGY-</span></p>
@@ -1274,7 +1266,6 @@
         </div>
 
         <div class="plans-cards-grid">
-          <!-- PLAN PRO -->
           <div class="plan-card-item">
             <div class="plan-header-row">
               <span class="plan-title-txt">🔵 Plan PRO</span>
@@ -1296,7 +1287,6 @@
             </div>
           </div>
 
-          <!-- PLAN PREMIUM -->
           <div class="plan-card-item featured">
             <span class="badge-featured-tag">Recomendado</span>
             <div class="plan-header-row">
@@ -1321,7 +1311,6 @@
           </div>
         </div>
 
-        <!-- SECCIÓN DE CANJE DE CÓDIGO -->
         <div class="redeem-section-inside">
           <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">¿Ya compraste tu mes o curso?</div>
           <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Canjea aquí tu código entregado tras pagar:</div>
@@ -1350,7 +1339,6 @@
           <button type="button" class="admin-nav-btn" id="tabBtnUsersList" onclick="switchAdminSubTab('userslist')">👥 Ver Usuarias (<span id="userCountBadge">0</span>)</button>
         </div>
 
-        <!-- GENERADOR -->
         <div id="adminGenSection">
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:10px; text-align:left;">
             <div class="input-group" style="margin:0;">
@@ -1382,7 +1370,6 @@
           </div>
         </div>
 
-        <!-- LISTA USUARIAS -->
         <div id="adminUsersSection" style="display:none;">
           <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." onkeyup="filterUsersTable()" style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:8px;">
           
@@ -1409,7 +1396,6 @@
   </div>
 
   <script>
-    // CONFIGURACIÓN OFICIAL DE FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyB1HEIr7bK8erNQ64_Ln78MeNxIJlVI_1E",
       authDomain: "el-arte-en-tus-manos.firebaseapp.com",
@@ -1422,7 +1408,6 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // LISTADO OFICIAL DE CURSOS EN ORDEN CRONOLÓGICO (DE MÁS ANTIGUO A MÁS RECIENTE)
     const courses = [
       // 1. RETO 10 DÍAS DE AMIGURUMIS
       {
@@ -1443,7 +1428,7 @@
         ]
       },
 
-      // 2. CURSO DE VELAS ARTESANALES (HADA CREATIVA - 6 CLASES)
+      // 2. CURSO DE VELAS ARTESANALES (HADA CREATIVA)
       {
         id: "curso_velas_hada",
         title: "Curso: Velas Artesanales y Florivelas (Hada Creativa)",
@@ -1458,7 +1443,7 @@
         ]
       },
 
-      // 3. CURSO DE VELAS CASERAS PASO A PASO (15 CLASES)
+      // 3. CURSO DE VELAS CASERAS PASO A PASO
       {
         id: "curso_velas_caseras",
         title: "Curso: Velas Caseras Paso a Paso (15 Clases)",
@@ -1482,7 +1467,7 @@
         ]
       },
 
-      // 4. CURSO: EMPRENDE CON VELAS AROMÁTICAS (YELLINETH EMPRENDE - 7 CLASES)
+      // 4. CURSO: EMPRENDE CON VELAS AROMÁTICAS
       {
         id: "curso_velas_emprende",
         title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
@@ -1498,7 +1483,7 @@
         ]
       },
 
-      // 5. CURSO BÁSICO DE VELAS (PINK BOSS LAB - 8 CLASES)
+      // 5. CURSO BÁSICO DE VELAS (PINK BOSS LAB)
       {
         id: "curso_basico_pinkboss",
         title: "Curso: Básico de Velas (Pink Boss Lab)",
@@ -1515,7 +1500,7 @@
         ]
       },
 
-      // 6. CURSO DE VELAS DE COLORES Y TÉCNICAS ESPECIALES (19 CLASES)
+      // 6. CURSO DE VELAS DE COLORES Y TÉCNICAS ESPECIALES
       {
         id: "curso_velas_colores",
         title: "Curso: Velas de Colores, Marmolados y Diseños Especiales",
@@ -1543,7 +1528,7 @@
         ]
       },
 
-      // 7. CURSO DE VELAS NAVIDEÑAS (7 CLASES)
+      // 7. CURSO DE VELAS NAVIDEÑAS
       {
         id: "curso_velas_navidenas",
         title: "Curso: Velas Navideñas para Decorar y Vender",
@@ -1559,7 +1544,7 @@
         ]
       },
 
-      // 8. CURSO: EMPRENDIMIENTO DE VELAS (15 CLASES)
+      // 8. CURSO: EMPRENDIMIENTO DE VELAS
       {
         id: "curso_emprendimiento_velas",
         title: "Curso: Emprendimiento y Negocio de Velas Exitoso (15 Clases)",
@@ -1583,7 +1568,7 @@
         ]
       },
 
-      // 9. CURSO DE VELAS ARTESANALES COMPLETO (12 CLASES)
+      // 9. CURSO DE VELAS ARTESANALES COMPLETO
       {
         id: "curso_velas_artesanales_pro",
         title: "Curso: Velas Artesanales Completo (12 Clases Paso a Paso)",
@@ -1631,7 +1616,7 @@
         ]
       },
 
-      // 11. CURSO DE JABONES DE GLICERINA (BIOARMONÍA CORPORAL - 5 CLASES)
+      // 11. CURSO DE JABONES DE GLICERINA (BIOARMONÍA CORPORAL)
       {
         id: "curso_jabones_bioarmonia",
         title: "Curso: Taller Completo de Jabones de Glicerina (BioArmonía)",
@@ -1645,7 +1630,7 @@
         ]
       },
 
-      // 12. CURSO COMPLETO: JABONES DE GLICERINA Y TÉCNICAS DE DISEÑO (21 CLASES)
+      // 12. CURSO COMPLETO: JABONES DE GLICERINA Y TÉCNICAS DE DISEÑO
       {
         id: "curso_jabones_kameraki",
         title: "Curso: Jabones de Glicerina y Técnicas de Diseño (21 Clases)",
@@ -1675,7 +1660,7 @@
         ]
       },
 
-      // 13. CURSO DE RECIPIENTES DE YESO PARA VELAS Y MACETAS (22 CLASES)
+      // 13. CURSO DE RECIPIENTES DE YESO PARA VELAS Y MACETAS
       {
         id: "curso_recipientes_yeso",
         title: "Curso: Recipientes de Yeso para Velas y Macetas (22 Clases)",
@@ -1704,10 +1689,196 @@
           { id: "ry21", order: 21, title: "Clase 21: Montaje completo de vela aromática directa en el contenedor de yeso", yt: "vCJ-tLpAzFI", duration: "19:05", mat: "Contenedor sellado, pabilo encerado centrado y vertido de cera de soja." },
           { id: "ry22", order: 22, title: "Clase 22: Desmoldado y armado paso a paso de joyeros porta vela con flores", yt: "c_spL76QYpI", duration: "39:30", mat: "Técnica con tornillo de soporte interior, sellado con pegamento blanco y ensamble con velas de flor." }
         ]
+      },
+
+      // 14. CURSO DE RESINA EPÓXICA PARA PRINCIPIANTES
+      {
+        id: "curso_resina_principiantes",
+        title: "Curso: Resina Epóxica para Principiantes (16 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "rp1", order: 1, title: "Clase 1: Domina la resina epóxica desde cero: Componente A y B 1 a 1", yt: "hy4zM1jo51Q", duration: "44:17", mat: "Resina epóxica, catalizador, vasos medidores, palitos de madera, guantes y mascarilla." },
+          { id: "rp2", order: 2, title: "Clase 2: Elaboración de llaveros de letras personalizados con flores secas", yt: "4e7BTxlOa0A", duration: "15:20", mat: "Molde de abecedario en silicona, flores prensadas deshidratadas y pinzas." },
+          { id: "rp3", order: 3, title: "Clase 3: Lapiceros y bolígrafos recargables con pajilla interior", yt: "izSK26gbYoM", duration: "12:45", mat: "Molde para bolígrafo, repuesto tipo Bic, pajilla guía y resina transparente." },
+          { id: "rp4", order: 4, title: "Clase 4: Separadores de libros translúcidos con borla de hilo", yt: "uXRimkX7Pnk", duration: "14:10", mat: "Molde plano de marcapáginas, micas con destellos y borlas de seda." },
+          { id: "rp5", order: 5, title: "Clase 5: Eliminación total de burbujas con encendedor y calor", yt: "mYgMf_xVIIs", duration: "09:30", mat: "Encendedor de cuello largo, movimientos suaves y tiempos de reposo." },
+          { id: "rp6", order: 6, title: "Clase 6: Mezclado perfecto sin enturbiamiento: Tiempos y velocidad", yt: "rpLydZj_bO0", duration: "11:55", mat: "Raspado de paredes y fondo de vaso plástico sin batido violento." },
+          { id: "rp7", order: 7, title: "Clase 7: Pigmentos en pasta, tintas al alcohol y micas 3D", yt: "rlPIn30qFso", duration: "13:40", mat: "Micas en polvo nacaradas, tintas al alcohol y palillos dosificadores." },
+          { id: "rp8", order: 8, title: "Clase 8: Técnica de vertido por capas para suspender objetos", yt: "NkcalDSpOYk", duration: "16:15", mat: "Curado parcial de 8 a 12 horas antes de verter la capa superior." },
+          { id: "rp9", order: 9, title: "Clase 9: Perforación de piezas con taladro manual y colocación de herrajes", yt: "Nww0A4yyAng", duration: "12:30", mat: "Mini taladro con broca fina, cáncamos de tornillo y argollas de llavero." },
+          { id: "rp10", order: 10, title: "Clase 10: Dijes y joyería fina encapsulada con foil dorado", yt: "PU9ei7yrMtM", duration: "14:50", mat: "Moldes pequeños de colgantes, láminas de oro y cadenas de acero." },
+          { id: "rp11", order: 11, title: "Clase 11: Cómo nivelar piezas y corregir bordes afilados sin lijar", yt: "4M2KSSPtQ0A", duration: "10:40", mat: "Técnica de doming o gota de resina superficial autonivelante." },
+          { id: "rp12", order: 12, title: "Clase 12: Porta vasos y posavasos con efecto geoda y cuarzo", yt: "l3o9qJXGAvU", duration: "18:25", mat: "Moldes irregulares de geoda, piedras de vidrio y rotuladores dorados." },
+          { id: "rp13", order: 13, title: "Clase 13: Limpieza y mantenimiento de moldes de silicona para resina", yt: "v6SCZUD_xTs", duration: "08:50", mat: "Cinta adhesiva ancha para pelusas y toallas con alcohol isopropílico." },
+          { id: "rp14", order: 14, title: "Clase 14: Qué hacer si tu resina queda pegajosa o flexible", yt: "N-E9JYtEJdk", duration: "11:20", mat: "Solución de errores de pesaje y segunda capa de rescate rígida." },
+          { id: "rp15", order: 15, title: "Clase 15: Cuentas de letras y nombres personalizados encapsulados", yt: "JuG7vpJEgug", duration: "13:10", mat: "Letras acrílicas para pulseras, glitter fino y alineación con aguja." },
+          { id: "rp16", order: 16, title: "Clase 16: Fotografía, empaque en bolsitas de celofán y fijación de precios", yt: "FN7ghRpcTXg", duration: "15:45", mat: "Tarjetas de soporte personalizadas, bolsitas autoadhesivas y margen comercial." }
+        ]
+      },
+
+      // 15. CURSO DE RESINA CREATIVA, ACCESORIOS Y TÉCNICAS AVANZADAS
+      {
+        id: "curso_resina_creativa_master",
+        title: "Curso: Resina Creativa, Accesorios y Técnicas Avanzadas (42 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "rc1", order: 1, title: "Clase 1: Cómo hacer lapiceras y bolígrafos personalizados paso a paso", yt: "oq22d2HKJ6A", duration: "12:56", mat: "10ml resina epóxica, pigmento salmón/blanco, glitter y vinil de corte." },
+          { id: "rc2", order: 2, title: "Clase 2: Bandejas de servicio con asas metálicas y técnica oceánica", yt: "Zau3aiwX8pk", duration: "18:10", mat: "Molde de charola grande, pigmento azul marino, pasta blanca de olas y pistola de calor." },
+          { id: "rc3", order: 3, title: "Clase 3: Dominó completo de resina artesanal con puntos pintados", yt: "szK2bROXUeQ", duration: "15:40", mat: "Molde de 28 fichas de dominó, pintura acrílica dorada y pincel liner." },
+          { id: "rc4", order: 4, title: "Clase 4: Efecto humo y nubes con tintas al alcohol concentradas", yt: "65NrMEj0sSY", duration: "11:30", mat: "Tintas blancas de densidad pesada y resina cristalina transparente." },
+          { id: "rc5", order: 5, title: "Clase 5: Peines y cepillos de resina con incrustaciones botánicas", yt: "tGsar9SeWR4", duration: "14:20", mat: "Molde de peine antiestático, flores secas prensadas y purpurina holográfica." },
+          { id: "rc6", order: 6, title: "Clase 6: Placas de identificación para mascotas con vinil y mica", yt: "G1GUHIQmghs", duration: "12:15", mat: "Moldes de huesito/huella, microargollas y nombres recortados en plotter." },
+          { id: "rc7", order: 7, title: "Clase 7: Ceniceros y recipientes con hojas de oro y fondos negros", yt: "_50FKNVbizg", duration: "13:50", mat: "Molde facetado, pigmento negro intenso y láminas de pan de oro." },
+          { id: "rc8", order: 8, title: "Clase 8: Lámparas de noche LED encapsuladas en bloques de resina", yt: "oXyzU9dnCxw", duration: "20:30", mat: "Base de madera con luz USB cálida, molde prismático y micropurpurina." },
+          { id: "rc9", order: 9, title: "Clase 9: Alhajeros y cajitas con tapa de encastre perfecto", yt: "8bpOydtcs6I", duration: "17:15", mat: "Molde de corazón/cilindro con tapa y técnica de vaciado sin rebaba." },
+          { id: "rc10", order: 10, title: "Clase 10: Retención de calor: Cómo controlar la exotermia en piezas gruesas", yt: "2PsnnOsjWTo", duration: "14:45", mat: "Vaciado en capas milimétricas para evitar sobrecalentamiento y amarilleo." },
+          { id: "rc11", order: 11, title: "Clase 11: Clips para cabello y pasadores de resina con brillantina", yt: "wo5W4BtF7mo", duration: "10:20", mat: "Herrajes metálicos cocodrilo, pegamento extra fuerte y moldes de pasador." },
+          { id: "rc12", order: 12, title: "Clase 12: Encapsulado de fotografías familiares sin manchar el papel", yt: "NO5YA0JMoII", duration: "16:00", mat: "Papel fotográfico plastificado o sellado con cinta térmica transparente." },
+          { id: "rc13", order: 13, title: "Clase 13: Llaveros shaker con líquido y figuras que se mueven", yt: "15AYa5V9Dsg", duration: "19:40", mat: "Molde con hueco interior, acetato transparente, aceite de bebé y jeringa." },
+          { id: "rc14", order: 14, title: "Clase 14: Cuadros decorativos en lienzo con resina y pigmentos metálicos", yt: "grdjaUm-JXg", duration: "21:15", mat: "Bastidor entelado, cinta de carrocero, soplete de cocina y purpurina gruesa." },
+          { id: "rc15", order: 15, title: "Clase 15: Aretes y pendientes colgantes ultraligeros con ganchos hipoalergénicos", yt: "5RC-A3gJtWk", duration: "12:50", mat: "Mini aros de resina, ganchos de plata/acero y pinzas de punta plana." },
+          { id: "rc16", order: 16, title: "Clase 16: Técnica de petri dish: Efecto explosión de color bajo fondo", yt: "begS8HyKsSY", duration: "13:30", mat: "Tintas al alcohol de colores vivos y blanco pesado en gotas alternas." },
+          { id: "rc17", order: 17, title: "Clase 17: Relojes de pared artesanales con maquinaria silenciosa", yt: "NW2_sycUV3g", duration: "24:10", mat: "Molde redondo de 30cm, números romanos en acrílico y motor de reloj." },
+          { id: "rc18", order: 18, title: "Clase 18: Pisapapeles piramidales y esferas perfectas sin línea de unión", yt: "8dc62PnQlQQ", duration: "16:40", mat: "Moldes 3D esféricos cerrados y soporte de nivelación." },
+          { id: "rc19", order: 19, title: "Clase 19: Pulido profesional al espejo con lijas al agua de grano 1000 a 5000", yt: "P78US-MHwTg", duration: "18:00", mat: "Bloques de lijado manual, pasta de pulir para autos y paño de algodón." },
+          { id: "rc20", order: 20, title: "Clase 20: Cómo aplicar resina UV para terminaciones rápidas en 2 minutos", yt: "O7rG3xBUJ4k", duration: "11:15", mat: "Resina UV monocomponente y lámpara de luz ultravioleta de 36W." },
+          { id: "rc21", order: 21, title: "Clase 21: Portallaves de pared con ganchos rústicos", yt: "3ma_koKr7sM", duration: "15:20", mat: "Madera sellada, resina turquesa y ganchos atornillables." },
+          { id: "rc22", order: 22, title: "Clase 22: Tazas personalizadas con brillantina y resina grado alimenticio", yt: "nLm6Wqkfp5Y", duration: "17:35", mat: "Vaso de acero inoxidable, rotador de tazas y cinta de pintor." },
+          { id: "rc23", order: 23, title: "Clase 23: Efecto mármol blanco y vetas grises en charolas de café", yt: "NtfnZqK14SE", duration: "14:50", mat: "Pigmento blanco de alta opacidad y líneas difuminadas en gris perlado." },
+          { id: "rc24", order: 24, title: "Clase 24: Imanes de nevera decorativos con figuras kawaii", yt: "841yoTEOPEs", duration: "10:30", mat: "Moldes pequeños temáticos, imanes de neodimio potentes y pegamento." },
+          { id: "rc25", order: 25, title: "Clase 25: Cómo evitar que las flores se decoloren o se pudran dentro de la resina", yt: "9pKR_Zcv_iU", duration: "13:10", mat: "Gel de sílice desecante para secado botánico en 3D." },
+          { id: "rc26", order: 26, title: "Clase 26: Portacosméticos y organizadores de brochas con foil metálico", yt: "5TmciU0hmcE", duration: "16:20", mat: "Moldes de contenedores con separadores y purpurina en degradé." },
+          { id: "rc27", order: 27, title: "Clase 27: Efecto galaxia con tintas transparentes y microbrillos estelares", yt: "DEHpnoy2cXc", duration: "15:40", mat: "Colores azul noche, violeta, magenta y microglitter blanco." },
+          { id: "rc28", order: 28, title: "Clase 28: Tapones para botellas de vino con figuras geométricas", yt: "XtwFtpUZLHI", duration: "12:15", mat: "Bases de corcho o metal con rosca para incrustación de resina." },
+          { id: "rc29", order: 29, title: "Clase 29: Bisutería con madera y resina fusionada (Wood & Resin)", yt: "P7JBsMyYBkc", duration: "19:00", mat: "Trozos de madera partida irregular, lijado en seco y aceite de linaza." },
+          { id: "rc30", order: 30, title: "Clase 30: Agendas y cubiertas de libretas de resina con argollas", yt: "CJuJL787jQI", duration: "18:45", mat: "Moldes para portadas A5/A6 con agujeros premarcados y papel rayado." },
+          { id: "rc31", order: 31, title: "Clase 31: Cómo limpiar derrames de resina en mesas y manos de forma segura", yt: "jQjV2u_rc5E", duration: "09:10", mat: "Jabón exfoliante, toallas de papel y alcohol isopropílico (sin acetona directa)." },
+          { id: "rc32", order: 32, title: "Clase 32: Espejos de mano decorados con cristales y perlas", yt: "t--zenVP4CA", duration: "14:30", mat: "Bases de espejo en acrílico, perlas sin perforar y resina transparente." },
+          { id: "rc33", order: 33, title: "Clase 33: Cajas de luz decorativas con figuras impresas en transparencia", yt: "9Tvty21RDzI", duration: "16:10", mat: "Film transparente para retroproyector, siluetas negras y fondo blanco." },
+          { id: "rc34", order: 34, title: "Clase 34: Placas conmemorativas y reconocimientos con texto grabado", yt: "wVS7_Lyu6Wc", duration: "15:35", mat: "Vinil adhesivo permanente de corte y resina de sellado superior." },
+          { id: "rc35", order: 35, title: "Clase 35: Bandejas hexagonales con flores encapsuladas en alta transparencia", yt: "bB3lv55910Y", duration: "17:50", mat: "Molde hexagonal de 20cm, pinzas botánicas y desgasificado de cera." },
+          { id: "rc36", order: 36, title: "Clase 36: Llaveros en forma de corazón partido para parejas y amigos", yt: "TlYn7Rj2q_Q", duration: "11:40", mat: "Molde de mitades ensamblables, argollas dobles y purpurina combinada." },
+          { id: "rc37", order: 37, title: "Clase 37: Cómo hacer un catálogo digital de productos en Canva para vender", yt: "KCJGPMMDRs0", duration: "20:15", mat: "Fotos de producto, lista de precios, mockup de presentación y PDF interactivo." },
+          { id: "rc38", order: 38, title: "Clase 38: Estrategia de envíos por paquetería sin que las piezas se rayen", yt: "D7NmAC1Juj8", duration: "13:20", mat: "Papel de seda antiestático, plástico burbuja y cajas de cartón reforzado." },
+          { id: "rc39", order: 39, title: "Clase 39: Joyeros piramidales con anillo interior suspendido", yt: "ywv26EosvW4", duration: "16:40", mat: "Soporte de alambre invisible para centrado de alianzas." },
+          { id: "rc40", order: 40, title: "Clase 40: Macetas y bases para plantas de interior con resina ecológica", yt: "odcxx5YsAbw", duration: "18:30", mat: "Resina con base biológica y moldes de silicona reforzados." },
+          { id: "rc41", order: 41, title: "Clase 41: Cómo calcular costos de resina por gramo y fijar tu ganancia", yt: "61WeaLvWWcA", duration: "15:10", mat: "Fórmula de costo por mililitro, porcentaje de merma y margen de negocio." },
+          { id: "rc42", order: 42, title: "Clase 42: Clase final: Montaje de marca artesanal y primeros clientes", yt: "ifxtieMl7PE", duration: "22:00", mat: "Plan de acción en redes sociales, respuestas rápidas en WhatsApp y fidelización." }
+        ]
+      },
+
+      // 16. CURSO DE MODELADO EN PORCELANA FRÍA - COLECCIÓN MASTER
+      {
+        id: "curso_porcelana_master",
+        title: "Curso: Modelado en Porcelana Fría - Colección Master (42 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "pm1", order: 1, title: "Clase 1: Introducción a la porcelana fría: Características y amasado básico", yt: "7KUJYOI8Wvc", duration: "15:00", mat: "Porcelana fría tradicional, vaselina líquida, crema para manos y superficie lisa." },
+          { id: "pm2", order: 2, title: "Clase 2: Materiales y herramientas con alternativas caseras", yt: "8_wOjQnSAtc", duration: "21:02", mat: "Cola blanca, estecas, bolillos, rodillos de acrílico y barniz acrílico." },
+          { id: "pm3", order: 3, title: "Clase 3: Cómo teñir la masa sin que se reseque ni agriete", yt: "yXle3uLkiXo", duration: "16:30", mat: "Óleos, pinturas acrílicas, pigmentos concentrados y papel film." },
+          { id: "pm4", order: 4, title: "Clase 4: Formas geométricas esenciales: Esferas, gotas y cilindros", yt: "6M9HNntoSvU", duration: "14:15", mat: "Cucharitas medidoras, regla y presión uniforme con las palmas." },
+          { id: "pm5", order: 5, title: "Clase 5: Elaboración de flores simples, rosas y hojas con textura", yt: "BvPBCooFsYc", duration: "18:40", mat: "Ruletero para bordes de pétalos, palillos y cola vinílica." },
+          { id: "pm6", order: 6, title: "Clase 6: Cómo pintar ojos realistas y uso de ojitos autoadhesivos", yt: "5NMDbA9SUyA", duration: "13:50", mat: "Pincel liner 000, pintura acrílica negra/blanca y bolillos pequeños." },
+          { id: "pm7", order: 7, title: "Clase 7: Maquillaje y sombreado con tizas pastel y rubor", yt: "1ocKcvCJGCM", duration: "11:20", mat: "Brochas de maquillaje suaves, tizas secas pulverizadas y toques circulares." },
+          { id: "pm8", order: 8, title: "Clase 8: Animalitos tiernos: Osito panda y conejito para souvenirs", yt: "rYk1BAH6UVw", duration: "19:15", mat: "Masa blanca, negra, palillos de soporte y esteca cuchillo." },
+          { id: "pm9", order: 9, title: "Clase 9: Estructuras con alambre galvanizado para piezas de pie", yt: "1P-wjVZui0A", duration: "15:30", mat: "Alambre galvanizado calibre 20, alicate y esferas de telgopor (porexpan)." },
+          { id: "pm10", order: 10, title: "Clase 10: Modelado de cuerpos básicos para figuras humanas", yt: "WwnfT6TWKjk", duration: "22:10", mat: "Torso en cono, colocación de cuello reforzado y piernas en tubo." },
+          { id: "pm11", order: 11, title: "Clase 11: Cómo modelar cabezas, narices y sonrisas expresivas", yt: "zd7x9vVDTlg", duration: "17:45", mat: "Marcador de bocas metálico, afilador de mentón y mejillas infladas." },
+          { id: "pm12", order: 12, title: "Clase 12: Creación de cabello lacio, con rulos y trenzas detalladas", yt: "-8AbEF6p-5I", duration: "16:20", mat: "Extrusora de masa, bisturí de precisión y movimiento en mechas." },
+          { id: "pm13", order: 13, title: "Clase 13: Llaveros resistentes: Fijación de pitones y argollas", yt: "Gx0I30gprVQ", duration: "12:40", mat: "Pitones de ojo cerrado con pegamento instantáneo y cadenas." },
+          { id: "pm14", order: 14, title: "Clase 14: Adornos para tortas: Cómo asegurar estabilidad e higiene", yt: "gxL0qLWKaxw", duration: "20:05", mat: "Bases plásticas transparentes aptas para alimentos y varillas soporte." },
+          { id: "pm15", order: 15, title: "Clase 15: Apliques planos para moños, lazos y papelería", yt: "hJpCPjBVJA4", duration: "14:10", mat: "Masa flexible Infinity, rodillo liso y cortantes de plástico." },
+          { id: "pm16", order: 16, title: "Clase 16: Tazas decoradas con figuras de porcelana horneables", yt: "ns7nRwCxUXk", duration: "18:50", mat: "Pegamento epóxico bicomponente para cerámica y taza limpia con alcohol." },
+          { id: "pm17", order: 17, title: "Clase 17: Cómo evitar el agrietamiento y encogimiento excesivo", yt: "smTPGDsh2V4", duration: "13:25", mat: "Secado sobre goma espuma (espuma flex) rotando las piezas cada día." },
+          { id: "pm18", order: 18, title: "Clase 18: Imanes de heladera con personajes infantiles", yt: "meivDM6B9tQ", duration: "15:15", mat: "Imanes flexibles de lámina y pegamento de contacto fuerte." },
+          { id: "pm19", order: 19, title: "Clase 19: Frascos decorados con tapas temáticas de cocina", yt: "QxIobMmYl54", duration: "21:30", mat: "Frascos de vidrio reutilizados, masa teñida y texturizador de mimbre." },
+          { id: "pm20", order: 20, title: "Clase 20: Bolígrafos forrados con personajes y muñecos en la punta", yt: "VqF4qTX-4lI", duration: "16:40", mat: "Repuesto de bolígrafo, masa estirada y pegamento vinílico." },
+          { id: "pm21", order: 21, title: "Clase 21: Modelado de manos con dedos definidos y pies pequeños", yt: "9jT7xv-MaiU", duration: "17:10", mat: "Cúter punta lanceta y movimientos circulares de estiramiento." },
+          { id: "pm22", order: 22, title: "Clase 22: Duendes y personajes fantásticos con arrugas y textura", yt: "GiilJ-KcbsI", duration: "23:40", mat: "Masa tono piel envejecida, esteca de goma y polvo café." },
+          { id: "pm23", order: 23, title: "Clase 23: Centros de mesa temáticos para baby shower y bautismo", yt: "DqkRSSgQk2w", duration: "19:50", mat: "Esferas de telgopor forradas, baberos modelados y lazos de tela." },
+          { id: "pm24", order: 24, title: "Clase 24: Cómo usar moldes de silicona sin que la masa se pegue", yt: "jPVee1lT7QI", duration: "12:15", mat: "Fécula de maíz (maicena) o aceite de bebé esparcido en el molde." },
+          { id: "pm25", order: 25, title: "Clase 25: Efecto tela y texturizado de vestidos para muñecas", yt: "gGwovgAa9sU", duration: "18:20", mat: "Encajes de repostería, rodillos texturados y volados finos." },
+          { id: "pm26", order: 26, title: "Clase 26: Suculentas y cactus realistas en macetitas de yeso", yt: "xrkWXzjhgfY", duration: "16:05", mat: "Masa verde en 3 tonos, sombreado rojizo y macetas pequeñas." },
+          { id: "pm27", order: 27, title: "Clase 27: Miniaturas de comida (alimentos kawaii) para joyería", yt: "G4V1ie92nT8", duration: "14:35", mat: "Tizas para efecto horneado, barniz brillante para salsa y argollas." },
+          { id: "pm28", order: 28, title: "Clase 28: Carteles de nacimiento personalizados con nombre y figuras", yt: "kwunXHm7hHo", duration: "22:15", mat: "Placas de fibrofácil (MDF) pintadas, letras de masa y animalitos." },
+          { id: "pm29", order: 29, title: "Clase 29: Barnizado y protección definitiva: Mate, satinado y brillante", yt: "EvFYqkrLJJI", duration: "13:40", mat: "Barniz acrílico en spray y laca al agua transparente." },
+          { id: "pm30", order: 30, title: "Clase 30: Angelitos y figuras religiosas para primera comunión", yt: "6XBgzXEL_sw", duration: "20:30", mat: "Alas con plumas marcadas, túnica blanca y aureola dorada." },
+          { id: "pm31", order: 31, title: "Clase 31: Muñecos navideños: Papá Noel, renos y muñecos de nieve", yt: "L9csTYDsIc", duration: "21:00", mat: "Masa roja, blanca soft esponjosa, textura de barba y purpurina." },
+          { id: "pm32", order: 32, title: "Clase 32: Cómo reparar piezas que se rompieron o agrietaron al secar", yt: "r0aGMIFpDAc", duration: "11:50", mat: "Pasta de porcelana diluida con agua como masilla y lija fina." },
+          { id: "pm33", order: 33, title: "Clase 33: Dijes y colgantes de cuello con cadena y terminales", yt: "OLXqMwqxwWE", duration: "13:10", mat: "Cáncamos pequeños pegados con cianocrilato y cadenas metálicas." },
+          { id: "pm34", order: 34, title: "Clase 34: Animales de la selva: León, jirafa y elefante", yt: "kD3WpKTYmp4", duration: "22:45", mat: "Melena texturada con cepillo, manchas pintadas a pincel y soporte." },
+          { id: "pm35", order: 35, title: "Clase 35: Técnica de masa soft y masa Infinity: Ventajas y usos", yt: "s-iPYMq9BjI", duration: "15:20", mat: "Comparativa de peso, elasticidad y flexibilidad tras el secado." },
+          { id: "pm36", order: 36, title: "Clase 36: Porta fotos y clips para notas de escritorio", yt: "SDouuYK6DMo", duration: "14:15", mat: "Alambre espiralado para fotos y base pesada de porcelana." },
+          { id: "pm37", order: 37, title: "Clase 37: Cómo hacer ojos cerrados y expresiones tiernas kawaii", yt: "12ku5a7FCPY", duration: "12:00", mat: "Microfibras calibradas indelebles y rubor en polvo." },
+          { id: "pm38", order: 38, title: "Clase 38: Modelado de zapatos, zapatillas y botas detalladas", yt: "6g8WAAlkZNU", duration: "17:30", mat: "Suelas marcadas con esteca, cordones finos y ojales." },
+          { id: "pm39", order: 39, title: "Clase 39: Empaque profesional: Cajas con ventana, viruta y tarjetas", yt: "T9n8TqI2wbo", duration: "15:50", mat: "Cajas plegables, sellos de tu marca y etiquetas de cuidados." },
+          { id: "pm40", order: 40, title: "Clase 40: Producción en serie: Cómo hacer 50 recuerdos en poco tiempo", yt: "58JZg3DHEj0", duration: "19:10", mat: "Pesado previo de bolitas, ensamblado por etapas y organización." },
+          { id: "pm41", order: 41, title: "Clase 41: Costos exactos de masa y cómo cotizar pedidos grandes", yt: "UvM3Z3FiP8g", duration: "16:40", mat: "Cálculo de gramaje por pieza, costo de packaging y mano de obra." },
+          { id: "pm42", order: 42, title: "Clase 42: Graduación: Cómo vender tus piezas y atraer clientes en redes", yt: "6odYaBiN4B8", duration: "25:00", mat: "Fotos con fondos claros, videos de modelado rápido y WhatsApp Business." }
+        ]
+      },
+
+      // 17. CURSO DE MODELADO Y FIGURAS EN PORCELANA FRÍA (GUÍA PRÁCTICA)
+      {
+        id: "curso_porcelana_practica",
+        title: "Curso: Modelado y Figuras en Porcelana Fría (Guía Práctica - 23 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "pp1", order: 1, title: "Clase 1: Guía para principiantes: Masas tradicional, soft e Infinity", yt: "hQhvlOrTBFQ", duration: "12:26", mat: "Porcelana fría, crema de manos, rodillo, estecas y placa de silicona." },
+          { id: "pp2", order: 2, title: "Clase 2: Ejercicios de amasado para evitar burbujas y grietas internas", yt: "NiL28IpynWA", duration: "11:15", mat: "Masa fresca, técnica de compactado con las palmas y guardado en film." },
+          { id: "pp3", order: 3, title: "Clase 3: Elaboración de colores piel y tonos pasteles uniformes", yt: "sj97FrIgxUk", duration: "13:40", mat: "Óleo siena natural, blanco de titanio y amasado envolvente." },
+          { id: "pp4", order: 4, title: "Clase 4: Primer proyecto: Flores sencillas para imanes de heladera", yt: "YiLE0Hh7uX0", duration: "10:30", mat: "5 esferas iguales, marcador central, pegamento vinílico e imán." },
+          { id: "pp5", order: 5, title: "Clase 5: Ositos en miniatura con textura de felpa esponjosa", yt: "PkUAkJcauys", duration: "16:20", mat: "Cepillo de dientes de cerda dura para picar la masa y bolitas para orejas." },
+          { id: "pp6", order: 6, title: "Clase 6: Cómo modelar alas de ángel ligeras con masa soft", yt: "wbUpbO6S49k", duration: "14:10", mat: "Masa soft ultraliviana, cortante de plumas y soporte curvo para secado." },
+          { id: "pp7", order: 7, title: "Clase 7: Souvenirs de comunión: Niña y niño rezando paso a paso", yt: "NjsoujxX8D4", duration: "21:40", mat: "Estructura de telgopor, vestiditos blancos y peinados definidos." },
+          { id: "pp8", order: 8, title: "Clase 8: Animalitos de la granja: Vaca, cerdito y oveja", yt: "1ZrJ7Y6bAPk", duration: "18:50", mat: "Masa rosa, blanca, manchas negras y textura de lana con bolillo." },
+          { id: "pp9", order: 9, title: "Clase 9: Personajes kawaii: Frutas sonrientes y comida tierna", yt: "YTbMJXM7Eck", duration: "13:15", mat: "Aguja para sonrisas, rubor rosado y ojitos negros de 2mm." },
+          { id: "pp10", order: 10, title: "Clase 10: Letras decoradas en 3D para nombres infantiles", yt: "PEUWPD3qUfY", duration: "17:25", mat: "Cortadores de abecedario, detalles de estrellas y soporte para mesa." },
+          { id: "pp11", order: 11, title: "Clase 11: Cómo modelar manos expresivas sin cortadores", yt: "yWVsG2MBrF8", duration: "15:00", mat: "Tijera fina de manicura, redondeado de yemas y palma ahuecada." },
+          { id: "pp12", order: 12, title: "Clase 12: Zapatitos de bebé para llaveros de recuerdo", yt: "KwF-qL2BoyM", duration: "16:30", mat: "Masa celeste/rosa, perforaciones para cordones y cinta bebé." },
+          { id: "pp13", order: 13, title: "Clase 13: Figuras para topper de lápices y bolígrafos", yt: "Z6-fIgzSmCM", duration: "14:40", mat: "Orificio inferior calibrado antes del secado y barniz protector." },
+          { id: "pp14", order: 14, title: "Clase 14: Caritas con pestañas finas y cejas estilizadas", yt: "PVPRuDWTEI0", duration: "12:50", mat: "Pincel 000 pelo de marta, pintura acrílica y apoyo firme." },
+          { id: "pp15", order: 15, title: "Clase 15: Apliques temáticos de circo: Payasitos y carpas", yt: "nlpDcw4wf0g", duration: "19:10", mat: "Colores primarios vivos, lunares de masa y sombreritos en cono." },
+          { id: "pp16", order: 16, title: "Clase 16: Sirenas y mundos marinos: Colas con escamas brillantes", yt: "9yyhxem0HHg", duration: "20:00", mat: "Puntero para marcar escamas, micas turquesas y estrellas de mar." },
+          { id: "pp17", order: 17, title: "Clase 17: Cómo forrar esferas de telgopor sin dejar arrugas", yt: "C2JarJMykIY", duration: "13:30", mat: "Esfera de telgopor N° 3 o 4, masa estirada y palma de la mano." },
+          { id: "pp18", order: 18, title: "Clase 18: Muñecos estilo country con detalles rústicos", yt: "U4NAhBmu8Fk", duration: "22:15", mat: "Pintura flotada con pincel angular, tela de arpillera y botones." },
+          { id: "pp19", order: 19, title: "Clase 19: Flores avanzadas: Rosas abiertas con pétalos individuales", yt: "-1UktdmTKpw", duration: "17:40", mat: "Cono central de soporte y 12 pétalos superpuestos con cola vinílica." },
+          { id: "pp20", order: 20, title: "Clase 20: Unicornios mágicos con cuerno dorado y flores", yt: "KRaBveuo4fE", duration: "18:25", mat: "Cuerno espiralado pintado con polvo de oro y crin multicolor." },
+          { id: "pp21", order: 21, title: "Clase 21: Decoración de portaretratos de madera con apliques", yt: "JnLJyWMJDRA", duration: "16:50", mat: "Marco de madera liso, lija fina, cola vinílica y figuras secas." },
+          { id: "pp22", order: 22, title: "Clase 22: Cómo almacenar la masa sobrante para que dure meses", yt: "vuzMKEkL1TA", duration: "10:15", mat: "Papel film bien ajustado sin aire y recipientes plásticos herméticos." },
+          { id: "pp23", order: 23, title: "Clase 23: Emprendimiento: Cómo presentar y cobrar tus recuerdos", yt: "zOMJhNAXiAo", duration: "21:00", mat: "Packaging transparente, tarjetas de agradecimiento y costos reales." }
+        ]
+      },
+
+      // 18. CURSO DE MODELADO EN ARCILLA FRÍA / POLIMÉRICA
+      {
+        id: "curso_arcilla_fria",
+        title: "Curso: Taller de Modelado en Arcilla Fría y Polimérica (19 Clases)",
+        cat: "Cursos Completos",
+        lessons: [
+          { id: "af1", order: 1, title: "Clase 1: Unboxing y presentación del kit de iniciación en arcilla", yt: "U2ma549szRE", duration: "01:05", mat: "Pasta de modelar DAS de secado al aire, rodillo, estecas y pinturas." },
+          { id: "af2", order: 2, title: "Clase 2: Amasado, acondicionamiento y grosor uniforme con guías", yt: "fvqquewzKgc", duration: "12:30", mat: "Varillas niveladoras de madera, rodillo acrílico y superficie antiadherente." },
+          { id: "af3", order: 3, title: "Clase 3: Fabricación de cuencos y charolitas porta joyas de corazón", yt: "cD8jUwKG8Rk", duration: "15:40", mat: "Molde de corte en corazón, esponja húmeda para bordes y secado." },
+          { id: "af4", order: 4, title: "Clase 4: Alisado perfecto con agua para eliminar grietas superficiales", yt: "HbX2yG0tO3k", duration: "11:20", mat: "Recipiente con agua limpia, yemas de los dedos y pincel suave." },
+          { id: "af5", order: 5, title: "Clase 5: Modelado de tazas y recipientes decorativos sin torno", yt: "aos3seu2JP0", duration: "18:15", mat: "Técnica de churros o rollos unidos con barbotina líquida de arcilla." },
+          { id: "af6", order: 6, title: "Clase 6: Elaboración de macetitas con patitas y rostros esculpidos", yt: "AamjfqPUVjk", duration: "16:50", mat: "Cilindro base, 3 esferas para patas niveladas y herramienta de vaciado." },
+          { id: "af7", order: 7, title: "Clase 7: Técnica de estampado botánico con hojas naturales frescas", yt: "2WZ2KY0f0aI", duration: "13:45", mat: "Hojas con nervaduras marcadas, rodillo y corte de perímetro." },
+          { id: "af8", order: 8, title: "Clase 8: Tiempos de secado al aire: Cómo evitar que las piezas se curven", yt: "XLjUO1kZb74", duration: "10:35", mat: "Secado lento entre tablas de madera con peso controlado encima." },
+          { id: "af9", order: 9, title: "Clase 9: Lijado en seco y corrección de asperezas con lija de agua", yt: "AkheVEXjWOc", duration: "12:10", mat: "Lijas grano 150 para desbaste y grano 400 para acabado sedoso." },
+          { id: "af10", order: 10, title: "Clase 10: Pintura con acrílicos: Colores primarios y círculo cromático", yt: "OSoA3JmjzYo", duration: "17:30", mat: "Pinturas acrílicas, paleta de mezclas, pinceles planos y liner." },
+          { id: "af11", order: 11, title: "Clase 11: Efecto cerámica esmaltada con barniz vitrificable o resina", yt: "vYKYT3u4MLc", duration: "14:50", mat: "Barniz cerámico al agua brillante o capa fina de resina epóxica." },
+          { id: "af12", order: 12, title: "Clase 12: Porta inciensos y quemadores con formas abstractas", yt: "GBfWsY1LrY0", duration: "13:20", mat: "Arcilla fresca, palillo para calibrar orificio y base ovalada." },
+          { id: "af13", order: 13, title: "Clase 13: Dijes y joyería moderna en arcilla con argollas doradas", yt: "QXUacgyRDGQ", duration: "15:10", mat: "Cortadores geométricos de arcilla polimérica y taladro manual." },
+          { id: "af14", order: 14, title: "Clase 14: Esculturas decorativas con técnica de pellizco (Pinch Pot)", yt: "1f4TSKD9MXI", duration: "16:40", mat: "Esfera de arcilla abierta desde el centro girando uniformemente." },
+          { id: "af15", order: 15, title: "Clase 15: Texturizado con telas, sellos y objetos cotidianos", yt: "ZgWjf3rBnrI", duration: "12:25", mat: "Telas de encaje, sellos de madera y estecas de punta redonda." },
+          { id: "af16", order: 16, title: "Clase 16: Impermeabilización interior para contener líquidos decorativos", yt: "B3AQB5R0kOo", duration: "14:15", mat: "Sellador hidrófugo multisuperficie aplicado en tres capas cruzadas." },
+          { id: "af17", order: 17, title: "Clase 17: Platos decorativos con técnica de ondas en los bordes", yt: "tnBFw8fixPw", duration: "15:30", mat: "Molde plato hondo como guía, film separador y drapeado manual." },
+          { id: "af18", order: 18, title: "Clase 18: Cómo reparar piezas rajadas durante el secado al aire", yt: "I6SGrUlm6cY", duration: "11:45", mat: "Pasta de reparación casera con arcilla húmeda y cola vinílica." },
+          { id: "af19", order: 19, title: "Clase 19: Packaging ecológico y presentación comercial para ferias", yt: "b_9kclpNvjE", duration: "18:00", mat: "Bolsitas de lino, cajas de cartón corrugado y etiquetas de autor." }
+        ]
       }
     ];
 
-    // CATÁLOGO GENERAL POR CATEGORÍAS (TUTORIALES AISLADOS)
     const catalog = [
       // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
@@ -2290,7 +2461,7 @@
 
     function closePlansModal() { document.getElementById('plansModal').style.display = 'none'; }
 
-    // GESTIÓN DEL BOTÓN ATRÁS DEL CELULAR (EVITA SALIR DE LA APP)
+    // GESTIÓN DEL BOTÓN ATRÁS DEL CELULAR
     window.addEventListener('popstate', (e) => {
       const videoM = document.getElementById('videoModal');
       const plansM = document.getElementById('plansModal');
@@ -2347,7 +2518,7 @@
       }, 2000);
     }
 
-    // CAPTURA Y LANZAMIENTO DEL PROMPT DE INSTALACIÓN (PWA)
+    // CAPTURA Y LANZAMIENTO DEL PROMPT DE INSTALACIÓN
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
