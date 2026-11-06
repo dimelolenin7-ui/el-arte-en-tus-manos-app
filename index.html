@@ -66,6 +66,25 @@
       width: 100%;
     }
 
+    /* BOTÓN INSTALACIÓN APP */
+    .btn-install-banner {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #2d2621, #4a3b32);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 14px;
+      width: 100%;
+    }
+
     /* PANTALLA LOGIN */
     #authScreen {
       min-height: 100vh;
@@ -1067,6 +1086,11 @@
       <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
       <h1>El Arte en Tus Manos</h1>
       <p>Academia interactiva oficial y biblioteca de amigurumis y manualidades.</p>
+
+      <!-- BOTÓN DIRECTO DE INSTALACIÓN EN LOGIN -->
+      <button type="button" class="btn-install-banner" id="btnInstallAppLogin" onclick="triggerPwaInstall()">
+        📲 Instalar App en tu Celular
+      </button>
       
       <div class="auth-tabs">
         <button type="button" class="auth-tab-btn active" id="tabBtnFree" onclick="switchAuthTab('free')">⚪ Acceso Gratis</button>
@@ -1124,6 +1148,11 @@
     </header>
 
     <div class="container">
+
+      <!-- BOTÓN DIRECTO DE INSTALACIÓN DENTRO DE LA ACADEMIA -->
+      <button type="button" class="btn-install-banner" id="btnInstallAppMain" onclick="triggerPwaInstall()">
+        📲 Instalar App en tu Celular (Acceso Directo)
+      </button>
       
       <!-- BANNER DE UPGRADE -->
       <div id="vipBanner" class="vip-upgrade-card" style="display:none;">
@@ -1642,6 +1671,7 @@
     let ytPlayer = null;
     let timeCheckInterval = null;
     let allUsersList = [];
+    let deferredPrompt = null; // Variable para la instalación directa
 
     const pricing = {
       '1m': { proCOP: "$10.000 COP", proUSD: "$2.50 USD", premCOP: "$20.000 COP", premUSD: "$5.00 USD" },
@@ -2148,264 +2178,7 @@
 
     function closePlansModal() { document.getElementById('plansModal').style.display = 'none'; }
 
-    async function redeemPromoCodeFromModal() {
-      const input = document.getElementById('modalPromoCodeInput');
-      const code = input.value.trim().toUpperCase();
-      const alertBox = document.getElementById('modalRedeemAlert');
-      const btn = document.getElementById('btnModalRedeemSubmit');
-
-      if (!code) { showAlert(alertBox, 'Escribe un código para validar.', 'error'); return; }
-
-      btn.disabled = true;
-      btn.innerText = 'Validando en el sistema...';
-
-      try {
-        const codeRef = db.collection("codigos").doc(code);
-        const doc = await codeRef.get();
-
-        if (!doc.exists) {
-          showAlert(alertBox, 'El código ingresado no existe o es incorrecto.', 'error');
-          btn.disabled = false;
-          btn.innerText = 'Activar mi Membresía';
-          return;
-        }
-
-        const data = doc.data();
-        if (data.usado === true) {
-          showAlert(alertBox, 'Este código ya fue utilizado por otra cuenta.', 'error');
-          btn.disabled = false;
-          btn.innerText = 'Activar mi Membresía';
-          return;
-        }
-
-        const planAsignado = data.plan || 'premium';
-        const diasDuracion = parseInt(data.duracionDias) || 30;
-
-        const fechaExpira = new Date();
-        fechaExpira.setDate(fechaExpira.getDate() + diasDuracion);
-
-        const batch = db.batch();
-        batch.update(codeRef, {
-          usado: true,
-          usadoPor: currentUserEmail,
-          fechaUso: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        const userRef = db.collection("usuarios").doc(currentUserEmail);
-        batch.set(userRef, {
-          email: currentUserEmail,
-          plan: planAsignado,
-          codigoCanjeado: code,
-          activadoEl: firebase.firestore.FieldValue.serverTimestamp(),
-          expira: firebase.firestore.Timestamp.fromDate(fechaExpira),
-          ultimoAcceso: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
-
-        await batch.commit();
-
-        userPlan = planAsignado;
-        localStorage.setItem('user_plan_' + currentUserEmail, planAsignado);
-        showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
-        
-        updateBadgeUI(`${planAsignado === 'premium' ? '👑 PREMIUM' : '🔵 PRO'} (${diasDuracion}d)`, planAsignado === 'premium' ? 'badge-premium' : 'badge-pro');
-
-        setTimeout(() => {
-          closePlansModal();
-          btn.disabled = false;
-          btn.innerText = 'Activar mi Membresía';
-          input.value = '';
-          alertBox.style.display = 'none';
-          renderCourses();
-          renderGalleries();
-        }, 1800);
-
-      } catch (err) {
-        console.error("Error al canjear:", err);
-        showAlert(alertBox, 'Error de conexión. Inténtalo de nuevo.', 'error');
-        btn.disabled = false;
-        btn.innerText = 'Activar mi Membresía';
-      }
-    }
-
-    function showAlert(box, msg, type) {
-      box.innerText = msg;
-      box.className = 'alert-msg ' + type;
-      box.style.display = 'block';
-    }
-
-    // PANEL ADMINISTRATIVO
-    let generatedList = [];
-
-    function openAdminModal() {
-      const clave = prompt("Ingresa la clave de administrador:");
-      if (clave === "admin123") {
-        document.getElementById('adminResultBox').style.display = 'none';
-        document.getElementById('adminModal').style.display = 'block';
-        switchAdminSubTab('gencodes');
-        fetchRegisteredUsers();
-        history.pushState({ modalOpen: true }, '');
-      } else if (clave !== null) {
-        alert("Clave incorrecta.");
-      }
-    }
-
-    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
-
-    function switchAdminSubTab(tab) {
-      const btnGen = document.getElementById('tabBtnGenCodes');
-      const btnUsers = document.getElementById('tabBtnUsersList');
-      const secGen = document.getElementById('adminGenSection');
-      const secUsers = document.getElementById('adminUsersSection');
-
-      if (tab === 'gencodes') {
-        btnGen.classList.add('active');
-        btnUsers.classList.remove('active');
-        secGen.style.display = 'block';
-        secUsers.style.display = 'none';
-      } else {
-        btnUsers.classList.add('active');
-        btnGen.classList.remove('active');
-        secGen.style.display = 'none';
-        secUsers.style.display = 'block';
-        fetchRegisteredUsers();
-      }
-    }
-
-    function autoUpdatePrefix() {
-      const p = document.getElementById('adminPlanType').value.toUpperCase();
-      const d = document.getElementById('adminDuration').value;
-      document.getElementById('adminPrefix').value = `${p}${d}`;
-    }
-
-    async function handleAdminGenerate() {
-      const plan = document.getElementById('adminPlanType').value;
-      const duracion = parseInt(document.getElementById('adminDuration').value);
-      const prefijo = document.getElementById('adminPrefix').value.trim().toUpperCase() || "CODE";
-      const qty = parseInt(document.getElementById('adminQty').value) || 5;
-      const btn = document.getElementById('btnAdminGen');
-
-      btn.disabled = true;
-      btn.innerText = `Generando ${qty} códigos en Firebase...`;
-      generatedList = [];
-
-      try {
-        const batch = db.batch();
-
-        for (let i = 0; i < qty; i++) {
-          const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-          const codigo = `${prefijo}-${rand}`;
-          generatedList.push(codigo);
-
-          const ref = db.collection("codigos").doc(codigo);
-          batch.set(ref, {
-            codigo: codigo,
-            plan: plan,
-            duracionDias: duracion,
-            usado: false,
-            usadoPor: null,
-            creadoEl: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
-
-        await batch.commit();
-
-        document.getElementById('adminCodesList').innerText = generatedList.join("\n");
-        document.getElementById('adminResultBox').style.display = 'block';
-        btn.disabled = false;
-        btn.innerText = "¡Códigos Creados con Éxito!";
-        setTimeout(() => { btn.innerText = "Generar Más Códigos"; }, 2000);
-
-      } catch (err) {
-        console.error("Error al generar códigos:", err);
-        alert("Error de conexión con Firebase. Revisa las reglas de seguridad.");
-        btn.disabled = false;
-        btn.innerText = "Generar Códigos en Firebase";
-      }
-    }
-
-    function copyGeneratedCodes() {
-      if (generatedList.length > 0) {
-        navigator.clipboard.writeText(generatedList.join("\n")).then(() => {
-          alert("¡Lista de códigos copiada al portapapeles! Ya puedes enviárselos a tus alumnas.");
-        });
-      }
-    }
-
-    async function fetchRegisteredUsers() {
-      const tbody = document.getElementById('usersTableBody');
-      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Consultando base de datos...</td></tr>';
-
-      try {
-        const snap = await db.collection("usuarios").get();
-        allUsersList = [];
-        const ahora = new Date();
-
-        snap.forEach(doc => {
-          const u = doc.data();
-          allUsersList.push(u);
-        });
-
-        document.getElementById('userCountBadge').innerText = allUsersList.length;
-        renderUsersTable(allUsersList);
-
-      } catch (err) {
-        console.error("Error al cargar usuarias:", err);
-        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#c62828;">Error al leer usuarios de Firestore.</td></tr>';
-      }
-    }
-
-    function renderUsersTable(users) {
-      const tbody = document.getElementById('usersTableBody');
-      tbody.innerHTML = '';
-
-      if (users.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">No hay registros en la base de datos.</td></tr>';
-        return;
-      }
-
-      const ahora = new Date();
-
-      users.forEach(u => {
-        let planTag = `<span class="user-status-pill status-free">GRATIS</span>`;
-        let statusTag = `<span style="color:#888;">Sin vencimiento</span>`;
-
-        if (u.plan && u.plan !== 'free') {
-          const isPremium = u.plan === 'premium';
-          planTag = `<span class="user-status-pill ${isPremium ? 'status-active' : 'status-free'}" style="${isPremium ? 'background:#fef3c7; color:#b45309;' : 'background:#e0f2fe; color:#0369a1;'}">${u.plan.toUpperCase()}</span>`;
-
-          if (u.expira) {
-            const expDate = u.expira.toDate();
-            if (expDate > ahora) {
-              const dias = Math.ceil((expDate - ahora) / (1000 * 60 * 60 * 24));
-              statusTag = `<span class="user-status-pill status-active">Activo (${dias}d)</span>`;
-            } else {
-              statusTag = `<span class="user-status-pill status-expired">Vencido</span>`;
-            }
-          }
-        }
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td style="font-weight:600; word-break:break-all;">${u.email}</td>
-          <td>${planTag}</td>
-          <td>${statusTag}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function filterUsersTable() {
-      const q = document.getElementById('adminSearchUser').value.toLowerCase();
-      const filtered = allUsersList.filter(u => u.email.toLowerCase().includes(q));
-      renderUsersTable(filtered);
-    }
-
-    // BLOQUEADOR PERMANENTE DE RETROCESO (REGLA DE NO SALIR DE LA APP)
-    function armarCandadoHistorial() {
-      window.history.pushState({ appLocked: true }, "", window.location.href);
-    }
-
-    // GESTIÓN DEL BOTÓN ATRÁS DEL CELULAR
+    // GESTIÓN DEL BOTÓN ATRÁS DEL CELULAR (EVITA SALIR DE LA APP)
     window.addEventListener('popstate', (e) => {
       const videoM = document.getElementById('videoModal');
       const plansM = document.getElementById('plansModal');
@@ -2466,7 +2239,34 @@
       }, 2000);
     }
 
-    // ACTIVACIÓN DE DESCARGA / INSTALACIÓN (PWA)
+    // CAPTURA Y LANZAMIENTO DEL PROMPT DE INSTALACIÓN (PWA)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const bLogin = document.getElementById('btnInstallAppLogin');
+      const bMain = document.getElementById('btnInstallAppMain');
+      if (bLogin) bLogin.style.display = 'flex';
+      if (bMain) bMain.style.display = 'flex';
+    });
+
+    function triggerPwaInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            const bLogin = document.getElementById('btnInstallAppLogin');
+            const bMain = document.getElementById('btnInstallAppMain');
+            if (bLogin) bLogin.style.display = 'none';
+            if (bMain) bMain.style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert('Para instalar en iPhone toca "Compartir" y luego "Agregar a pantalla de inicio". En Android ya puedes usar la app instalada.');
+      }
+    }
+
+    // ACTIVACIÓN DE DESCARGA / INSTALACIÓN (SERVICE WORKER)
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch((err) => {
