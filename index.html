@@ -2207,9 +2207,11 @@
       document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
     }
 
+    // BOTÓN DE SOPORTE WHATSAPP CON TU NÚMERO OFICIAL CONFIGURADO
     function handleWhatsAppSupportClick() {
       if (userPlan === 'premium') {
-        window.open('https://wa.me/', '_blank');
+        const mensaje = encodeURIComponent("¡Hola! Soy alumna del PLAN PREMIUM de El Arte en Tus Manos y requiero asistencia con un curso.");
+        window.open(`https://wa.me/573218641539?text=${mensaje}`, '_blank');
       } else {
         alert('🔒 El soporte prioritario y pedidos directos por WhatsApp es un beneficio exclusivo del PLAN PREMIUM.\n\nMejora tu membresía para hablar directamente con nosotros.');
         openPlansModal();
