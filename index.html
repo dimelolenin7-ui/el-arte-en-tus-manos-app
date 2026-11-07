@@ -1262,8 +1262,9 @@
 
       <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y precios en oferta? Ver aquí</span>
 
-      <button type="button" class="btn-whatsapp" onclick="handleWhatsAppSupportClick()">
-        <span>💬 ¿Dudas o ayuda con tu compra? WhatsApp</span>
+      <!-- BOTÓN DE SOPORTE DESBLOQUEADO EN LOGIN (EXCLUSIVO PARA PROBLEMAS CON EL PAGO) -->
+      <button type="button" class="btn-whatsapp" onclick="handleLoginPaymentSupportClick()">
+        <span>💬 ¿Problemas con tu pago? Soporte WhatsApp</span>
       </button>
     </div>
   </section>
@@ -2207,10 +2208,16 @@
       document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
     }
 
-    // BOTÓN DE SOPORTE WHATSAPP CON TU NÚMERO OFICIAL CONFIGURADO
+    // 1. SOPORTE DE PAGO EN PANTALLA INICIAL (DESBLOQUEADO PARA TODO PÚBLICO)
+    function handleLoginPaymentSupportClick() {
+      const mensaje = encodeURIComponent("¡Hola! Tengo problemas con mi pago en El Arte en Tus Manos y requiero asistencia.");
+      window.open(`https://wa.me/573218641539?text=${mensaje}`, '_blank');
+    }
+
+    // 2. SOPORTE GENERAL DENTRO DE LA APP (EXCLUSIVO PREMIUM)
     function handleWhatsAppSupportClick() {
       if (userPlan === 'premium') {
-        const mensaje = encodeURIComponent("¡Hola! Soy alumna del PLAN PREMIUM de El Arte en Tus Manos y requiero asistencia con un curso.");
+        const mensaje = encodeURIComponent("¡Hola! Soy usuaria del PLAN PREMIUM de El Arte en Tus Manos y requiero asistencia.");
         window.open(`https://wa.me/573218641539?text=${mensaje}`, '_blank');
       } else {
         alert('🔒 El soporte prioritario y pedidos directos por WhatsApp es un beneficio exclusivo del PLAN PREMIUM.\n\nMejora tu membresía para hablar directamente con nosotros.');
@@ -3007,6 +3014,7 @@
         await batch.commit();
 
         userPlan = planAsignado;
+        localStorage.setItem('user_email', currentUserEmail);
         localStorage.setItem('user_plan_' + currentUserEmail, planAsignado);
         showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
         
