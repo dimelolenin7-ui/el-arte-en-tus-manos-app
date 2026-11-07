@@ -87,6 +87,53 @@
 
     .btn-install-banner:active { transform: scale(0.98); }
 
+    /* NUBE GUÍA LOGIN */
+    .onboarding-cloud-box {
+      background: #fff;
+      border: 2px solid var(--primary);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(179, 90, 56, 0.15);
+      text-align: left;
+      animation: floatCloud 3s ease-in-out infinite;
+    }
+
+    @keyframes floatCloud {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .cloud-title {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .cloud-desc {
+      font-size: 0.76rem;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .cloud-btn-close {
+      display: inline-block;
+      margin-top: 8px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     /* PANTALLA LOGIN */
     #authScreen {
       min-height: 100vh;
@@ -106,6 +153,7 @@
       max-width: 450px;
       text-align: center;
       padding: 28px 20px 24px;
+      position: relative;
     }
 
     .brand-logo-main {
@@ -301,6 +349,13 @@
       background: #fff8e1;
       border: 1px solid #ffe082;
       color: #b78103;
+      font-weight: 700;
+    }
+
+    .btn-help-nav {
+      background: #eef4f0;
+      border: 1px solid #c8e6c9;
+      color: var(--accent);
       font-weight: 700;
     }
 
@@ -1070,6 +1125,66 @@
     .status-active { background: #e8f5e9; color: #2e7d32; }
     .status-expired { background: #ffebee; color: #c62828; }
     .status-free { background: #f3f4f6; color: #4b5563; }
+
+    /* TOUR GUIADO INTERACTIVO */
+    #tourModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 20, 16, 0.75);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(4px);
+    }
+
+    .tour-bubble-card {
+      background: #fff;
+      border-radius: 20px;
+      max-width: 420px;
+      width: 100%;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border: 2px solid var(--primary-soft);
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .tour-step-badge {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .tour-bubble-card h3 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .tour-bubble-card p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 18px;
+    }
+
+    .tour-actions-row {
+      display: flex;
+      gap: 8px;
+    }
   </style>
 </head>
 <body>
@@ -1080,6 +1195,16 @@
       <img src="IMG-20261103-WA0013.jpg" alt="El Arte en Tus Manos" class="brand-logo-main">
       <h1>El Arte en Tus Manos</h1>
       <p>Academia interactiva oficial y biblioteca de amigurumis y manualidades.</p>
+
+      <!-- NUBECITA GUÍA PARA PERSONAS NUEVAS -->
+      <div id="loginCloudGuide" class="onboarding-cloud-box">
+        <div class="cloud-title">☁️ ¿Es tu primera vez aquí?</div>
+        <div class="cloud-desc">
+          • <strong>¿Vas a probar la app gratis?</strong> Selecciona la pestaña <em>"⚪ Acceso Gratis"</em> y escribe tu correo.<br>
+          • <strong>¿Ya compraste tu membresía o curso?</strong> Toca <em>"👑 Tengo Código"</em> e ingresa el código único que recibiste.
+        </div>
+        <button type="button" class="cloud-btn-close" onclick="closeLoginCloud()">¡Entendido!</button>
+      </div>
 
       <button type="button" class="btn-install-banner" id="btnInstallAppLogin" onclick="triggerPwaInstall()">
         📲 Instalar App en tu Celular
@@ -1131,6 +1256,7 @@
         </div>
       </div>
       <div class="top-actions">
+        <button class="btn-top btn-help-nav" onclick="startAppTour(true)">❓ Ayuda</button>
         <button class="btn-top btn-plans-nav" onclick="openPlansModal()">⭐ Planes</button>
         <button class="btn-top" id="btnFavFilter" onclick="toggleFavView()">❤️ Favoritos</button>
         <button class="btn-admin" onclick="openAdminModal()">⚙️</button>
@@ -1184,6 +1310,19 @@
 
     </div>
   </main>
+
+  <!-- VENTANA EMERGENTE DE TOUR GUIADO INTERACTIVO -->
+  <div id="tourModal">
+    <div class="tour-bubble-card">
+      <span class="tour-step-badge" id="tourStepBadge">Paso 1 de 4</span>
+      <h3 id="tourTitle">¡Bienvenida a la Academia!</h3>
+      <p id="tourText">Aquí podrás aprender paso a paso todas las técnicas de amigurumis y manualidades.</p>
+      <div class="tour-actions-row">
+        <button type="button" class="btn-action-outline" onclick="skipTour()">Omitir</button>
+        <button type="button" class="btn-main" id="tourNextBtn" onclick="nextTourStep()">Siguiente</button>
+      </div>
+    </div>
+  </div>
 
   <footer class="dl-footer">
     <img src="file_00000000bf5081f5835c0e1472172313.png" alt="DL COMPANY -TECNOLOGY-" class="dl-footer-logo">
@@ -1529,7 +1668,7 @@
           { id: "vn2", order: 2, title: "Clase 2: Faroles y fanales decorativos para Nochebuena", yt: "n6TIeFBgN_Q", duration: "14:25", mat: "Parafina translúcida, molde cilíndrico, hojas secas de pino y escarcha." },
           { id: "vn3", order: 3, title: "Clase 3: Velas aromáticas con canela, naranja y clavo navideño", yt: "ePx3dxAl3ls", duration: "11:40", mat: "Cera de vaso, ramas de canela aromática, rodajas de naranja deshidratada." },
           { id: "vn4", order: 4, title: "Clase 4: Diseños de velas con efecto nieve y pino escarchado", yt: "cIqjB4eN44M", duration: "10:50", mat: "Cera batida espumosa, brillantina fina blanca y mecha encerada." },
-          { id: "vn5", order: 15, title: "Clase 5: Velas en recipientes de cristal con lazos y decoraciones festivas", yt: "W2dIamEhjr0", duration: "13:15", mat: "Vasos de vidrio, etiquetas navideñas, cintas decorativas y mecha con chapeta." },
+          { id: "vn5", order: 5, title: "Clase 5: Velas en recipientes de cristal con lazos y decoraciones festivas", yt: "W2dIamEhjr0", duration: "13:15", mat: "Vasos de vidrio, etiquetas navideñas, cintas decorativas y mecha con chapeta." },
           { id: "vn6", order: 6, title: "Clase 6: Centros de mesa con velas flotantes navideñas", yt: "SeUS9ut2AHc", duration: "09:30", mat: "Moldes pequeños de flores/estrellas, colorante dorado y agua para flotación." },
           { id: "vn7", order: 7, title: "Clase 7: Empaque, presentación y combos de regalo navideño", yt: "Yr4nVT1Izcg", duration: "15:05", mat: "Cajas de cartón kraft, viruta de madera, papel celofán y tarjetas de felicitación." }
         ]
@@ -1870,7 +2009,7 @@
       }
     ];
 
-    // CATÁLOGO GENERAL CORREGIDO CON TÍTULOS Y CATEGORÍAS VERIFICADAS
+    // CATÁLOGO GENERAL CORREGIDO
     const catalog = [
       // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
@@ -1984,6 +2123,7 @@
     let timeCheckInterval = null;
     let allUsersList = [];
     let deferredPrompt = null;
+    let currentTourStep = 1;
 
     const pricing = {
       '1m': { proCOP: "$10.000 COP", proUSD: "$2.50 USD", premCOP: "$20.000 COP", premUSD: "$5.00 USD" },
@@ -2001,12 +2141,85 @@
       document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
     }
 
+    // GESTIÓN DE LA NUBECITA GUÍA EN LOGIN
+    function closeLoginCloud() {
+      const el = document.getElementById('loginCloudGuide');
+      if (el) el.style.display = 'none';
+      localStorage.setItem('login_cloud_seen', 'true');
+    }
+
+    // TOUR GUIADO DENTRO DE LA APP
+    const tourData = [
+      {
+        badge: "Paso 1 de 4",
+        title: "📚 Cursos Completos Plegables",
+        text: "Cada técnica (Amigurumis, Velas, Jabones, Yeso, Resina, Porcelana) está organizada en módulos. Toca la barra de cualquier curso para desplegar sus clases ordenadas paso a paso."
+      },
+      {
+        badge: "Paso 2 de 4",
+        title: "🔍 Categorías y Buscador",
+        text: "Usa los botones temáticos (🌸 Flores, 🐾 Animales, 👑 Disney, 🍓 Comida) o la barra superior para encontrar tutoriales específicos al instante."
+      },
+      {
+        badge: "Paso 3 de 4",
+        title: "🛠️ Herramientas en cada Video",
+        text: "Al abrir una clase encontrarás tu Contador de Vueltas para no perder puntos al tejer, la lista sugerida de materiales y el botón para marcar la clase como completada."
+      },
+      {
+        badge: "Paso 4 de 4",
+        title: "⭐ Favoritos y Membresías",
+        text: "Guarda proyectos tocando el corazón para verlos en tu pestaña de Favoritos. Y si deseas acceso 100% ilimitado a todos los cursos completos, pulsa el botón 'Planes'."
+      }
+    ];
+
+    function startAppTour(force = false) {
+      if (!force && localStorage.getItem('app_tour_completed') === 'true') return;
+      currentTourStep = 1;
+      renderTourStep();
+      const modal = document.getElementById('tourModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function renderTourStep() {
+      const data = tourData[currentTourStep - 1];
+      document.getElementById('tourStepBadge').innerText = data.badge;
+      document.getElementById('tourTitle').innerText = data.title;
+      document.getElementById('tourText').innerText = data.text;
+      const nextBtn = document.getElementById('tourNextBtn');
+      if (currentTourStep === tourData.length) {
+        nextBtn.innerText = "¡Comenzar a Crear!";
+      } else {
+        nextBtn.innerText = "Siguiente";
+      }
+    }
+
+    function nextTourStep() {
+      if (currentTourStep < tourData.length) {
+        currentTourStep++;
+        renderTourStep();
+      } else {
+        skipTour();
+      }
+    }
+
+    function skipTour() {
+      const modal = document.getElementById('tourModal');
+      if (modal) modal.style.display = 'none';
+      localStorage.setItem('app_tour_completed', 'true');
+    }
+
     function init() {
       if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
         const bL = document.getElementById('btnInstallAppLogin');
         const bM = document.getElementById('btnInstallAppMain');
         if (bL) bL.style.display = 'none';
         if (bM) bM.style.display = 'none';
+      }
+
+      // Si ya vio la nube de login previa, mantener oculta
+      if (localStorage.getItem('login_cloud_seen') === 'true') {
+        const cG = document.getElementById('loginCloudGuide');
+        if (cG) cG.style.display = 'none';
       }
 
       const email = localStorage.getItem('user_email');
@@ -2016,6 +2229,8 @@
         document.getElementById('appScreen').style.display = 'block';
         checkUserMembership(currentUserEmail);
         armarCandadoHistorial();
+        // Disparar tour la primera vez que entra a la academia
+        setTimeout(() => { startAppTour(false); }, 600);
       }
     }
 
@@ -2494,6 +2709,7 @@
       const videoM = document.getElementById('videoModal');
       const plansM = document.getElementById('plansModal');
       const adminM = document.getElementById('adminModal');
+      const tourM = document.getElementById('tourModal');
 
       let modalAbierto = false;
 
@@ -2507,6 +2723,10 @@
       }
       if (adminM && adminM.style.display === 'block') {
         closeAdminModal();
+        modalAbierto = true;
+      }
+      if (tourM && tourM.style.display === 'flex') {
+        skipTour();
         modalAbierto = true;
       }
 
@@ -2531,7 +2751,7 @@
         toast.style.padding = '10px 18px';
         toast.style.borderRadius = '20px';
         toast.style.fontSize = '0.78rem';
-        toast.style.fontWeight = '600';
+        toast.fontWeight = '600';
         toast.style.zIndex = '9999';
         toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
         toast.style.transition = 'opacity 0.3s ease';
