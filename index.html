@@ -270,6 +270,8 @@
       font-size: 0.8rem;
       font-weight: 600;
       text-decoration: none;
+      cursor: pointer;
+      border: none;
     }
 
     /* BARRA SUPERIOR */
@@ -349,6 +351,13 @@
       background: #fff8e1;
       border: 1px solid #ffe082;
       color: #b78103;
+      font-weight: 700;
+    }
+
+    .btn-suggest-nav {
+      background: #fdf4ff;
+      border: 1px solid #f0abfc;
+      color: #86198f;
       font-weight: 700;
     }
 
@@ -457,6 +466,21 @@
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
+    }
+
+    /* ETIQUETA NUEVO */
+    .tag-new-course {
+      display: inline-block;
+      background: #86198f;
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-left: 6px;
+      letter-spacing: 0.5px;
+      vertical-align: middle;
+      text-transform: uppercase;
     }
 
     /* MÓDULOS DE CURSOS PLEGABLES */
@@ -1196,7 +1220,6 @@
       <h1>El Arte en Tus Manos</h1>
       <p>Academia interactiva oficial y biblioteca de amigurumis y manualidades.</p>
 
-      <!-- NUBECITA GUÍA PARA PERSONAS NUEVAS -->
       <div id="loginCloudGuide" class="onboarding-cloud-box">
         <div class="cloud-title">☁️ ¿Es tu primera vez aquí?</div>
         <div class="cloud-desc">
@@ -1239,9 +1262,9 @@
 
       <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y precios en oferta? Ver aquí</span>
 
-      <a href="https://wa.me/" target="_blank" class="btn-whatsapp">
+      <button type="button" class="btn-whatsapp" onclick="handleWhatsAppSupportClick()">
         <span>💬 ¿Dudas o ayuda con tu compra? WhatsApp</span>
-      </a>
+      </button>
     </div>
   </section>
 
@@ -1256,6 +1279,7 @@
         </div>
       </div>
       <div class="top-actions">
+        <button class="btn-top btn-suggest-nav" onclick="openSuggestModal()">💡 Sugerir Curso</button>
         <button class="btn-top btn-help-nav" onclick="startAppTour(true)">❓ Ayuda</button>
         <button class="btn-top btn-plans-nav" onclick="openPlansModal()">⭐ Planes</button>
         <button class="btn-top" id="btnFavFilter" onclick="toggleFavView()">❤️ Favoritos</button>
@@ -1311,7 +1335,25 @@
     </div>
   </main>
 
-  <!-- VENTANA EMERGENTE DE TOUR GUIADO INTERACTIVO -->
+  <!-- MODAL DE SUGERENCIAS (EXCLUSIVO PREMIUM) -->
+  <div id="suggestModal" class="modal">
+    <div class="modal-content">
+      <div class="plans-modal-body">
+        <span class="promo-banner-badge" style="background:#fdf4ff; color:#86198f; border-color:#f0abfc;">👑 Beneficio Exclusivo Alumnas Premium</span>
+        <h3>Sugerir Nuevo Video o Curso</h3>
+        <p>¿Qué te gustaría aprender a continuación? Escribe el tema o el enlace de YouTube y nuestro equipo de soporte lo evaluará para añadirlo como nuevo a la academia.</p>
+        <div id="suggestAlert" class="alert-msg"></div>
+        <div class="input-group">
+          <label>Tema, técnica o enlace de YouTube:</label>
+          <input type="text" id="suggestInput" placeholder="Ej: Curso de velas de soya para masaje, etc.">
+        </div>
+        <button class="btn-main" id="btnSendSuggest" onclick="sendCourseSuggestion()">Enviar Sugerencia a Soporte</button>
+        <button class="btn-action-outline" style="width:100%; margin-top:10px;" onclick="closeSuggestModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOUR GUIADO INTERACTIVO -->
   <div id="tourModal">
     <div class="tour-bubble-card">
       <span class="tour-step-badge" id="tourStepBadge">Paso 1 de 4</span>
@@ -1396,6 +1438,7 @@
         </div>
 
         <div class="plans-cards-grid">
+          <!-- PLAN PRO -->
           <div class="plan-card-item">
             <div class="plan-header-row">
               <span class="plan-title-txt">🔵 Plan PRO</span>
@@ -1405,10 +1448,12 @@
               </div>
             </div>
             <ul class="plan-perks-list">
-              <li>✓ Cursos completos 100% desbloqueados</li>
+              <li>✓ Cursos clásicos 100% desbloqueados</li>
               <li>✓ Videos largos sin cortes al 80%</li>
-              <li>✓ Videos de 2 o más partes libres</li>
-              <li>✓ Contador de vueltas y favoritos</li>
+              <li>✓ Videos de 2 o más partes totalmente libres</li>
+              <li>✓ Contador de vueltas y favoritos activos</li>
+              <li style="color:#999;">✕ Cursos marcados como "NUEVO" (Exclusivo Premium)</li>
+              <li style="color:#999;">✕ Soporte y pedidos por WhatsApp (Exclusivo Premium)</li>
             </ul>
             <div class="checkout-buttons-row">
               <a href="https://checkout.wompi.co/l/VPOS_WTHY53" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
@@ -1417,6 +1462,7 @@
             </div>
           </div>
 
+          <!-- PLAN PREMIUM -->
           <div class="plan-card-item featured">
             <span class="badge-featured-tag">Recomendado</span>
             <div class="plan-header-row">
@@ -1428,8 +1474,10 @@
             </div>
             <ul class="plan-perks-list">
               <li>✓ <strong>Todos los cursos y retos completos</strong></li>
+              <li>✓ <strong>Actualización de cursos nuevos habilitados (etiqueta NUEVO)</strong></li>
+              <li>✓ <strong>Botón exclusivo para sugerir y solicitar videos/cursos a soporte</strong></li>
               <li>✓ Acceso total e ilimitado a toda la plataforma</li>
-              <li>✓ Videos largos sin interrupciones</li>
+              <li>✓ Videos largos sin interrupciones ni límites</li>
               <li>✓ Fichas completas de materiales y tips</li>
               <li>✓ <strong>Soporte prioritario</strong> directo por WhatsApp</li>
             </ul>
@@ -1544,6 +1592,7 @@
         id: "reto_amigurumi",
         title: "Curso: Amigurumis desde cero sin frustrarse (Reto 10 Días)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "c1", order: 1, title: "Día 1: Materiales básicos y cómo empezar a tejer", yt: "0v_k767EHAQ", duration: "06:49", mat: "Hilo de algodón peinado, ganchillo 2.5mm o 3.0mm, tijeras y marcador." },
           { id: "c2", order: 2, title: "Día 2: Anillo mágico vs cadenas en crochet: cuál usar", yt: "-zc_e-_KCBY", duration: "07:48", mat: "Ovillo claro para distinguir hebras, ganchillo y aguja lanera." },
@@ -1563,6 +1612,7 @@
         id: "curso_velas_hada",
         title: "Curso: Velas Artesanales y Florivelas (Hada Creativa)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "vel1", order: 1, title: "Clase 1: Materiales básicos con poco presupuesto", yt: "NKv-ZVc54Ew", duration: "11:33", mat: "Cera de soya, báscula gramera, termómetro, pistola de calor o secadora, ollita de peltre, moldes y pabilos." },
           { id: "vel2", order: 2, title: "Clase 2: Hagamos nuestras primeras velas de molde", yt: "JVxreEtItTU", duration: "19:52", mat: "Moldes limpios de flores, aceite desmoldante, colorante rojo/rosa, fragancia y pabilo." },
@@ -1578,6 +1628,7 @@
         id: "curso_velas_caseras",
         title: "Curso: Velas Caseras Paso a Paso (15 Clases)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "vc1", order: 1, title: "Clase 1: Materiales esenciales para empezar ideal principiantes", yt: "UaVymA9J3z4", duration: "06:50", mat: "Ceras de soja (bajo/alto punto), cera arena, parafina, esencias, colorantes y recipientes." },
           { id: "vc2", order: 2, title: "Clase 2: El secreto de las velas de arena (sin fundir cera)", yt: "lvcgakOsrbk", duration: "02:56", mat: "Cera de soja en perlas (arena), recipientes de vidrio o carameleras, pabilo y esencias." },
@@ -1602,6 +1653,7 @@
         id: "curso_velas_emprende",
         title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "cve1", order: 1, title: "Clase 1: Cómo hacer velas aromáticas para vender desde casa (Principiantes)", yt: "2Rmd7MqbJ7o", duration: "15:15", mat: "Cera de soya, mecha adecuada, termómetro digital, esencias para velas y recipientes resistentes al calor." },
           { id: "cve2", order: 2, title: "Clase 2: Los 7 errores que arruinan tus velas (y cómo evitarlos)", yt: "G7k7HKR-Zlk", duration: "13:57", mat: "Cuaderno para apuntar control de temperaturas, pruebas de combustión y mechas." },
@@ -1618,6 +1670,7 @@
         id: "curso_basico_pinkboss",
         title: "Curso: Básico de Velas (Pink Boss Lab)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "pb1", order: 1, title: "Clase 1: Curso Básico de Velas (Teoría, Puntos de Fusión y Práctica)", yt: "jGVVycqMAlA", duration: "43:44", mat: "Cera de vaso/soya, balanza, termómetro, pabilo de algodón y ollita de aluminio." },
           { id: "pb2", order: 2, title: "Clase 2: Claves para lograr el éxito con tu negocio de velas", yt: "outMzyMFhns", duration: "09:03", mat: "Libreta de apuntes, enfoque en catálogo y estrategias de redes sociales." },
@@ -1635,6 +1688,7 @@
         id: "curso_velas_colores",
         title: "Curso: Velas de Colores, Marmolados y Diseños Especiales",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "col1", order: 1, title: "Clase 1: Velas con colores desde el molde de cartulina", yt: "LS4hR9eEBAg", duration: "09:54", mat: "Cartulina, cinta masking, plastilina escolar, parafina sólida y cubitos teñidos." },
           { id: "col2", order: 2, title: "Clase 2: Velas marmoladas reciclando rollos de cartón", yt: "nIWtyqoEp9M", duration: "07:38", mat: "Rollos de papel higiénico, retazos de cera blanca y de color, aceite desmoldante." },
@@ -1663,12 +1717,13 @@
         id: "curso_velas_navidenas",
         title: "Curso: Velas Navideñas para Decorar y Vender",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "vn1", order: 1, title: "Clase 1: Velas temáticas de Navidad paso a paso (Técnica básica)", yt: "9QR-abICbbI", duration: "12:10", mat: "Cera de soya, mecha para vela, moldes navideños y colorantes rojo y verde." },
           { id: "vn2", order: 2, title: "Clase 2: Faroles y fanales decorativos para Nochebuena", yt: "n6TIeFBgN_Q", duration: "14:25", mat: "Parafina translúcida, molde cilíndrico, hojas secas de pino y escarcha." },
           { id: "vn3", order: 3, title: "Clase 3: Velas aromáticas con canela, naranja y clavo navideño", yt: "ePx3dxAl3ls", duration: "11:40", mat: "Cera de vaso, ramas de canela aromática, rodajas de naranja deshidratada." },
           { id: "vn4", order: 4, title: "Clase 4: Diseños de velas con efecto nieve y pino escarchado", yt: "cIqjB4eN44M", duration: "10:50", mat: "Cera batida espumosa, brillantina fina blanca y mecha encerada." },
-          { id: "vn5", order: 5, title: "Clase 5: Velas en recipientes de cristal con lazos y decoraciones festivas", yt: "W2dIamEhjr0", duration: "13:15", mat: "Vasos de vidrio, etiquetas navideñas, cintas decorativas y mecha con chapeta." },
+          { id: "vn5", order: 15, title: "Clase 5: Velas en recipientes de cristal con lazos y decoraciones festivas", yt: "W2dIamEhjr0", duration: "13:15", mat: "Vasos de vidrio, etiquetas navideñas, cintas decorativas y mecha con chapeta." },
           { id: "vn6", order: 6, title: "Clase 6: Centros de mesa con velas flotantes navideñas", yt: "SeUS9ut2AHc", duration: "09:30", mat: "Moldes pequeños de flores/estrellas, colorante dorado y agua para flotación." },
           { id: "vn7", order: 7, title: "Clase 7: Empaque, presentación y combos de regalo navideño", yt: "Yr4nVT1Izcg", duration: "15:05", mat: "Cajas de cartón kraft, viruta de madera, papel celofán y tarjetas de felicitación." }
         ]
@@ -1679,6 +1734,7 @@
         id: "curso_emprendimiento_velas",
         title: "Curso: Emprendimiento y Negocio de Velas Exitoso (15 Clases)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "ev1", order: 1, title: "Clase 1: Cómo iniciar tu marca de velas desde cero con poco dinero", yt: "SwOMW7oZoV8", duration: "14:20", mat: "Libreta de planificación, definición de nicho de mercado y catálogo inicial." },
           { id: "ev2", order: 2, title: "Clase 2: Registro de costos, presupuestos y punto de equilibrio", yt: "i5IJCs-MJek", duration: "12:45", mat: "Plantilla de costos, calculadora de materias primas y horas de mano de obra." },
@@ -1703,6 +1759,7 @@
         id: "curso_velas_artesanales_pro",
         title: "Curso: Velas Artesanales Completo (12 Clases Paso a Paso)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "vap1", order: 1, title: "Clase 1: Introducción a la cerería artesanal y tipos de ceras naturales", yt: "w0uVLOt-C2I", duration: "13:40", mat: "Cera de soya, cera de palma, cera de abejas y tablas comparativas de calor." },
           { id: "vap2", order: 2, title: "Clase 2: Cálculo milimétrico de gramajes, mermas y concentración aromática", yt: "-eGj79duJe0", duration: "11:50", mat: "Balanza de precisión, densidad 0.9 y proporciones de fragancia del 6% al 10%." },
@@ -1724,6 +1781,7 @@
         id: "curso_jabones_art_chela",
         title: "Curso: Jabones Artesanales Naturales (Art by Chela - 18 Clases)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "ja1", order: 1, title: "Clase 1: Introducción a la jabonería natural y materiales básicos", yt: "IDqaTrbdmOQ", duration: "14:35", mat: "Base de glicerina, jarras refractarias, espátula y moldes de silicona." },
           { id: "ja2", order: 2, title: "Clase 2: Fundido correcto y prevención de sobrecalentamiento", yt: "V85X07-ikjI", duration: "12:40", mat: "Microondas o baño maría a fuego lento, termómetro y alcohol en spray." },
@@ -1751,6 +1809,7 @@
         id: "curso_jabones_bioarmonia",
         title: "Curso: Taller Completo de Jabones de Glicerina (BioArmonía)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "jb1", order: 1, title: "Clase 1: Taller completo de jabones de glicerina (Parte 1)", yt: "Uetr88L2oKY", duration: "30:28", mat: "Base transparente, base opaca, 10% límite de activos y molde de silicona." },
           { id: "jb2", order: 2, title: "Clase 2: Jabones en capas bicolores y pulpa natural de sábila", yt: "ruOpHW_PEBk", duration: "24:15", mat: "Pulpa de aloe vera deshidratada, alcohol en spray y capas firmes." },
@@ -1765,6 +1824,7 @@
         id: "curso_jabones_kameraki",
         title: "Curso: Jabones de Glicerina y Técnicas de Diseño (21 Clases)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "cjk1", order: 1, title: "Clase 1: Curso completo gratuito de jabones de glicerina para principiantes", yt: "5FBHZJ70O58", duration: "1:42:59", mat: "350g base opaca, 12g avena, 4g miel, 7g fragancia, 6g pepita de uva y 15 gotas ylang ylang." },
           { id: "cjk2", order: 2, title: "Clase 2: Bases opacas, transparentes y cristal para encapsulados", yt: "yhUxxbqJ4H0", duration: "16:40", mat: "Bases puras, moldes acrílicos y temperaturas de trabajo seguras." },
@@ -1795,6 +1855,7 @@
         id: "curso_recipientes_yeso",
         title: "Curso: Recipientes de Yeso para Velas y Macetas (22 Clases)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "ry1", order: 1, title: "Clase 1: Introducción a los materiales: Yeso cerámico vs cemento y concreto", yt: "LAU9h55ReBE", duration: "16:50", mat: "Yeso cerámico, yeso de construcción, marmolina, proporciones de agua al 70% y fibra de vidrio." },
           { id: "ry2", order: 2, title: "Clase 2: Bandejas y portavelas de yeso cerámico sin grumos", yt: "yRzdaJF6Agc", duration: "07:19", mat: "130g yeso cerámico, 100g agua, molde de silicona para charolas, batidor de globo y plástico vibrador." },
@@ -1826,6 +1887,7 @@
         id: "curso_resina_principiantes",
         title: "Curso: Resina Epóxica para Principiantes (16 Clases)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "rp1", order: 1, title: "Clase 1: Domina la resina epóxica desde cero: Componente A y B 1 a 1", yt: "hy4zM1jo51Q", duration: "44:17", mat: "Resina epóxica, catalizador, vasos medidores, palitos de madera, guantes y mascarilla." },
           { id: "rp2", order: 2, title: "Clase 2: Elaboración de llaveros de letras personalizados con flores secas", yt: "4e7BTxlOa0A", duration: "15:20", mat: "Molde de abecedario en silicona, flores prensadas deshidratadas y pinzas." },
@@ -1851,6 +1913,7 @@
         id: "curso_resina_creativa_master",
         title: "Curso: Resina Creativa, Accesorios y Técnicas Avanzadas (42 Clases)",
         cat: "Cursos Completos",
+        isNew: false,
         lessons: [
           { id: "rc1", order: 1, title: "Clase 1: Cómo hacer lapiceras y bolígrafos personalizados paso a paso", yt: "oq22d2HKJ6A", duration: "12:56", mat: "10ml resina epóxica, pigmento salmón/blanco, glitter y vinil de corte." },
           { id: "rc2", order: 2, title: "Clase 2: Bandejas de servicio con asas metálicas y técnica oceánica", yt: "Zau3aiwX8pk", duration: "18:10", mat: "Molde de charola grande, pigmento azul marino, pasta blanca de olas y pistola de calor." },
@@ -1897,11 +1960,12 @@
         ]
       },
 
-      // 16. CURSO DE MODELADO EN PORCELANA FRÍA - COLECCIÓN MASTER
+      // 16. CURSO DE MODELADO EN PORCELANA FRÍA - COLECCIÓN MASTER (NUEVO)
       {
         id: "curso_porcelana_master",
         title: "Curso: Modelado en Porcelana Fría - Colección Master (42 Clases)",
         cat: "Cursos Completos",
+        isNew: true,
         lessons: [
           { id: "pm1", order: 1, title: "Clase 1: Introducción a la porcelana fría: Características y amasado básico", yt: "7KUJYOI8Wvc", duration: "15:00", mat: "Porcelana fría tradicional, vaselina líquida, crema para manos y superficie lisa." },
           { id: "pm2", order: 2, title: "Clase 2: Materiales y herramientas con alternativas caseras", yt: "8_wOjQnSAtc", duration: "21:02", mat: "Cola blanca, estecas, bolillos, rodillos de acrílico y barniz acrílico." },
@@ -1948,11 +2012,12 @@
         ]
       },
 
-      // 17. CURSO DE MODELADO Y FIGURAS EN PORCELANA FRÍA (GUÍA PRÁCTICA)
+      // 17. CURSO DE MODELADO Y FIGURAS EN PORCELANA FRÍA (GUÍA PRÁCTICA) (NUEVO)
       {
         id: "curso_porcelana_practica",
         title: "Curso: Modelado y Figuras en Porcelana Fría (Guía Práctica - 23 Clases)",
         cat: "Cursos Completos",
+        isNew: true,
         lessons: [
           { id: "pp1", order: 1, title: "Clase 1: Guía para principiantes: Masas tradicional, soft e Infinity", yt: "hQhvlOrTBFQ", duration: "12:26", mat: "Porcelana fría, crema de manos, rodillo, estecas y placa de silicona." },
           { id: "pp2", order: 2, title: "Clase 2: Ejercicios de amasado para evitar burbujas y grietas internas", yt: "NiL28IpynWA", duration: "11:15", mat: "Masa fresca, técnica de compactado con las palmas y guardado en film." },
@@ -1980,11 +2045,12 @@
         ]
       },
 
-      // 18. CURSO DE MODELADO EN ARCILLA FRÍA / POLIMÉRICA
+      // 18. CURSO DE MODELADO EN ARCILLA FRÍA / POLIMÉRICA (NUEVO)
       {
         id: "curso_arcilla_fria",
         title: "Curso: Taller de Modelado en Arcilla Fría y Polimérica (19 Clases)",
         cat: "Cursos Completos",
+        isNew: true,
         lessons: [
           { id: "af1", order: 1, title: "Clase 1: Unboxing y presentación del kit de iniciación en arcilla", yt: "U2ma549szRE", duration: "01:05", mat: "Pasta de modelar DAS de secado al aire, rodillo, estecas y pinturas." },
           { id: "af2", order: 2, title: "Clase 2: Amasado, acondicionamiento y grosor uniforme con guías", yt: "fvqquewzKgc", duration: "12:30", mat: "Varillas niveladoras de madera, rodillo acrílico y superficie antiadherente." },
@@ -2009,7 +2075,6 @@
       }
     ];
 
-    // CATÁLOGO GENERAL CORREGIDO
     const catalog = [
       // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
@@ -2141,7 +2206,66 @@
       document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
     }
 
-    // GESTIÓN DE LA NUBECITA GUÍA EN LOGIN
+    // BOTÓN DE SOPORTE WHATSAPP CON BLOQUEO PARA FREE Y PRO
+    function handleWhatsAppSupportClick() {
+      if (userPlan === 'premium') {
+        window.open('https://wa.me/', '_blank');
+      } else {
+        alert('🔒 El soporte prioritario y pedidos directos por WhatsApp es un beneficio exclusivo del PLAN PREMIUM.\n\nMejora tu membresía para hablar directamente con nosotros.');
+        openPlansModal();
+      }
+    }
+
+    // MODAL DE SUGERENCIAS (EXCLUSIVO PREMIUM)
+    function openSuggestModal() {
+      if (userPlan !== 'premium') {
+        alert('🔒 El buzón de sugerencias de nuevos cursos y videos es exclusivo para alumnas con PLAN PREMIUM.\n\nMejora al Plan Premium para que nuestro equipo agregue tus proyectos favoritos a la academia.');
+        openPlansModal();
+        return;
+      }
+      document.getElementById('suggestInput').value = '';
+      document.getElementById('suggestAlert').style.display = 'none';
+      document.getElementById('suggestModal').style.display = 'block';
+    }
+
+    function closeSuggestModal() {
+      document.getElementById('suggestModal').style.display = 'none';
+    }
+
+    async function sendCourseSuggestion() {
+      const input = document.getElementById('suggestInput');
+      const text = input.value.trim();
+      const alertBox = document.getElementById('suggestAlert');
+      const btn = document.getElementById('btnSendSuggest');
+
+      if (!text) {
+        showAlert(alertBox, 'Escribe el nombre del curso o enlace antes de enviar.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Enviando a soporte...';
+
+      try {
+        await db.collection("sugerencias").add({
+          email: currentUserEmail,
+          sugerencia: text,
+          fecha: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showAlert(alertBox, '¡Gracias! Tu sugerencia fue enviada a soporte. Si está disponible, la agregaremos con la etiqueta NUEVO.', 'success');
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerText = 'Enviar Sugerencia a Soporte';
+          closeSuggestModal();
+        }, 2200);
+      } catch (err) {
+        console.error("Error al sugerir:", err);
+        showAlert(alertBox, 'Error al enviar. Inténtalo de nuevo.', 'error');
+        btn.disabled = false;
+        btn.innerText = 'Enviar Sugerencia a Soporte';
+      }
+    }
+
     function closeLoginCloud() {
       const el = document.getElementById('loginCloudGuide');
       if (el) el.style.display = 'none';
@@ -2167,8 +2291,8 @@
       },
       {
         badge: "Paso 4 de 4",
-        title: "⭐ Favoritos y Membresías",
-        text: "Guarda proyectos tocando el corazón para verlos en tu pestaña de Favoritos. Y si deseas acceso 100% ilimitado a todos los cursos completos, pulsa el botón 'Planes'."
+        title: "👑 Novedades y Sugerencias Premium",
+        text: "Las alumnas Premium disfrutan de los cursos marcados como 'NUEVO', botón para sugerir tutoriales al equipo de soporte y atención directa por WhatsApp."
       }
     ];
 
@@ -2216,7 +2340,6 @@
         if (bM) bM.style.display = 'none';
       }
 
-      // Si ya vio la nube de login previa, mantener oculta
       if (localStorage.getItem('login_cloud_seen') === 'true') {
         const cG = document.getElementById('loginCloudGuide');
         if (cG) cG.style.display = 'none';
@@ -2229,7 +2352,6 @@
         document.getElementById('appScreen').style.display = 'block';
         checkUserMembership(currentUserEmail);
         armarCandadoHistorial();
-        // Disparar tour la primera vez que entra a la academia
         setTimeout(() => { startAppTour(false); }, 600);
       }
     }
@@ -2325,6 +2447,7 @@
 
         await batch.commit();
 
+        userPlan = planAsignado;
         localStorage.setItem('user_email', email);
         localStorage.setItem('user_plan_' + email, planAsignado);
         showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
@@ -2401,8 +2524,15 @@
       renderGalleries();
     }
 
-    function isLessonLockedInCourse(lesson, totalLessons) {
+    // REGLA DE BLOQUEO DE CURSOS
+    function isLessonLockedInCourse(course, lesson, totalLessons) {
+      // 1. Si el curso está marcado como nuevo, solo PREMIUM tiene acceso
+      if (course.isNew) {
+        return userPlan !== 'premium';
+      }
+      // 2. En cursos tradicionales, PRO y PREMIUM tienen acceso 100%
       if (userPlan === 'premium' || userPlan === 'pro') return false;
+      // 3. En plan gratis, se bloquea la segunda mitad (50%)
       const freeLimit = Math.ceil(totalLessons / 2);
       return lesson.order > freeLimit;
     }
@@ -2451,12 +2581,22 @@
 
         if (index === 0) { box.classList.add('open'); }
 
+        let stateText = '';
+        if (course.isNew) {
+          stateText = userPlan === 'premium' ? '👑 100% Desbloqueado' : '🔒 Exclusivo Alumnas PREMIUM';
+        } else {
+          stateText = (userPlan === 'free') ? `${freeLimit} libres (50%)` : '100% Desbloqueado';
+        }
+
         box.innerHTML = `
           <div class="course-header-toggle" onclick="toggleCourseAccordion('${course.id}')">
             <div class="course-header-left">
-              <div class="course-title">${course.title}</div>
+              <div class="course-title">
+                ${course.title}
+                ${course.isNew ? '<span class="tag-new-course">✨ NUEVO</span>' : ''}
+              </div>
               <div class="course-meta-txt">
-                📚 ${total} clases • ${doneCount} completadas • ${userPlan === 'free' ? `${freeLimit} libres (50%)` : '100% Desbloqueado'}
+                📚 ${total} clases • ${doneCount} completadas • ${stateText}
               </div>
             </div>
             <div class="course-arrow-icon">▼</div>
@@ -2473,20 +2613,32 @@
 
         course.lessons.forEach(l => {
           const isDone = localStorage.getItem('done_' + l.id) === 'true';
-          const isLocked = isLessonLockedInCourse(l, total);
+          const isLocked = isLessonLockedInCourse(course, l, total);
 
           const item = document.createElement('div');
           item.className = 'course-lesson-item' + (isDone ? ' done' : '') + (isLocked ? ' locked' : '');
           item.onclick = (e) => {
             e.stopPropagation();
-            if (isLocked) { openPlansModal(); } else { openVideo(l, course.title); }
+            if (isLocked) {
+              if (course.isNew) {
+                alert('🔒 Este curso es NUEVO y exclusivo para el PLAN PREMIUM.\n\nMejora tu plan para acceder a todas las actualizaciones nuevas.');
+              }
+              openPlansModal();
+            } else {
+              openVideo(l, course.title);
+            }
           };
+
+          let lockLabel = '';
+          if (isLocked) {
+            lockLabel = course.isNew ? '🔒 Exclusivo PREMIUM' : '🔒 Bloqueado (Mitad PRO)';
+          }
 
           item.innerHTML = `
             <img src="https://img.youtube.com/vi/${l.yt}/hqdefault.jpg" class="lesson-thumb ${isLocked ? 'blur' : ''}" alt="${l.title}">
             <div style="flex:1;">
               <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">
-                CLASE ${l.order} (${l.duration}) ${isLocked ? '🔒 Bloqueado (Mitad PRO)' : ''}
+                CLASE ${l.order} (${l.duration}) ${lockLabel}
               </div>
               <div style="font-size:0.8rem; font-weight:600; line-height:1.2;">${l.title}</div>
             </div>
@@ -2710,6 +2862,7 @@
       const plansM = document.getElementById('plansModal');
       const adminM = document.getElementById('adminModal');
       const tourM = document.getElementById('tourModal');
+      const suggestM = document.getElementById('suggestModal');
 
       let modalAbierto = false;
 
@@ -2727,6 +2880,10 @@
       }
       if (tourM && tourM.style.display === 'flex') {
         skipTour();
+        modalAbierto = true;
+      }
+      if (suggestM && suggestM.style.display === 'block') {
+        closeSuggestModal();
         modalAbierto = true;
       }
 
@@ -2751,7 +2908,7 @@
         toast.style.padding = '10px 18px';
         toast.style.borderRadius = '20px';
         toast.style.fontSize = '0.78rem';
-        toast.fontWeight = '600';
+        toast.style.fontWeight = '600';
         toast.style.zIndex = '9999';
         toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
         toast.style.transition = 'opacity 0.3s ease';
