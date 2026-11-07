@@ -1456,8 +1456,8 @@
               <li style="color:#999;">✕ Soporte y pedidos por WhatsApp (Exclusivo Premium)</li>
             </ul>
             <div class="checkout-buttons-row">
-              <a href="https://checkout.wompi.co/l/VPOS_WTHY53" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
-              <a href="https://mpago.li/1nVSCMe" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago (Latam)</a>
+              <a href="https://checkout.wompi.co/l/sMlh8n" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi ($10.000 COP)</a>
+              <a href="https://mpago.li/1nVSCMe" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago ($10.000 COP)</a>
               <a href="https://paypal.me/Leninbenjumea/2.50USD" target="_blank" class="btn-pay-gateway btn-paypal">PayPal (Dólares USD)</a>
             </div>
           </div>
@@ -1482,8 +1482,8 @@
               <li>✓ <strong>Soporte prioritario</strong> directo por WhatsApp</li>
             </ul>
             <div class="checkout-buttons-row">
-              <a href="https://checkout.wompi.co/l/VPOS_WTHY53" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi (Colombia)</a>
-              <a href="https://mpago.li/2pczvz2" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago (Latam)</a>
+              <a href="https://checkout.wompi.co/l/Gr1psx" target="_blank" class="btn-pay-gateway btn-wompi">Pagar con Wompi ($20.000 COP)</a>
+              <a href="https://mpago.li/2pczvz2" target="_blank" class="btn-pay-gateway btn-mp">Mercado Pago ($20.000 COP)</a>
               <a href="https://paypal.me/Leninbenjumea/5.00USD" target="_blank" class="btn-pay-gateway btn-paypal">PayPal (Dólares USD)</a>
             </div>
           </div>
@@ -2075,6 +2075,7 @@
       }
     ];
 
+    // CATÁLOGO GENERAL CORREGIDO
     const catalog = [
       // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
@@ -2206,7 +2207,6 @@
       document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
     }
 
-    // BOTÓN DE SOPORTE WHATSAPP CON BLOQUEO PARA FREE Y PRO
     function handleWhatsAppSupportClick() {
       if (userPlan === 'premium') {
         window.open('https://wa.me/', '_blank');
@@ -2216,7 +2216,6 @@
       }
     }
 
-    // MODAL DE SUGERENCIAS (EXCLUSIVO PREMIUM)
     function openSuggestModal() {
       if (userPlan !== 'premium') {
         alert('🔒 El buzón de sugerencias de nuevos cursos y videos es exclusivo para alumnas con PLAN PREMIUM.\n\nMejora al Plan Premium para que nuestro equipo agregue tus proyectos favoritos a la academia.');
@@ -2272,7 +2271,6 @@
       localStorage.setItem('login_cloud_seen', 'true');
     }
 
-    // TOUR GUIADO DENTRO DE LA APP
     const tourData = [
       {
         badge: "Paso 1 de 4",
@@ -2524,15 +2522,11 @@
       renderGalleries();
     }
 
-    // REGLA DE BLOQUEO DE CURSOS
     function isLessonLockedInCourse(course, lesson, totalLessons) {
-      // 1. Si el curso está marcado como nuevo, solo PREMIUM tiene acceso
       if (course.isNew) {
         return userPlan !== 'premium';
       }
-      // 2. En cursos tradicionales, PRO y PREMIUM tienen acceso 100%
       if (userPlan === 'premium' || userPlan === 'pro') return false;
-      // 3. En plan gratis, se bloquea la segunda mitad (50%)
       const freeLimit = Math.ceil(totalLessons / 2);
       return lesson.order > freeLimit;
     }
