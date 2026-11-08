@@ -1271,7 +1271,7 @@
         <button class="btn-top btn-plans-nav" onclick="openPlansModal()">⭐ Planes</button>
         <button class="btn-top" id="btnFavFilter" onclick="toggleFavView()">❤️ Favoritos</button>
         <button class="btn-admin" onclick="openAdminModal()">⚙️</button>
-        <button class="btn-top" onclick="handleLogout()">Salir</button>
+        <button class="btn-top" id="btnAppLogout" onclick="handleLogout()">Salir</button>
       </div>
     </header>
 
@@ -1316,7 +1316,7 @@
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
       </div>
 
-      <!-- PRIMERO: VIDEOS POR CATEGORÍAS -->
+      <!-- PRIMERO: VIDEOS POR CATEGORÍAS (GRATIS DE PRIMERO) -->
       <div id="sectionsContainer"></div>
 
       <!-- DE ÚLTIMO: MÓDULOS DE CURSOS COMPLETOS -->
@@ -1676,7 +1676,7 @@
       // 6. CURSO DE VELAS DE COLORES Y TÉCNICAS ESPECIALES
       {
         id: "curso_velas_colores",
-        title: "Curso: Velas de Colores, Marmolados y Diseños Especiales",
+        title: "Curso: Velas De Colores, Marmolados y Diseños Especiales",
         cat: "Cursos Completos",
         isNew: false,
         lessons: [
@@ -1722,7 +1722,7 @@
       // 8. CURSO: EMPRENDIMIENTO DE VELAS
       {
         id: "curso_emprendimiento_velas",
-        title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
+        title: "Curso: Emprendimiento y Negocio de Velas Exitoso (15 Clases)",
         cat: "Cursos Completos",
         isNew: false,
         lessons: [
@@ -2372,6 +2372,15 @@
         if (cG) cG.style.display = 'none';
       }
 
+      // AUTOCOMPLETADO AUTOMÁTICO DEL CORREO GUARDADO PREVIAMENTE
+      const savedEmail = localStorage.getItem('last_entered_email') || localStorage.getItem('user_email');
+      if (savedEmail) {
+        const fInput = document.getElementById('freeEmailInput');
+        const cInput = document.getElementById('codeEmailInput');
+        if (fInput && !fInput.value) fInput.value = savedEmail;
+        if (cInput && !cInput.value) cInput.value = savedEmail;
+      }
+
       const email = localStorage.getItem('user_email');
       if (email) {
         currentUserEmail = email.toLowerCase().trim();
@@ -2409,6 +2418,7 @@
       const email = document.getElementById('freeEmailInput').value.trim().toLowerCase();
       if (email) {
         localStorage.setItem('user_email', email);
+        localStorage.setItem('last_entered_email', email);
         try {
           await db.collection("usuarios").doc(email).set({
             email: email,
@@ -2477,6 +2487,7 @@
 
         userPlan = planAsignado;
         localStorage.setItem('user_email', email);
+        localStorage.setItem('last_entered_email', email);
         localStorage.setItem('user_plan_' + email, planAsignado);
         showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
 
@@ -2490,12 +2501,23 @@
       }
     }
 
+    // CIERRE DE SESIÓN BLOQUEADO PARA USUARIOS PREMIUM (MÁXIMO PLAN)
     function handleLogout() {
+      if (userPlan === 'premium') {
+        alert('👑 Tienes activa tu membresía PREMIUM (Plan Máximo). Tu sesión permanece siempre abierta y protegida en la app.');
+        return;
+      }
       localStorage.removeItem('user_email');
       currentUserEmail = null;
       document.getElementById('appScreen').style.display = 'none';
       document.getElementById('authScreen').style.display = 'flex';
       switchAuthTab('free');
+      
+      const savedEmail = localStorage.getItem('last_entered_email');
+      if (savedEmail) {
+        const fInput = document.getElementById('freeEmailInput');
+        if (fInput) fInput.value = savedEmail;
+      }
     }
 
     async function checkUserMembership(email) {
@@ -2537,6 +2559,13 @@
         userPlan = localStorage.getItem('user_plan_' + email) || 'free';
         updateBadgeUI(userPlan === 'free' ? 'PLAN GRATIS' : userPlan.toUpperCase(), 'badge-free');
       }
+
+      // Ocultar botón Salir para planes PREMIUM
+      const btnLogout = document.getElementById('btnAppLogout');
+      if (btnLogout) {
+        btnLogout.style.display = (userPlan === 'premium') ? 'none' : 'block';
+      }
+
       loadAppState();
     }
 
@@ -2580,7 +2609,7 @@
       if (el) { el.classList.toggle('open'); }
     }
 
-    // 1. RENDERIZADO DE VIDEOS EN PRIMER LUGAR (GRATIS PRIMERO, BLOQUEADOS DESPUÉS)
+    // RENDERIZADO DE VIDEOS EN PRIMER LUGAR (GRATIS DE PRIMERO)
     function renderGalleries() {
       const container = document.getElementById('sectionsContainer');
       container.innerHTML = '';
@@ -2616,7 +2645,7 @@
       categories.forEach(catName => {
         let catVideos = filtered.filter(v => v.cat === catName);
 
-        // ORDENAMIENTO: Videos libres para el plan gratis salen de primero; los bloqueados al final
+        // Gratis de primero, bloqueados al final
         catVideos.sort((a, b) => {
           const lockedA = isSingleVideoLocked(a);
           const lockedB = isSingleVideoLocked(b);
@@ -2662,7 +2691,7 @@
       });
     }
 
-    // 2. RENDERIZADO DE CURSOS DE ÚLTIMO (CLASES GRATIS PRIMERO, BLOQUEADAS DESPUÉS)
+    // RENDERIZADO DE CURSOS DE ÚLTIMO (CLASES GRATIS PRIMERO)
     function renderCourses() {
       const container = document.getElementById('coursesContainer');
       container.innerHTML = '';
@@ -2724,7 +2753,6 @@
 
         const listEl = box.querySelector('.lessons-list');
 
-        // ORDENAMIENTO EN CURSOS: Las clases libres salen primero; las bloqueadas después
         let sortedLessons = [...course.lessons];
         sortedLessons.sort((a, b) => {
           const lockedA = isLessonLockedInCourse(course, a, total);
@@ -2942,7 +2970,9 @@
       armarCandadoHistorial();
 
       if (!modalAbierto && currentUserEmail && document.getElementById('appScreen').style.display !== 'none') {
-        mostrarAvisoPermanencia();
+        if (userPlan !== 'premium') {
+          mostrarAvisoPermanencia();
+        }
       }
     });
 
@@ -3062,10 +3092,17 @@
         await batch.commit();
 
         userPlan = planAsignado;
+        localStorage.setItem('user_email', currentUserEmail);
+        localStorage.setItem('last_entered_email', currentUserEmail);
         localStorage.setItem('user_plan_' + currentUserEmail, planAsignado);
         showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
         
         updateBadgeUI(`${planAsignado === 'premium' ? '👑 PREMIUM' : '🔵 PRO'} (${diasDuracion}d)`, planAsignado === 'premium' ? 'badge-premium' : 'badge-pro');
+
+        const btnLogout = document.getElementById('btnAppLogout');
+        if (btnLogout) {
+          btnLogout.style.display = (userPlan === 'premium') ? 'none' : 'block';
+        }
 
         setTimeout(() => {
           closePlansModal();
