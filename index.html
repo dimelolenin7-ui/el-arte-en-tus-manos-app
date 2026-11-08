@@ -762,6 +762,27 @@
 
     #player { width: 100%; height: 100%; }
 
+    /* BOTÓN FLOTANTE DE PANTALLA COMPLETA */
+    .btn-fullscreen-floating {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 25;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      backdrop-filter: blur(4px);
+    }
+    .btn-fullscreen-floating:active { transform: scale(0.95); }
+
     .time-lock-curtain {
       position: absolute;
       inset: 0;
@@ -1365,6 +1386,9 @@
     <div class="modal-content">
       <div class="video-frame-container">
         <div id="player"></div>
+        <!-- BOTÓN DE PANTALLA COMPLETA FLOTANTE (OPCIÓN B LIMPIA) -->
+        <button type="button" class="btn-fullscreen-floating" onclick="togglePlayerFullscreen()">⛶ Pantalla Completa</button>
+
         <div id="timeLockCurtain" class="time-lock-curtain">
           <div style="font-size: 2.2rem; margin-bottom: 6px;">🔒</div>
           <h4>Llegaste al límite gratuito</h4>
@@ -1840,7 +1864,7 @@
           { id: "ry18", order: 18, title: "Clase 18: Corrección de poros abiertos y masillado de imperfecciones", yt: "Q-SMnLbyntA", duration: "12:10", mat: "Barbotina de yeso fino con espátula flexible y lijado de pulido." },
           { id: "ry19", order: 19, title: "Clase 19: Compatibilidad de yeso cerámico con marmolina fina", yt: "5qJp1G_AXc4", duration: "13:45", mat: "Polvo de mármol blanco para dar textura pétrea y mayor peso." },
           { id: "ry20", order: 20, title: "Clase 20: Protección final antimanchas y tacto cerámico sedoso", yt: "3f7GY7wmAsY", duration: "11:30", mat: "Cera microcristalina o laca poliuretánica al agua satinada." },
-          { id: "ry21", order: 21, title: "Clase 21: Montaje completo de vela aromática directa en el contenedor de yeso", yt: "vCJ-tLpAzFI", duration: "19:05", mat: "Contenedor sellado, pabilo encerado centrado y vertido de cera de soja." },
+          { id: "ry21", order: 21, title: "Clase 21: Montaje completo de vela aromática directa en el contenedor de yeso", yt: "vCJ-tLpAzFI", duration: "19:05", mat: "Contenedor sealado, pabilo encerado centrado y vertido de cera de soja." },
           { id: "ry22", order: 22, title: "Clase 22: Desmoldado y armado paso a paso de joyeros porta vela con flores", yt: "c_spL76QYpI", duration: "39:30", mat: "Técnica con tornillo de soporte interior, sellado con pegamento blanco y ensamble con velas de flor." }
         ]
       },
@@ -2029,6 +2053,7 @@
     ];
 
     const catalog = [
+      // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
       { id: "tip2", title: "3 Tips que me ayudaron a mejorar mis amigurumis", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "XybZZDEEthQ", duration: "16:06", mat: "Muestras de tejido y diferentes grosores de hilaza." },
       { id: "tip3", title: "5 Tips clave para crear amigurumis profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "RtoeZoL67C4", duration: "10:13", mat: "Ganchillo fino y tejido de práctica." },
@@ -2042,6 +2067,7 @@
       { id: "tip11", title: "Tutorial completo: Cómo coser y ensamblar piezas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R-hlJoagL5g", duration: "52:36", mat: "Piezas tejidas, alfileres y aguja punta roma." },
       { id: "tip12", title: "Cómo hacer y diseñar tu propio patrón amigurumi desde cero", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "dv3rNYYrDK0", duration: "21:27", mat: "Cuaderno cuadriculado, lápiz y cinta métrica." },
 
+      // FLORES Y PLANTAS
       { id: "flo1", title: "Flores Campana Tejidas a Crochet Paso a Paso", cat: "Flores y Plantas", yt: "wdXEtVjm7g8", duration: "17:05", mat: "Hilaza morada, verde hoja, alambre floral y ganchillo 2.5mm." },
       { id: "flo2", title: "Tutorial Claveles Tejidos a Crochet Fácil", cat: "Flores y Plantas", yt: "kjY73GfP1K8", duration: "28:29", mat: "Hilo de algodón peinado rosa y blanco, cinta floral verde." },
       { id: "flo3", title: "Tejer Flores Amarillas a Crochet para el Hogar", cat: "Flores y Plantas", yt: "7p61e_hnHYs", duration: "56:52", mat: "Hilaza amarilla, marrón café, verde oliva y relleno sintético." },
@@ -2049,14 +2075,15 @@
       { id: "flo5", title: "Original Scrunchie Coletero de Flores a Crochet", cat: "Flores y Plantas", yt: "ulpgqyxMoKE", duration: "01:31", mat: "Banda elástica, hilo de algodón multicolor y ganchillo 3.0mm." },
       { id: "flo6", title: "Tortuga Amigurumi Marina Paso a Paso en Español", cat: "Flores y Plantas", yt: "xC5UZVnX5-w", duration: "18:20", mat: "Lana verde bosque, marrón tierra y ojitos de seguridad." },
 
+      // ANIMALITOS Y LLAVEROS
       { id: "ani1", title: "Gatito Dormido Amigurumi - Patrón Completo", cat: "Animalitos y Llaveros", yt: "nV2aW0YY_HY", duration: "23:13", mat: "Hilaza gris claro, rosa nariz, aguja lanera y vellón siliconado." },
       { id: "ani2", title: "Llavero Gatito Fácil y Rápido a Crochet", cat: "Animalitos y Llaveros", yt: "ygIJ7-Jjszw", duration: "29:12", mat: "Hilo de algodón, argolla para llavero, cascabel y tijeras." },
       { id: "ani3", title: "Tortuga Amigurumi Llavero Paso a Paso", cat: "Animalitos y Llaveros", yt: "cZFze5csx7Q", duration: "16:07", mat: "Lana verde agua, marrón claro para caparazón y ojitos bordados." },
       { id: "ani4", title: "Mini Pulpito Reversible o Emocional a Crochet", cat: "Animalitos y Llaveros", yt: "uc-L_f3MyTM", duration: "36:22", mat: "Lana celeste y morada, ganchillo 2.5mm y marcador de puntos." },
       { id: "ani5", title: "Llavero Pingüino Tierno para Principiantes", cat: "Animalitos y Llaveros", yt: "xETM8wd6Yf0", duration: "28:58", mat: "Lana negra, blanca, pico naranja y argolla de llavero." },
       { id: "ani6", title: "Llavero de Snoopy Besucón a Crochet", cat: "Animalitos y Llaveros", yt: "f_3S2fKxbnQ", duration: "41:55", mat: "Hilaza blanca, negra orejas, corazón rojo y vellón." },
-      { id: "ani7", title: "Oso con Franjas Amigurumi Paso a Paso", cat: "Animalitos y Llaveros", yt: "ZVetSIM8Jx0", duration: "41:56", mat: "Lana marrón, mostaza, blanco y ojos de seguridad 10mm." },
 
+      // PRINCESAS Y DISNEY
       { id: "dis1", title: "Stitch Amigurumi a Crochet - Tutorial Completo", cat: "Princesas y Personajes Disney", yt: "DDzRMern12c", duration: "52:02", mat: "Lana azul francia, celeste barriga, rosa interior orejas y vellón." },
       { id: "dis2", title: "Llavero Stitch Amigurumi para Principiantes", cat: "Princesas y Personajes Disney", yt: "qRM6lHj33x0", duration: "27:07", mat: "Hilaza azul, argolla con cadena, fieltro negro y ganchillo 2.0mm." },
       { id: "dis3", title: "Stitch Ángel Rosa a Crochet Paso a Paso", cat: "Princesas y Personajes Disney", yt: "7fnrRwyblis", duration: "51:59", mat: "Lana rosa chicle, morado claro antenas y ojos bordados." },
@@ -2065,10 +2092,12 @@
       { id: "dis5", title: "Princesa Bella con Vestido de Gala Amigurumi", cat: "Princesas y Personajes Disney", yt: "yb0aXd1Y0mA", duration: "24:37", mat: "Lana amarilla oro, castaño cabello, rosa roja y ganchillo 2.5mm." },
       { id: "dis6", title: "Sirenita Ariel Amigurumi a Crochet", cat: "Princesas y Personajes Disney", yt: "L1xWq2UNNA4", duration: "35:10", mat: "Lana verde esmeralda cola, cabello rojo fuego y top lila." },
 
+      // FRUTAS Y COMIDA KAWAII
       { id: "fru1", title: "Plátano Banana Llavero Amigurumi Tutorial", cat: "Frutas y Comida Kawaii", yt: "JOrchYAU6XM", duration: "19:13", mat: "Lana amarilla cáscara, crema fruta, marrón punta y relleno." },
       { id: "fru2", title: "Zanahoria a Crochet Súper Fácil y Rápida", cat: "Frutas y Comida Kawaii", yt: "K92lcQnO54g", duration: "11:00", mat: "Hilaza naranja brillante, verde hojas y aguja lanera." },
       { id: "fru3", title: "Patrón Ensalada de Frutas Amigurumi", cat: "Frutas y Comida Kawaii", yt: "7eEdDjhPp8w", duration: "10:02", mat: "Lana roja carmín, hojas verdes, hilo blanco para pepitas." },
 
+      // POKÉMON
       { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
       { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
       { id: "poke3", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
@@ -2079,6 +2108,7 @@
       { id: "poke9", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
       { id: "poke10", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
 
+      // SANRIO
       { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
       { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
       { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
@@ -2086,36 +2116,87 @@
       { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
       { id: "sanrio6", title: "Hello Kitty y Spiderman: Pareja de Llaveros Amigurumi", cat: "Amigurumis de san rio", yt: "eqI--hopFtg", duration: "42:27", mat: "Lana roja, azul, blanca y rosa de 5 hebras, crochet 3.0mm y ojitos 8mm." },
 
+      // EL CHAVO DEL 8
       { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
       { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
       { id: "chavo3", title: "La Chilindrina Amigurumi - Primera Parte", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
       { id: "chavo3_p2", title: "La Chilindrina Amigurumi - Segunda Parte (Final)", cat: "Amigurumis del chavo del 8", yt: "tcrcMNkfuzM", duration: "45:58", mat: "Cuerpo, vestido, ensamble, colitas y lentes." },
       { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
 
+      // MARIO BROS (CON AMBAS PARTES DE TOAD Y MARIO)
       { id: "mario1", title: "Super Mario Bros Amigurumi Completo Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
       { id: "mario2", title: "Luigi Amigurumi Tutorial - Super Mario Bros Paso a Paso", cat: "Amigurumis de mario bross", yt: "WEumJ70l_tg", duration: "58:08", mat: "Lana verde bosque, azul overol, botones amarillos y bigote." },
       { id: "mario3", title: "Yoshi Mario Bros - Crochet Amigurumi Tutorial", cat: "Amigurumis de mario bross", yt: "qeF2roklz8s", duration: "25:29", mat: "Lana verde manzana, blanco pecho, montura roja y botas." },
-      { id: "mario4", title: "Toad Mario Bros Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de mario bross", yt: "0IP6gwyaSJI", duration: "41:51", mat: "Lana blanca, chaleco azul y círculos rojos cosidos." },
+      { id: "mario4", title: "Toad Mario Bros Amigurumi - Parte 1/2", cat: "Amigurumis de mario bross", yt: "0IP6gwyaSJI", duration: "41:51", mat: "Lana blanca, chaleco azul y círculos rojos cosidos." },
+      { id: "mario4_p2", title: "Toad Mario Bros Amigurumi - Parte 2/2 (Final)", cat: "Amigurumis de mario bross", yt: "-axd4KLc_2E", duration: "42:30", mat: "Cabeza de hongo, detalles del sombrero, botas y ensamble final." },
 
+      // CANTANTES
       { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida y ganchillo 2.5mm." },
       { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 1/2)", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
       { id: "cant3", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 2/2)", cat: "Amigurumis de cantantes", yt: "4PfUtC_U1qA", duration: "45:49", mat: "Detalles finales y sombrero tejido." },
       { id: "cant4", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
 
+      // OSOS Y PELUCHES (CON EL OSITO CON FRANJAS UBICADO AQUÍ)
       { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera y ojitos 8mm." },
       { id: "oso2", title: "Osito Amigurumi Tierno Especial San Valentín", cat: "Amigurumis de osos y peluches", yt: "mXgH5500Ib4", duration: "1:29:59", mat: "Hilo acrílico beige, blanco hocico, ojitos 8mm, cinta roja y relleno." },
+      { id: "oso3", title: "Oso con Franjas Amigurumi Paso a Paso", cat: "Amigurumis de osos y peluches", yt: "ZVetSIM8Jx0", duration: "41:56", mat: "Lana marrón, mostaza, blanco y ojos de seguridad 10mm." },
+      { id: "oso4", title: "Conejo de Peluche Clásico Orejas Largas", cat: "Amigurumis de osos y peluches", yt: "4fjllP0djmo", duration: "1:19:17", mat: "Lana suave de grosor medio, ganchillo 3.0mm, ojitos de seguridad y lazo." },
+      { id: "oso5", title: "Conejito Base Fácil y Rápido", cat: "Amigurumis de osos y peluches", yt: "PdX2Ex1ciJk", duration: "18:06", mat: "Hilo acrílico o algodón blanco, rosado para nariz y relleno siliconado." },
+      { id: "oso6", title: "Oso de Peluche en Chenille / Terciopelo", cat: "Amigurumis de osos y peluches", yt: "IHBbVidwqic", duration: "48:39", mat: "Estambre chenille aterciopelado marrón, ganchillo 4.0mm y nariz de seguridad." },
+      { id: "oso7", title: "Elefante de Peluche Amigurumi", cat: "Amigurumis de osos y peluches", yt: "6t5IXph2VdM", duration: "31:42", mat: "Hilaza gris claro, rosa interior de orejas y trompa curvada modelada." },
+      { id: "oso8", title: "Jirafa de Peluche Amigurumi - Parte 1/2", cat: "Amigurumis de osos y peluches", yt: "pjDXQncJ0h8", duration: "22:13", mat: "Lana amarilla y manchas café, patitas largas y cuernitos." },
+      { id: "oso9", title: "Jirafa de Peluche Amigurumi - Parte 2/2 (Final)", cat: "Amigurumis de osos y peluches", yt: "UWdtQBc6MH8", duration: "56:54", mat: "Ensamble del cuerpo, cuello largo erguido y detalles finales." },
+      { id: "oso10", title: "Dinosaurio Rayco de Peluche Completo", cat: "Amigurumis de osos y peluches", yt: "Ob3vG8AQC54", duration: "1:10:51", mat: "Lana verde oliva, blanco para cresta dorsal y ganchillo 3.0mm." },
 
-      { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural y sonajero interior." },
-      { id: "bebe2", title: "Mantita de Apego Osito a Crochet (Primera Parte)", cat: "Amigurumis para bebes", yt: "8mUmlnFoBXQ", duration: "31:59", mat: "Hilaza suave para bebé, relleno siliconado y ojitos bordados." },
-      { id: "bebe2_p2", title: "Mantita de Apego Osito a Crochet (Segunda Parte)", cat: "Amigurumis para bebes", yt: "4DGLdBUE2_0", duration: "31:15", mat: "Armado de la cabeza, ensamble sobre la manta y bordado final." },
+      // PARA BEBÉS (9 VIDEOS)
+      { id: "beb1", title: "Tortuga Marina sin Costuras para Bebé", cat: "Amigurumis para bebes", yt: "UoTaGQo5y7Y", duration: "49:33", mat: "Hilaza de algodón suave, verde agua y beige, ojitos bordados." },
+      { id: "beb2", title: "Pulpo de Apego Sensorial para Recién Nacidos", cat: "Amigurumis para bebes", yt: "I-LwY3JNGSw", duration: "34:51", mat: "Algodón 100% hipoalergénico, tentáculos en espiral y relleno lavable." },
+      { id: "beb3", title: "Sonajero de Oso y Conejo 2 en 1", cat: "Amigurumis para bebes", yt: "dToYVfglD9A", duration: "42:07", mat: "Aro de madera natural sin barniz, cápsula de sonajero y hebras suaves." },
+      { id: "beb4", title: "Sonajero Osito Arlecchino con Aro", cat: "Amigurumis para bebes", yt: "m72T8Xz_68o", duration: "35:02", mat: "Algodón peinado multicolor, aro mordedor y sonajero interior." },
+      { id: "beb5", title: "Sonajero Conejita Tierna con Moño", cat: "Amigurumis para bebes", yt: "5S6Z0O3XoJA", duration: "1:37:54", mat: "Hilaza rosa pastel y blanco, aro ergonómico de madera y cascabel." },
+      { id: "beb6", title: "Portachupetes / Sujetachupetes Rápido a Crochet", cat: "Amigurumis para bebes", yt: "VMO5xlUMaEk", duration: "14:06", mat: "Broche clip de madera/silicona, cordón de algodón y cuentas tejidas." },
+      { id: "beb7", title: "Chupetero Fácil y Rápido en 10 Minutos", cat: "Amigurumis para bebes", yt: "2AHqcfsgHqg", duration: "14:56", mat: "Hilaza de algodón mercerizado, pinza metálica con protector y aguja lanera." },
+      { id: "beb8", title: "Mini Conejita Amigurumi de Apego", cat: "Amigurumis para bebes", yt: "amrkIRmnw4M", duration: "1:45:59", mat: "Algodón extra suave hipoalergénico, facciones bordadas a mano." },
+      { id: "beb9", title: "Sonajero Jirafa con Agarradera para Bebé", cat: "Amigurumis para bebes", yt: "NW0bOa0gnyA", duration: "51:56", mat: "Hilaza amarilla y marrón, aro mordedor de madera y caja de sonido." },
 
-      { id: "prof1", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "1NIia8gAeJs", duration: "35:40", mat: "Lana blanca médica, celeste/rosa pastel, detalles bordados." },
+      // PROFESIONES (11 VIDEOS)
+      { id: "prof1", title: "Oficial de Policía Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "erl2UcTM8ak", duration: "46:06", mat: "Hilaza verde oliva/azul, negro para botas y cinturón, dorado para insignia." },
+      { id: "prof2", title: "Médico Doctor Amigurumi Chibi a Crochet", cat: "Amigurumis de profesiones", yt: "5UgEOUH7AoI", duration: "36:21", mat: "Hilaza blanca para bata, celeste para ambo quirúrgico y estetoscopio." },
+      { id: "prof3", title: "Graduado Universitario con Toga y Birrete", cat: "Amigurumis de profesiones", yt: "Dv6k8WhmNNM", duration: "1:29:07", mat: "Hilaza negra para toga y birrete, blanco para camisa, borla dorada y diploma." },
+      { id: "prof4", title: "Ingeniero Constructor con Casco de Seguridad", cat: "Amigurumis de profesiones", yt: "F0wid1yDdsU", duration: "38:04", mat: "Hilaza amarilla para casco, chaleco reflectante naranja y jean azul." },
+      { id: "prof5", title: "Profesor y Abogado Formal con Traje a Crochet", cat: "Amigurumis de profesiones", yt: "ASOfXBEodSk", duration: "37:34", mat: "Hilaza azul marino para traje, corbata roja, maletín y lentes de alambre." },
+      { id: "prof6", title: "Dentista u Odontóloga con Uniforme Clínico", cat: "Amigurumis de profesiones", yt: "LAbXJY4k1W8", duration: "52:21", mat: "Hilos lila/celeste para filipina, blanco para bata y muela tejida." },
+      { id: "prof7", title: "Bombero con Casco y Traje de Protección", cat: "Amigurumis de profesiones", yt: "tXyLc9-Jk6I", duration: "56:41", mat: "Hilaza amarilla o negra, franjas reflectantes plata, casco rojo y botas." },
+      { id: "prof8", title: "Chef Cocinero con Gorro Tradicional Chibi", cat: "Amigurumis de profesiones", yt: "E1Pzi9xNY0Y", duration: "33:14", mat: "Hilaza blanca para filipina y gorro alto, pantalón negro y pañuelo rojo." },
+      { id: "prof9", title: "Futbolista Deportivo con Camiseta y Balón", cat: "Amigurumis de profesiones", yt: "AIfZU_HSE8w", duration: "37:24", mat: "Hilaza deportiva, medias altas, botines y mini balón tejido." },
+      { id: "prof10", title: "Pintor Artista con Boina y Paleta de Colores", cat: "Amigurumis de profesiones", yt: "Hd-lsEmSEbI", duration: "54:56", mat: "Lana azul ocre, boina bohemia, pincel miniatura y paleta de madera." },
+      { id: "prof11", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "-k49gojQcRQ", duration: "59:49", mat: "Hilaza blanca o aguamarina para uniforme, cofia con cruz roja y zapatos blancos." },
 
-      { id: "rel1", title: "Virgen María Amigurumi - Tutorial Completo Paso a Paso", cat: "Amigurumis religiosos", yt: "UH-ghvSAHgc", duration: "42:15", mat: "Lana blanca perla, celeste cielo, color piel y corona dorada." },
+      // NAVIDEÑOS (11 VIDEOS)
+      { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Hilaza roja, blanca rizada para barba, color piel, vellón y ganchillo 2.5mm." },
+      { id: "nav2", title: "Pino o Árbol Navideño en Relieve a Crochet", cat: "Amigurumis navideños", yt: "-WCEdp58xsI", duration: "42:18", mat: "Lana verde pino, mostacillas de colores como esferas, hilo dorado y relleno." },
+      { id: "nav3", title: "Duende o Elfo Navideño Tierno Amigurumi", cat: "Amigurumis navideños", yt: "n5jFe9Refak", duration: "39:53", mat: "Hilaza verde manzana, rojo, blanco para rayas, cascabel y ojitos 8mm." },
+      { id: "nav4", title: "Muñeco de Nieve Olaf Amigurumi Paso a Paso", cat: "Amigurumis navideños", yt: "Lzf05AhLkaw", duration: "22:56", mat: "Hilo blanco nieve, naranja para nariz de zanahoria, marrón y ojos bordados." },
+      { id: "nav5", title: "Mini Corona Navideña Colgante para el Árbol", cat: "Amigurumis navideños", yt: "KxxAuhLPEWI", duration: "10:30", mat: "Lana verde bosque, cinta roja de raso, aro base circular y ganchillo 3.0mm." },
+      { id: "nav6", title: "Esfera Duende Navideño Adorno a Crochet", cat: "Amigurumis navideños", yt: "Qx3BjXYesEQ", duration: "30:07", mat: "Bola base, lana color carne, verde, rojo festivo y cinta dorada para colgar." },
+      { id: "nav7", title: "Mini Campanas Navideñas con Moño a Crochet", cat: "Amigurumis navideños", yt: "-3D-t45PoMw", duration: "21:33", mat: "Hilo amarillo oro o metalizado, lazo rojo decorativo y cascabeles interiores." },
+      { id: "nav8", title: "Estrella Navideña Reluciente para el Árbol", cat: "Amigurumis navideños", yt: "VQLMWTrXgCc", duration: "18:01", mat: "Hilaza amarilla oro, hilo lurex dorado brillante, aguja lanera y relleno firme." },
+      { id: "nav9", title: "Esfera de Reno Navideño Amigurumi para Árbol", cat: "Amigurumis navideños", yt: "JEBdM5GnYXc", duration: "46:41", mat: "Lana marrón claro, rojo para la nariz de Rodolfo y colgador para árbol." },
+      { id: "nav10", title: "Muñeco Galleta de Jengibre Tejido a Crochet", cat: "Amigurumis navideños", yt: "FLL7R6Ok65Y", duration: "32:38", mat: "Lana tono caramelo tostado, hilo blanco para glasé, botones y ojitos." },
+      { id: "nav11", title: "Cascanueces Amigurumi Navideño Paso a Paso", cat: "Amigurumis navideños", yt: "lcK8A5igHIU", duration: "48:13", mat: "Hilos rojo escarlata, azul marino, dorado para detalles militares y negro." },
 
-      { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Lana roja carmín, blanca rizada, pompón y ojitos negros." },
-
-      { id: "super1", title: "Spider-Man Colgante para Auto a Crochet", cat: "Amigurumis de super heroes", yt: "IQY6ZP71wHo", duration: "32:00", mat: "Lana roja y azul francia, hilo negro para bordar la telaraña." }
+      // SUPERHÉROES (11 VIDEOS)
+      { id: "sup1", title: "Spider-Man Amigurumi Crochet Tutorial", cat: "Amigurumis de super heroes", yt: "KuKnvZNaA9E", duration: "18:49", mat: "Hilaza roja, azul rey, hilo negro para telaraña y ojos bordados en fieltro." },
+      { id: "sup2", title: "Spider-Man de Pie Amigurumi Paso a Paso", cat: "Amigurumis de super heroes", yt: "wIb7DTRvwSc", duration: "35:32", mat: "Hilos rojo y azul de 4 hebras, ganchillo 2.5mm, aguja lanera y vellón." },
+      { id: "sup3", title: "Batman El Caballero de la Noche a Crochet", cat: "Amigurumis de super heroes", yt: "pUX77li9w1c", duration: "42:13", mat: "Hilaza negra, gris oscuro, amarillo para cinturón e insignia, y capa tejida." },
+      { id: "sup4", title: "Iron Man Amigurumi Paso a Paso Completo", cat: "Amigurumis de super heroes", yt: "oJMxTnLi3C8", duration: "1:02:06", mat: "Hilo rojo escarlata y amarillo oro, celeste reactor de pecho y ganchillo 2.5mm." },
+      { id: "sup5", title: "Capitán América Amigurumi con Escudo", cat: "Amigurumis de super heroes", yt: "6TYPgBhPf9s", duration: "1:26:40", mat: "Hilos azul marino, rojo, blanco para franjas, tono piel y marrón correas." },
+      { id: "sup6", title: "Superman El Hombre de Acero Amigurumi", cat: "Amigurumis de super heroes", yt: "CuifVgaz0F8", duration: "1:35:13", mat: "Lana azul eléctrico, capa roja, botas rojas, cinturón amarillo y cabello negro." },
+      { id: "sup7", title: "Deadpool Amigurumi a Crochet Paso a Paso", cat: "Amigurumis de super heroes", yt: "ooVjU1H7cic", duration: "35:50", mat: "Hilaza roja, detalles negros para antifaz, blanco mirada y correas negras." },
+      { id: "sup8", title: "Wolverine con Traje Clásico a Crochet", cat: "Amigurumis de super heroes", yt: "FINxwJXQhWY", duration: "48:30", mat: "Lana amarilla, azul rey, negro para máscara, gris garras y ganchillo 2.5mm." },
+      { id: "sup9", title: "The Flash Superhéroe Amigurumi Tutorial", cat: "Amigurumis de super heroes", yt: "RGzJvthiXlw", duration: "36:34", mat: "Hilaza roja escarlata, amarillo para rayos de cabeza y cinturón, y base blanca." },
+      { id: "sup10", title: "Baby Groot en Maceta Amigurumi DIY", cat: "Amigurumis de super heroes", yt: "c-fwEPHRRjQ", duration: "22:23", mat: "Hilo marrón madera, verde para brotes de hojas y ojitos de seguridad." },
+      { id: "sup11", title: "Mujer Maravilla Wonder Woman Amigurumi", cat: "Amigurumis de super heroes", yt: "mKJjucs9LNg", duration: "30:41", mat: "Hilo rojo bustier, azul, dorado para tiara y brazaletes, y cabello negro." }
     ];
 
     let currentVideo = null;
@@ -2830,6 +2911,8 @@
           autoplay: 1, 
           rel: 0, 
           modestbranding: 1,
+          controls: 0, /* Opción B: Reproductor limpio sin barra de YouTube */
+          iv_load_policy: 3,
           start: Math.floor(savedTime)
         },
         events: {
@@ -2855,6 +2938,22 @@
           }
         }
       });
+    }
+
+    // FUNCIÓN PARA EXPANDIR A PANTALLA COMPLETA
+    function togglePlayerFullscreen() {
+      const container = document.querySelector('.video-frame-container');
+      if (!document.fullscreenElement) {
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
     }
 
     function updateModalButtons() {
