@@ -1316,8 +1316,11 @@
         <button class="pill-btn" onclick="setCategoryFilter('Amigurumis de super heroes', this)">🦸 Superhéroes</button>
       </div>
 
-      <div id="coursesContainer"></div>
+      <!-- PRIMERO: VIDEOS POR CATEGORÍAS -->
       <div id="sectionsContainer"></div>
+
+      <!-- DE ÚLTIMO: MÓDULOS DE CURSOS COMPLETOS -->
+      <div id="coursesContainer"></div>
 
     </div>
   </main>
@@ -1719,7 +1722,7 @@
       // 8. CURSO: EMPRENDIMIENTO DE VELAS
       {
         id: "curso_emprendimiento_velas",
-        title: "Curso: Emprendimiento y Negocio de Velas Exitoso (15 Clases)",
+        title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
         cat: "Cursos Completos",
         isNew: false,
         lessons: [
@@ -2062,6 +2065,112 @@
       }
     ];
 
+    const catalog = [
+      // TÉCNICAS Y TIPS
+      { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
+      { id: "tip2", title: "3 Tips que me ayudaron a mejorar mis amigurumis", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "XybZZDEEthQ", duration: "16:06", mat: "Muestras de tejido y diferentes grosores de hilaza." },
+      { id: "tip3", title: "5 Tips clave para crear amigurumis profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "RtoeZoL67C4", duration: "10:13", mat: "Ganchillo fino y tejido de práctica." },
+      { id: "tip4", title: "Disminución Invisible: Lo mejor para amigurumis prolijos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "TinE9oBTmNc", duration: "04:07", mat: "Hilaza de muestra y marcador de puntos." },
+      { id: "tip5", title: "Nueva técnica de cambio de color sin escalones ni saltos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "jIZL1mqaZOY", duration: "09:27", mat: "Dos colores contrastantes de hilaza de algodón." },
+      { id: "tip6", title: "Cómo realizar disminuciones y cambios de color perfectos", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "xCTM50a3i9c", duration: "08:02", mat: "Ganchillo 2.5mm e hilaza suave." },
+      { id: "tip7", title: "Cómo colocar ojos de seguridad sin sufrir en el intento", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "0W2qrvAHuvk", duration: "04:54", mat: "Ojos de seguridad con trabas y tejido de práctica." },
+      { id: "tip8", title: "La técnica perfecta para poner ojos de seguridad firmes", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "FYR8qhL4C7M", duration: "03:20", mat: "Arandelas de seguridad y pinzas." },
+      { id: "tip9", title: "Cómo bordar ojitos tiernos y nariz paso a paso", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "uNtEHnJME4o", duration: "10:53", mat: "Hilo mouliné negro, rosa y aguja de bordar fina." },
+      { id: "tip10", title: "Cómo bordar caritas en amigurumis: cejas y pestañas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "4gplLLWPEAA", duration: "02:40", mat: "Alfileres de guía y aguja lanera fina." },
+      { id: "tip11", title: "Tutorial completo: Cómo coser y ensamblar piezas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R-hlJoagL5g", duration: "52:36", mat: "Piezas tejidas, alfileres y aguja punta roma." },
+      { id: "tip12", title: "Cómo hacer y diseñar tu propio patrón amigurumi desde cero", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "dv3rNYYrDK0", duration: "21:27", mat: "Cuaderno cuadriculado, lápiz y cinta métrica." },
+
+      // FLORES Y PLANTAS
+      { id: "flo1", title: "Flores Campana Tejidas a Crochet Paso a Paso", cat: "Flores y Plantas", yt: "wdXEtVjm7g8", duration: "17:05", mat: "Hilaza morada, verde hoja, alambre floral y ganchillo 2.5mm." },
+      { id: "flo2", title: "Tutorial Claveles Tejidos a Crochet Fácil", cat: "Flores y Plantas", yt: "kjY73GfP1K8", duration: "28:29", mat: "Hilo de algodón peinado rosa y blanco, cinta floral verde." },
+      { id: "flo3", title: "Tejer Flores Amarillas a Crochet para el Hogar", cat: "Flores y Plantas", yt: "7p61e_hnHYs", duration: "56:52", mat: "Hilaza amarilla, marrón café, verde oliva y relleno sintético." },
+      { id: "flo4", title: "Orquídea Amigurumi Realista a Crochet", cat: "Flores y Plantas", yt: "b1dTQ5HgJ0Q", duration: "10:15", mat: "Lana blanca, fucsia centro, alambre galvanizado y maceta." },
+      { id: "flo5", title: "Original Scrunchie Coletero de Flores a Crochet", cat: "Flores y Plantas", yt: "ulpgqyxMoKE", duration: "01:31", mat: "Banda elástica, hilo de algodón multicolor y ganchillo 3.0mm." },
+      { id: "flo6", title: "Tortuga Amigurumi Marina Paso a Paso en Español", cat: "Flores y Plantas", yt: "xC5UZVnX5-w", duration: "18:20", mat: "Lana verde bosque, marrón tierra y ojitos de seguridad." },
+
+      // ANIMALITOS Y LLAVEROS
+      { id: "ani1", title: "Gatito Dormido Amigurumi - Patrón Completo", cat: "Animalitos y Llaveros", yt: "nV2aW0YY_HY", duration: "23:13", mat: "Hilaza gris claro, rosa nariz, aguja lanera y vellón siliconado." },
+      { id: "ani2", title: "Llavero Gatito Fácil y Rápido a Crochet", cat: "Animalitos y Llaveros", yt: "ygIJ7-Jjszw", duration: "29:12", mat: "Hilo de algodón, argolla para llavero, cascabel y tijeras." },
+      { id: "ani3", title: "Tortuga Amigurumi Llavero Paso a Paso", cat: "Animalitos y Llaveros", yt: "cZFze5csx7Q", duration: "16:07", mat: "Lana verde agua, marrón claro para caparazón y ojitos bordados." },
+      { id: "ani4", title: "Mini Pulpito Reversible o Emocional a Crochet", cat: "Animalitos y Llaveros", yt: "uc-L_f3MyTM", duration: "36:22", mat: "Lana celeste y morada, ganchillo 2.5mm y marcador de puntos." },
+      { id: "ani5", title: "Llavero Pingüino Tierno para Principiantes", cat: "Animalitos y Llaveros", yt: "xETM8wd6Yf0", duration: "28:58", mat: "Lana negra, blanca, pico naranja y argolla de llavero." },
+      { id: "ani6", title: "Llavero de Snoopy Besucón a Crochet", cat: "Animalitos y Llaveros", yt: "f_3S2fKxbnQ", duration: "41:55", mat: "Hilaza blanca, negra orejas, corazón rojo y vellón." },
+      { id: "ani7", title: "Oso con Franjas Amigurumi Paso a Paso", cat: "Animalitos y Llaveros", yt: "ZVetSIM8Jx0", duration: "41:56", mat: "Lana marrón, mostaza, blanco y ojos de seguridad 10mm." },
+
+      // PRINCESAS Y DISNEY
+      { id: "dis1", title: "Stitch Amigurumi a Crochet - Tutorial Completo", cat: "Princesas y Personajes Disney", yt: "DDzRMern12c", duration: "52:02", mat: "Lana azul francia, celeste barriga, rosa interior orejas y vellón." },
+      { id: "dis2", title: "Llavero Stitch Amigurumi para Principiantes", cat: "Princesas y Personajes Disney", yt: "qRM6lHj33x0", duration: "27:07", mat: "Hilaza azul, argolla con cadena, fieltro negro y ganchillo 2.0mm." },
+      { id: "dis3", title: "Stitch Ángel Rosa a Crochet Paso a Paso", cat: "Princesas y Personajes Disney", yt: "7fnrRwyblis", duration: "51:59", mat: "Lana rosa chicle, morado claro antenas y ojos bordados." },
+      { id: "dis4", title: "Princesa Cenicienta Amigurumi - Parte 1/2", cat: "Princesas y Personajes Disney", yt: "i5clgzF8AYE", duration: "33:54", mat: "Lana celeste brillante, tono piel, cabello rubio y cinta azul." },
+      { id: "dis4_p2", title: "Princesa Cenicienta Amigurumi - Parte 2/2 (Final)", cat: "Princesas y Personajes Disney", yt: "Pj6VEUWaFGM", duration: "27:30", mat: "Vestido de gala, zapatillas, detalles finales y peinado." },
+      { id: "dis5", title: "Princesa Bella con Vestido de Gala Amigurumi", cat: "Princesas y Personajes Disney", yt: "yb0aXd1Y0mA", duration: "24:37", mat: "Lana amarilla oro, castaño cabello, rosa roja y ganchillo 2.5mm." },
+      { id: "dis6", title: "Sirenita Ariel Amigurumi a Crochet", cat: "Princesas y Personajes Disney", yt: "L1xWq2UNNA4", duration: "35:10", mat: "Lana verde esmeralda cola, cabello rojo fuego y top lila." },
+
+      // FRUTAS Y COMIDA KAWAII
+      { id: "fru1", title: "Plátano Banana Llavero Amigurumi Tutorial", cat: "Frutas y Comida Kawaii", yt: "JOrchYAU6XM", duration: "19:13", mat: "Lana amarilla cáscara, crema fruta, marrón punta y relleno." },
+      { id: "fru2", title: "Zanahoria a Crochet Súper Fácil y Rápida", cat: "Frutas y Comida Kawaii", yt: "K92lcQnO54g", duration: "11:00", mat: "Hilaza naranja brillante, verde hojas y aguja lanera." },
+      { id: "fru3", title: "Patrón Ensalada de Frutas Amigurumi", cat: "Frutas y Comida Kawaii", yt: "7eEdDjhPp8w", duration: "10:02", mat: "Lana roja carmín, hojas verdes, hilo blanco para pepitas." },
+
+      // POKÉMON
+      { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
+      { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
+      { id: "poke3", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
+      { id: "poke4", title: "Squirtle Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de pokemon", yt: "uRZrmMET2Bo", duration: "29:40", mat: "Lana celeste claro, caparazón marrón y borde crema." },
+      { id: "poke5", title: "Bulbasaur Pokémon Tutorial Nivel Intermedio", cat: "Amigurumis de pokemon", yt: "8kkWegwFuZg", duration: "37:04", mat: "Lana verde azulado, bulbo verde hoja y manchas oscuras." },
+      { id: "poke6", title: "Eevee Pokémon Tutorial Amigurumi", cat: "Amigurumis de pokemon", yt: "qOG63iTH_U8", duration: "25:45", mat: "Lana marrón claro, cuello crema esponjoso y orejas largas." },
+      { id: "poke7", title: "Snorlax Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "HVVIC3W7Rho", duration: "32:25", mat: "Lana azul marino, barriga color crema y garras bordadas." },
+      { id: "poke9", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
+      { id: "poke10", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
+
+      // SANRIO
+      { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
+      { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
+      { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
+      { id: "sanrio4", title: "My Melody Amigurumi - Tutorial Paso a Paso", cat: "Amigurumis de san rio", yt: "l0_nJ94IG6o", duration: "22:50", mat: "Lana blanca cuerpo, capucha rosa bebé y flor amarilla al lado." },
+      { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
+      { id: "sanrio6", title: "Hello Kitty y Spiderman: Pareja de Llaveros Amigurumi", cat: "Amigurumis de san rio", yt: "eqI--hopFtg", duration: "42:27", mat: "Lana roja, azul, blanca y rosa de 5 hebras, crochet 3.0mm y ojitos 8mm." },
+
+      // EL CHAVO DEL 8
+      { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
+      { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
+      { id: "chavo3", title: "La Chilindrina Amigurumi - Primera Parte", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
+      { id: "chavo3_p2", title: "La Chilindrina Amigurumi - Segunda Parte (Final)", cat: "Amigurumis del chavo del 8", yt: "tcrcMNkfuzM", duration: "45:58", mat: "Cuerpo, vestido, ensamble, colitas y lentes." },
+      { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
+
+      // MARIO BROS
+      { id: "mario1", title: "Super Mario Bros Amigurumi Completo Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
+      { id: "mario2", title: "Luigi Amigurumi Tutorial - Super Mario Bros Paso a Paso", cat: "Amigurumis de mario bross", yt: "WEumJ70l_tg", duration: "58:08", mat: "Lana verde bosque, azul overol, botones amarillos y bigote." },
+      { id: "mario3", title: "Yoshi Mario Bros - Crochet Amigurumi Tutorial", cat: "Amigurumis de mario bross", yt: "qeF2roklz8s", duration: "25:29", mat: "Lana verde manzana, blanco pecho, montura roja y botas." },
+      { id: "mario4", title: "Toad Mario Bros Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de mario bross", yt: "0IP6gwyaSJI", duration: "41:51", mat: "Lana blanca, chaleco azul y círculos rojos cosidos." },
+
+      // CANTANTES
+      { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida y ganchillo 2.5mm." },
+      { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 1/2)", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
+      { id: "cant3", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 2/2)", cat: "Amigurumis de cantantes", yt: "4PfUtC_U1qA", duration: "45:49", mat: "Detalles finales y sombrero tejido." },
+      { id: "cant4", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
+
+      // OSOS Y PELUCHES
+      { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera y ojitos 8mm." },
+      { id: "oso2", title: "Osito Amigurumi Tierno Especial San Valentín", cat: "Amigurumis de osos y peluches", yt: "mXgH5500Ib4", duration: "1:29:59", mat: "Hilo acrílico beige, blanco hocico, ojitos 8mm, cinta roja y relleno." },
+
+      // PARA BEBÉS
+      { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural y sonajero interior." },
+      { id: "bebe2", title: "Mantita de Apego Osito a Crochet (Primera Parte)", cat: "Amigurumis para bebes", yt: "8mUmlnFoBXQ", duration: "31:59", mat: "Hilaza suave para bebé, relleno siliconado y ojitos bordados." },
+      { id: "bebe2_p2", title: "Mantita de Apego Osito a Crochet (Segunda Parte)", cat: "Amigurumis para bebes", yt: "4DGLdBUE2_0", duration: "31:15", mat: "Armado de la cabeza, ensamble sobre la manta y bordado final." },
+
+      // PROFESIONES
+      { id: "prof1", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "1NIia8gAeJs", duration: "35:40", mat: "Lana blanca médica, celeste/rosa pastel, detalles bordados." },
+
+      // RELIGIOSOS
+      { id: "rel1", title: "Virgen María Amigurumi - Tutorial Completo Paso a Paso", cat: "Amigurumis religiosos", yt: "UH-ghvSAHgc", duration: "42:15", mat: "Lana blanca perla, celeste cielo, color piel y corona dorada." },
+
+      // NAVIDEÑOS
+      { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Lana roja carmín, blanca rizada, pompón y ojitos negros." },
+
+      // SUPERHÉROES
+      { id: "super1", title: "Spider-Man Colgante para Auto a Crochet", cat: "Amigurumis de super heroes", yt: "IQY6ZP71wHo", duration: "32:00", mat: "Lana roja y azul francia, hilo negro para bordar la telaraña." }
+    ];
+
     let currentVideo = null;
     let currentRounds = 0;
     let selectedCategory = 'Todos';
@@ -2090,13 +2199,11 @@
       document.getElementById('premPriceUSD').innerText = pricing[period].premUSD;
     }
 
-    // 1. SOPORTE DE PAGO EN PANTALLA INICIAL (DESBLOQUEADO PARA TODO PÚBLICO)
     function handleLoginPaymentSupportClick() {
       const mensaje = encodeURIComponent("¡Hola! Tengo problemas con mi pago en El Arte en Tus Manos y requiero asistencia.");
       window.open(`https://wa.me/573218641539?text=${mensaje}`, '_blank');
     }
 
-    // 2. SOPORTE GENERAL DENTRO DE LA APP (EXCLUSIVO PREMIUM)
     function handleWhatsAppSupportClick() {
       if (userPlan === 'premium') {
         const mensaje = encodeURIComponent("¡Hola! Soy usuaria del PLAN PREMIUM de El Arte en Tus Manos y requiero asistencia.");
@@ -2122,7 +2229,6 @@
       document.getElementById('suggestModal').style.display = 'none';
     }
 
-    // ENVÍO DE SUGERENCIAS DIRECTO AL CHAT DE WHATSAPP Y RESPALDO EN FIREBASE
     async function sendCourseSuggestion() {
       const input = document.getElementById('suggestInput');
       const text = input.value.trim();
@@ -2223,7 +2329,6 @@
       localStorage.setItem('app_tour_completed', 'true');
     }
 
-    // ACTIVACIÓN AUTOMÁTICA TRAS EL PAGO POR REDIRECCIÓN
     async function checkPaymentRedirectActivation(userEmail) {
       const urlParams = new URLSearchParams(window.location.search);
       const pagoStatus = urlParams.get('pago');
@@ -2443,8 +2548,8 @@
     }
 
     function loadAppState() {
-      renderCourses();
       renderGalleries();
+      renderCourses();
     }
 
     function isLessonLockedInCourse(course, lesson, totalLessons) {
@@ -2475,6 +2580,89 @@
       if (el) { el.classList.toggle('open'); }
     }
 
+    // 1. RENDERIZADO DE VIDEOS EN PRIMER LUGAR (GRATIS PRIMERO, BLOQUEADOS DESPUÉS)
+    function renderGalleries() {
+      const container = document.getElementById('sectionsContainer');
+      container.innerHTML = '';
+
+      if (selectedCategory === 'Cursos Completos') { 
+        container.style.display = 'none';
+        return; 
+      }
+      container.style.display = 'block';
+
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      let filtered = [...catalog];
+
+      if (showingFavsOnly) {
+        filtered = filtered.filter(v => localStorage.getItem('fav_' + v.id) === 'true');
+      }
+
+      if (selectedCategory !== 'Todos') {
+        filtered = filtered.filter(v => v.cat === selectedCategory);
+      }
+
+      if (query) {
+        filtered = filtered.filter(v => v.title.toLowerCase().includes(query) || v.cat.toLowerCase().includes(query));
+      }
+
+      const categories = [...new Set(filtered.map(v => v.cat))];
+
+      if (categories.length === 0 && selectedCategory !== 'Todos') {
+        container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay tutoriales que coincidan con la búsqueda.</div>`;
+        return;
+      }
+
+      categories.forEach(catName => {
+        let catVideos = filtered.filter(v => v.cat === catName);
+
+        // ORDENAMIENTO: Videos libres para el plan gratis salen de primero; los bloqueados al final
+        catVideos.sort((a, b) => {
+          const lockedA = isSingleVideoLocked(a);
+          const lockedB = isSingleVideoLocked(b);
+          if (lockedA === lockedB) return 0;
+          return lockedA ? 1 : -1;
+        });
+
+        const secHead = document.createElement('div');
+        secHead.className = 'section-head';
+        secHead.innerHTML = `<h2>${catName}</h2><span style="font-size:0.75rem; color:var(--text-muted);">${catVideos.length} tutoriales</span>`;
+        container.appendChild(secHead);
+
+        const carousel = document.createElement('div');
+        carousel.className = 'carousel';
+
+        catVideos.forEach(v => {
+          const isFav = localStorage.getItem('fav_' + v.id) === 'true';
+          const locked = isSingleVideoLocked(v);
+
+          const card = document.createElement('div');
+          card.className = 'video-card';
+          card.onclick = (e) => {
+            if (e.target.closest('.card-fav-btn')) return;
+            if (locked) { openPlansModal(); } else { openVideo(v); }
+          };
+
+          card.innerHTML = `
+            <div class="thumb-wrapper">
+              <span class="tag-badge">${v.cat.split(' ')[0]}</span>
+              <span class="tag-duration">${v.duration}</span>
+              ${locked ? '<div class="lock-overlay-badge"><span>🔒</span><span>PRO / PREMIUM</span></div>' : ''}
+              <button class="card-fav-btn" onclick="toggleCardFav(event, '${v.id}')">${isFav ? '❤️' : '🤍'}</button>
+              <img src="https://img.youtube.com/vi/${v.yt}/hqdefault.jpg" alt="${v.title}">
+            </div>
+            <div class="card-info">
+              <div class="card-title">${v.title}</div>
+            </div>
+          `;
+          carousel.appendChild(card);
+        });
+
+        container.appendChild(carousel);
+      });
+    }
+
+    // 2. RENDERIZADO DE CURSOS DE ÚLTIMO (CLASES GRATIS PRIMERO, BLOQUEADAS DESPUÉS)
     function renderCourses() {
       const container = document.getElementById('coursesContainer');
       container.innerHTML = '';
@@ -2484,6 +2672,12 @@
         return;
       }
       container.style.display = 'block';
+
+      const secHeadCourses = document.createElement('div');
+      secHeadCourses.className = 'section-head';
+      secHeadCourses.style.marginTop = '28px';
+      secHeadCourses.innerHTML = `<h2>🎓 Cursos Completos Paso a Paso</h2><span style="font-size:0.75rem; color:var(--text-muted);">${courses.length} módulos</span>`;
+      container.appendChild(secHeadCourses);
 
       courses.forEach((course, index) => {
         const total = course.lessons.length;
@@ -2530,7 +2724,16 @@
 
         const listEl = box.querySelector('.lessons-list');
 
-        course.lessons.forEach(l => {
+        // ORDENAMIENTO EN CURSOS: Las clases libres salen primero; las bloqueadas después
+        let sortedLessons = [...course.lessons];
+        sortedLessons.sort((a, b) => {
+          const lockedA = isLessonLockedInCourse(course, a, total);
+          const lockedB = isLessonLockedInCourse(course, b, total);
+          if (lockedA === lockedB) return a.order - b.order;
+          return lockedA ? 1 : -1;
+        });
+
+        sortedLessons.forEach(l => {
           const isDone = localStorage.getItem('done_' + l.id) === 'true';
           const isLocked = isLessonLockedInCourse(course, l, total);
 
@@ -2570,86 +2773,17 @@
       });
     }
 
-    function renderGalleries() {
-      const container = document.getElementById('sectionsContainer');
-      container.innerHTML = '';
-
-      if (selectedCategory === 'Cursos Completos') { return; }
-
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      let filtered = catalog;
-
-      if (showingFavsOnly) {
-        filtered = filtered.filter(v => localStorage.getItem('fav_' + v.id) === 'true');
-      }
-
-      if (selectedCategory !== 'Todos') {
-        filtered = filtered.filter(v => v.cat === selectedCategory);
-      }
-
-      if (query) {
-        filtered = filtered.filter(v => v.title.toLowerCase().includes(query) || v.cat.toLowerCase().includes(query));
-      }
-
-      const categories = [...new Set(filtered.map(v => v.cat))];
-
-      if (categories.length === 0 && selectedCategory !== 'Todos') {
-        container.innerHTML = `<div style="text-align:center; padding:35px 10px; color:var(--text-muted);">No hay tutoriales que coincidan con la búsqueda.</div>`;
-        return;
-      }
-
-      categories.forEach(catName => {
-        const catVideos = filtered.filter(v => v.cat === catName);
-
-        const secHead = document.createElement('div');
-        secHead.className = 'section-head';
-        secHead.innerHTML = `<h2>${catName}</h2><span style="font-size:0.75rem; color:var(--text-muted);">${catVideos.length} tutoriales</span>`;
-        container.appendChild(secHead);
-
-        const carousel = document.createElement('div');
-        carousel.className = 'carousel';
-
-        catVideos.forEach(v => {
-          const isFav = localStorage.getItem('fav_' + v.id) === 'true';
-          const locked = isSingleVideoLocked(v);
-
-          const card = document.createElement('div');
-          card.className = 'video-card';
-          card.onclick = (e) => {
-            if (e.target.closest('.card-fav-btn')) return;
-            if (locked) { openPlansModal(); } else { openVideo(v); }
-          };
-
-          card.innerHTML = `
-            <div class="thumb-wrapper">
-              <span class="tag-badge">${v.cat.split(' ')[0]}</span>
-              <span class="tag-duration">${v.duration}</span>
-              ${locked ? '<div class="lock-overlay-badge"><span>🔒</span><span>PRO / PREMIUM</span></div>' : ''}
-              <button class="card-fav-btn" onclick="toggleCardFav(event, '${v.id}')">${isFav ? '❤️' : '🤍'}</button>
-              <img src="https://img.youtube.com/vi/${v.yt}/hqdefault.jpg" alt="${v.title}">
-            </div>
-            <div class="card-info">
-              <div class="card-title">${v.title}</div>
-            </div>
-          `;
-          carousel.appendChild(card);
-        });
-
-        container.appendChild(carousel);
-      });
-    }
-
     function setCategoryFilter(category, btn) {
       selectedCategory = category;
       document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderCourses();
       renderGalleries();
+      renderCourses();
     }
 
     function handleFilter() {
-      renderCourses();
       renderGalleries();
+      renderCourses();
     }
 
     function toggleFavView() {
@@ -2939,8 +3073,8 @@
           btn.innerText = 'Activar mi Membresía';
           input.value = '';
           alertBox.style.display = 'none';
-          renderCourses();
           renderGalleries();
+          renderCourses();
         }, 1800);
 
       } catch (err) {
