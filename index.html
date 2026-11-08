@@ -13,10 +13,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- FIREBASE SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <!-- YOUTUBE IFRAME API -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <style>
@@ -1577,7 +1575,6 @@
     const db = firebase.firestore();
 
     const courses = [
-      // 1. RETO 10 DÍAS DE AMIGURUMIS
       {
         id: "reto_amigurumi",
         title: "Curso: Amigurumis desde cero sin frustrarse (Reto 10 Días)",
@@ -1596,8 +1593,6 @@
           { id: "c10", order: 10, title: "Día 10: Secreto para que tus amigurumis se vean profesionales", yt: "R9dyw35sZnA", duration: "06:57", mat: "Tu amigurumi listo para los toques finales y vaporizado." }
         ]
       },
-
-      // 2. CURSO DE VELAS ARTESANALES (HADA CREATIVA)
       {
         id: "curso_velas_hada",
         title: "Curso: Velas Artesanales y Florivelas (Hada Creativa)",
@@ -1612,8 +1607,6 @@
           { id: "vel6", order: 6, title: "Clase 6: 5 Cosas indispensables antes de emprender tu negocio", yt: "ge7r2Bymz_M", duration: "09:40", mat: "Libreta de cálculo de costos, empaques, fotos en redes y estrategia de precios." }
         ]
       },
-
-      // 3. CURSO DE VELAS CASERAS PASO A PASO
       {
         id: "curso_velas_caseras",
         title: "Curso: Velas Caseras Paso a Paso (15 Clases)",
@@ -1637,8 +1630,6 @@
           { id: "vc15", order: 15, title: "Clase 15: Cómo calcular cera, esencia, fundido y uso de la balanza", yt: "HPmxfkXgKeg", duration: "08:17", mat: "Balanza de precisión con tara, jarra de acero inoxidable y libreta para factor 0.9." }
         ]
       },
-
-      // 4. CURSO: EMPRENDE CON VELAS AROMÁTICAS
       {
         id: "curso_velas_emprende",
         title: "Curso: Emprende con Velas Aromáticas (Guía Completa)",
@@ -1654,8 +1645,6 @@
           { id: "cve7", order: 7, title: "Clase 7: Cómo hacer velas de gel transparentes desde cero (sin burbujas)", yt: "c5xOkXxKTM8", duration: "16:21", mat: "200g gel de vela densidad media, mecha de zinc, conchas/piedras térmicas y vertido en pared." }
         ]
       },
-
-      // 5. CURSO BÁSICO DE VELAS (PINK BOSS LAB)
       {
         id: "curso_basico_pinkboss",
         title: "Curso: Básico de Velas (Pink Boss Lab)",
@@ -1672,8 +1661,6 @@
           { id: "pb8", order: 8, title: "Clase 8: Tutorial de florivelas con plantillas para vender", yt: "2ti2ATEIrPw", duration: "06:30", mat: "Moldes de flores, palitos para ramo, plantillas de papel y mechas delgadas." }
         ]
       },
-
-      // 6. CURSO DE VELAS DE COLORES Y TÉCNICAS ESPECIALES
       {
         id: "curso_velas_colores",
         title: "Curso: Velas De Colores, Marmolados y Diseños Especiales",
@@ -1701,8 +1688,6 @@
           { id: "col19", order: 19, title: "Clase 19: Acabado profesional: Pulido, sellado y brillo final", yt: "1yikoFZsD-U", duration: "09:15", mat: "Paño de microfibra, vaselina líquida y plancha térmica niveladora." }
         ]
       },
-
-      // 7. CURSO DE VELAS NAVIDEÑAS
       {
         id: "curso_velas_navidenas",
         title: "Curso: Velas Navideñas para Decorar y Vender",
@@ -1718,8 +1703,6 @@
           { id: "vn7", order: 7, title: "Clase 7: Empaque, presentación y combos de regalo navideño", yt: "Yr4nVT1Izcg", duration: "15:05", mat: "Cajas de cartón kraft, viruta de madera, papel celofán y tarjetas de felicitación." }
         ]
       },
-
-      // 8. CURSO: EMPRENDIMIENTO DE VELAS
       {
         id: "curso_emprendimiento_velas",
         title: "Curso: Emprendimiento y Negocio de Velas Exitoso (15 Clases)",
@@ -1743,8 +1726,6 @@
           { id: "ev15", order: 15, title: "Clase 15: Plan de escalamiento para convertir tu hobby en empresa", yt: "OF8Doo7cCDU", duration: "18:25", mat: "Metas de facturación mensual, reinversión y expansión del catálogo." }
         ]
       },
-
-      // 9. CURSO DE VELAS ARTESANALES COMPLETO
       {
         id: "curso_velas_artesanales_pro",
         title: "Curso: Velas Artesanales Completo (12 Clases Paso a Paso)",
@@ -1765,8 +1746,6 @@
           { id: "vap12", order: 12, title: "Clase 12: Acabado estético final, etiquetado y precauciones de uso", yt: "RfeEa1Cj4Y0", duration: "16:00", mat: "Etiquetas con advertencias obligatorias, recorte de mecha a 0.5 cm y sellado." }
         ]
       },
-
-      // 10. CURSO DE JABONES ARTESANALES NATURALES (18 CLASES)
       {
         id: "curso_jabones_art_chela",
         title: "Curso: Jabones Artesanales Naturales (Art by Chela - 18 Clases)",
@@ -1793,8 +1772,6 @@
           { id: "ja18", order: 18, title: "Clase 18: Presentación de lujo, packaging ecológico y venta", yt: "b8sEI7EMJnY", duration: "16:25", mat: "Cajas de cartón biodegradable, fajas de papel vegetal y lazos de yute." }
         ]
       },
-
-      // 11. CURSO DE JABONES DE GLICERINA (BIOARMONÍA CORPORAL)
       {
         id: "curso_jabones_bioarmonia",
         title: "Curso: Taller Completo de Jabones de Glicerina (BioArmonía)",
@@ -1808,8 +1785,6 @@
           { id: "jb5", order: 5, title: "Clase 5: Errores comunes: Sudado, ablandamiento y cómo solucionarlos", yt: "brNT7yQRWUk", duration: "19:35", mat: "Control térmico a menos de 70°C y selección de dureza en bases." }
         ]
       },
-
-      // 12. CURSO COMPLETO: JABONES DE GLICERINA Y TÉCNICAS DE DISEÑO
       {
         id: "curso_jabones_kameraki",
         title: "Curso: Jabones de Glicerina y Técnicas de Diseño (21 Clases)",
@@ -1839,8 +1814,6 @@
           { id: "cjk21", order: 21, title: "Clase 21: Clase de graduación: Montaje de marca y catálogo rentable", yt: "yhUxxbqJ4H0", duration: "25:30", mat: "Fotografía con luz natural, portafolio y atención al cliente." }
         ]
       },
-
-      // 13. CURSO DE RECIPIENTES DE YESO PARA VELAS Y MACETAS
       {
         id: "curso_recipientes_yeso",
         title: "Curso: Recipientes de Yeso para Velas y Macetas (22 Clases)",
@@ -1871,8 +1844,6 @@
           { id: "ry22", order: 22, title: "Clase 22: Desmoldado y armado paso a paso de joyeros porta vela con flores", yt: "c_spL76QYpI", duration: "39:30", mat: "Técnica con tornillo de soporte interior, sellado con pegamento blanco y ensamble con velas de flor." }
         ]
       },
-
-      // 14. CURSO DE RESINA EPÓXICA PARA PRINCIPIANTES
       {
         id: "curso_resina_principiantes",
         title: "Curso: Resina Epóxica para Principiantes (16 Clases)",
@@ -1897,8 +1868,6 @@
           { id: "rp16", order: 16, title: "Clase 16: Fotografía, empaque en bolsitas de celofán y fijación de precios", yt: "FN7ghRpcTXg", duration: "15:45", mat: "Tarjetas de soporte personalizadas, bolsitas autoadhesivas y margen comercial." }
         ]
       },
-
-      // 15. CURSO DE RESINA CREATIVA, ACCESORIOS Y TÉCNICAS AVANZADAS
       {
         id: "curso_resina_creativa_master",
         title: "Curso: Resina Creativa, Accesorios y Técnicas Avanzadas (42 Clases)",
@@ -1949,8 +1918,6 @@
           { id: "rc42", order: 42, title: "Clase 42: Clase final: Montaje de marca artesanal y primeros clientes", yt: "ifxtieMl7PE", duration: "22:00", mat: "Plan de acción en redes sociales, respuestas rápidas en WhatsApp y fidelización." }
         ]
       },
-
-      // 16. CURSO DE MODELADO EN PORCELANA FRÍA - COLECCIÓN MASTER (NUEVO)
       {
         id: "curso_porcelana_master",
         title: "Curso: Modelado en Porcelana Fría - Colección Master (42 Clases)",
@@ -2001,8 +1968,6 @@
           { id: "pm42", order: 42, title: "Clase 42: Graduación: Cómo vender tus piezas y atraer clientes en redes", yt: "6odYaBiN4B8", duration: "25:00", mat: "Fotos con fondos claros, videos de modelado rápido y WhatsApp Business." }
         ]
       },
-
-      // 17. CURSO DE MODELADO Y FIGURAS EN PORCELANA FRÍA (GUÍA PRÁCTICA) (NUEVO)
       {
         id: "curso_porcelana_practica",
         title: "Curso: Modelado y Figuras en Porcelana Fría (Guía Práctica - 23 Clases)",
@@ -2034,8 +1999,6 @@
           { id: "pp23", order: 23, title: "Clase 23: Emprendimiento: Cómo presentar y cobrar tus recuerdos", yt: "zOMJhNAXiAo", duration: "21:00", mat: "Packaging transparente, tarjetas de agradecimiento y costos reales." }
         ]
       },
-
-      // 18. CURSO DE MODELADO EN ARCILLA FRÍA / POLIMÉRICA (NUEVO)
       {
         id: "curso_arcilla_fria",
         title: "Curso: Taller de Modelado en Arcilla Fría y Polimérica (19 Clases)",
@@ -2066,7 +2029,6 @@
     ];
 
     const catalog = [
-      // TÉCNICAS Y TIPS
       { id: "tip1", title: "Los 5 Trucos que NO sabías del tejido a crochet", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "BRfQ8ABVN3E", duration: "04:01", mat: "Ganchillo, hilaza y libreta para anotar trucos." },
       { id: "tip2", title: "3 Tips que me ayudaron a mejorar mis amigurumis", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "XybZZDEEthQ", duration: "16:06", mat: "Muestras de tejido y diferentes grosores de hilaza." },
       { id: "tip3", title: "5 Tips clave para crear amigurumis profesionales", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "RtoeZoL67C4", duration: "10:13", mat: "Ganchillo fino y tejido de práctica." },
@@ -2080,7 +2042,6 @@
       { id: "tip11", title: "Tutorial completo: Cómo coser y ensamblar piezas", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "R-hlJoagL5g", duration: "52:36", mat: "Piezas tejidas, alfileres y aguja punta roma." },
       { id: "tip12", title: "Cómo hacer y diseñar tu propio patrón amigurumi desde cero", cat: "Tecnicas, Tips y Consejos de amigurumis", yt: "dv3rNYYrDK0", duration: "21:27", mat: "Cuaderno cuadriculado, lápiz y cinta métrica." },
 
-      // FLORES Y PLANTAS
       { id: "flo1", title: "Flores Campana Tejidas a Crochet Paso a Paso", cat: "Flores y Plantas", yt: "wdXEtVjm7g8", duration: "17:05", mat: "Hilaza morada, verde hoja, alambre floral y ganchillo 2.5mm." },
       { id: "flo2", title: "Tutorial Claveles Tejidos a Crochet Fácil", cat: "Flores y Plantas", yt: "kjY73GfP1K8", duration: "28:29", mat: "Hilo de algodón peinado rosa y blanco, cinta floral verde." },
       { id: "flo3", title: "Tejer Flores Amarillas a Crochet para el Hogar", cat: "Flores y Plantas", yt: "7p61e_hnHYs", duration: "56:52", mat: "Hilaza amarilla, marrón café, verde oliva y relleno sintético." },
@@ -2088,7 +2049,6 @@
       { id: "flo5", title: "Original Scrunchie Coletero de Flores a Crochet", cat: "Flores y Plantas", yt: "ulpgqyxMoKE", duration: "01:31", mat: "Banda elástica, hilo de algodón multicolor y ganchillo 3.0mm." },
       { id: "flo6", title: "Tortuga Amigurumi Marina Paso a Paso en Español", cat: "Flores y Plantas", yt: "xC5UZVnX5-w", duration: "18:20", mat: "Lana verde bosque, marrón tierra y ojitos de seguridad." },
 
-      // ANIMALITOS Y LLAVEROS
       { id: "ani1", title: "Gatito Dormido Amigurumi - Patrón Completo", cat: "Animalitos y Llaveros", yt: "nV2aW0YY_HY", duration: "23:13", mat: "Hilaza gris claro, rosa nariz, aguja lanera y vellón siliconado." },
       { id: "ani2", title: "Llavero Gatito Fácil y Rápido a Crochet", cat: "Animalitos y Llaveros", yt: "ygIJ7-Jjszw", duration: "29:12", mat: "Hilo de algodón, argolla para llavero, cascabel y tijeras." },
       { id: "ani3", title: "Tortuga Amigurumi Llavero Paso a Paso", cat: "Animalitos y Llaveros", yt: "cZFze5csx7Q", duration: "16:07", mat: "Lana verde agua, marrón claro para caparazón y ojitos bordados." },
@@ -2097,7 +2057,6 @@
       { id: "ani6", title: "Llavero de Snoopy Besucón a Crochet", cat: "Animalitos y Llaveros", yt: "f_3S2fKxbnQ", duration: "41:55", mat: "Hilaza blanca, negra orejas, corazón rojo y vellón." },
       { id: "ani7", title: "Oso con Franjas Amigurumi Paso a Paso", cat: "Animalitos y Llaveros", yt: "ZVetSIM8Jx0", duration: "41:56", mat: "Lana marrón, mostaza, blanco y ojos de seguridad 10mm." },
 
-      // PRINCESAS Y DISNEY
       { id: "dis1", title: "Stitch Amigurumi a Crochet - Tutorial Completo", cat: "Princesas y Personajes Disney", yt: "DDzRMern12c", duration: "52:02", mat: "Lana azul francia, celeste barriga, rosa interior orejas y vellón." },
       { id: "dis2", title: "Llavero Stitch Amigurumi para Principiantes", cat: "Princesas y Personajes Disney", yt: "qRM6lHj33x0", duration: "27:07", mat: "Hilaza azul, argolla con cadena, fieltro negro y ganchillo 2.0mm." },
       { id: "dis3", title: "Stitch Ángel Rosa a Crochet Paso a Paso", cat: "Princesas y Personajes Disney", yt: "7fnrRwyblis", duration: "51:59", mat: "Lana rosa chicle, morado claro antenas y ojos bordados." },
@@ -2106,12 +2065,10 @@
       { id: "dis5", title: "Princesa Bella con Vestido de Gala Amigurumi", cat: "Princesas y Personajes Disney", yt: "yb0aXd1Y0mA", duration: "24:37", mat: "Lana amarilla oro, castaño cabello, rosa roja y ganchillo 2.5mm." },
       { id: "dis6", title: "Sirenita Ariel Amigurumi a Crochet", cat: "Princesas y Personajes Disney", yt: "L1xWq2UNNA4", duration: "35:10", mat: "Lana verde esmeralda cola, cabello rojo fuego y top lila." },
 
-      // FRUTAS Y COMIDA KAWAII
       { id: "fru1", title: "Plátano Banana Llavero Amigurumi Tutorial", cat: "Frutas y Comida Kawaii", yt: "JOrchYAU6XM", duration: "19:13", mat: "Lana amarilla cáscara, crema fruta, marrón punta y relleno." },
       { id: "fru2", title: "Zanahoria a Crochet Súper Fácil y Rápida", cat: "Frutas y Comida Kawaii", yt: "K92lcQnO54g", duration: "11:00", mat: "Hilaza naranja brillante, verde hojas y aguja lanera." },
       { id: "fru3", title: "Patrón Ensalada de Frutas Amigurumi", cat: "Frutas y Comida Kawaii", yt: "7eEdDjhPp8w", duration: "10:02", mat: "Lana roja carmín, hojas verdes, hilo blanco para pepitas." },
 
-      // POKÉMON
       { id: "poke1", title: "Pikachu Amigurumi Fácil para Principiantes", cat: "Amigurumis de pokemon", yt: "CZRodI0VfRY", duration: "24:50", mat: "Lana amarillo sol, puntas de orejas en negro, chapitas rojas." },
       { id: "poke2", title: "Pikachu Paso a Paso en Detalle", cat: "Amigurumis de pokemon", yt: "yyIPkUdtR5k", duration: "36:10", mat: "Ganchillo 2.5mm, relleno sintético y tijeras." },
       { id: "poke3", title: "Charmander Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "2G2TwPpYATY", duration: "42:40", mat: "Lana naranja fuego, pancita crema y hebras rojas/amarillas." },
@@ -2122,7 +2079,6 @@
       { id: "poke9", title: "Jigglypuff Pokémon Amigurumi Paso a Paso", cat: "Amigurumis de pokemon", yt: "22buK_THT-g", duration: "28:30", mat: "Lana rosa pastel, rulo frontal y ojos verde agua." },
       { id: "poke10", title: "Pokébola Clásica a Crochet", cat: "Amigurumis de pokemon", yt: "Qa_yqwzbr0Y", duration: "14:14", mat: "Lana roja, blanca, franja negra central y botón." },
 
-      // SANRIO
       { id: "sanrio1", title: "Hello Kitty en Llavero Fácil para Principiantes", cat: "Amigurumis de san rio", yt: "a9wYeVU5pjk", duration: "22:15", mat: "Lana blanca, rojo cereza para el lazo, amarillo para nariz y argolla." },
       { id: "sanrio2", title: "Hello Kitty Clásica en Español Paso a Paso", cat: "Amigurumis de san rio", yt: "kyyMK-KY8pw", duration: "31:40", mat: "Hilaza 100% algodón, ojitos ovalados de seguridad." },
       { id: "sanrio3", title: "Kuromi Amigurumi Tutorial Paso a Paso Completo", cat: "Amigurumis de san rio", yt: "wd_7J6qYOvY", duration: "52:16", mat: "Lana negra capucha con orejas en punta, lila y calaverita." },
@@ -2130,44 +2086,35 @@
       { id: "sanrio5", title: "Cinnamoroll Amigurumi Tutorial Completo", cat: "Amigurumis de san rio", yt: "fK7lcjXIAEI", duration: "35:52", mat: "Lana blanca como nube, ojos y mejillas celestes bordadas." },
       { id: "sanrio6", title: "Hello Kitty y Spiderman: Pareja de Llaveros Amigurumi", cat: "Amigurumis de san rio", yt: "eqI--hopFtg", duration: "42:27", mat: "Lana roja, azul, blanca y rosa de 5 hebras, crochet 3.0mm y ojitos 8mm." },
 
-      // EL CHAVO DEL 8
       { id: "chavo1", title: "El Chavo del 8 Amigurumi Completo Paso a Paso", cat: "Amigurumis del chavo del 8", yt: "YmsMYv8ozMY", duration: "45:00", mat: "Hilaza beige clara, café, verde selva y blanco." },
       { id: "chavo2", title: "Don Ramón Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "aMNjfcAr4SQ", duration: "1:32:18", mat: "Lana azul jean, playera negra, sombrero piluso celeste y bigote." },
       { id: "chavo3", title: "La Chilindrina Amigurumi - Primera Parte", cat: "Amigurumis del chavo del 8", yt: "kUrdsHHhICc", duration: "29:48", mat: "Lana verde esmeralda, amarillo pollito, suéter rojo y pecas." },
       { id: "chavo3_p2", title: "La Chilindrina Amigurumi - Segunda Parte (Final)", cat: "Amigurumis del chavo del 8", yt: "tcrcMNkfuzM", duration: "45:58", mat: "Cuerpo, vestido, ensamble, colitas y lentes." },
       { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
 
-      // MARIO BROS
       { id: "mario1", title: "Super Mario Bros Amigurumi Completo Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
       { id: "mario2", title: "Luigi Amigurumi Tutorial - Super Mario Bros Paso a Paso", cat: "Amigurumis de mario bross", yt: "WEumJ70l_tg", duration: "58:08", mat: "Lana verde bosque, azul overol, botones amarillos y bigote." },
       { id: "mario3", title: "Yoshi Mario Bros - Crochet Amigurumi Tutorial", cat: "Amigurumis de mario bross", yt: "qeF2roklz8s", duration: "25:29", mat: "Lana verde manzana, blanco pecho, montura roja y botas." },
       { id: "mario4", title: "Toad Mario Bros Amigurumi Tutorial Paso a Paso", cat: "Amigurumis de mario bross", yt: "0IP6gwyaSJI", duration: "41:51", mat: "Lana blanca, chaleco azul y círculos rojos cosidos." },
 
-      // CANTANTES
       { id: "cant1", title: "Bad Bunny Amigurumi Tutorial Completo Paso a Paso", cat: "Amigurumis de cantantes", yt: "zSDI3_qZuYw", duration: "28:15", mat: "Hilaza color piel, cabello castaño, ropa tejida y ganchillo 2.5mm." },
       { id: "cant2", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 1/2)", cat: "Amigurumis de cantantes", yt: "q_Og03X3MBk", duration: "54:01", mat: "Lana blanca para traje, camisa azul, corbata blanca y sombrero." },
       { id: "cant3", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 2/2)", cat: "Amigurumis de cantantes", yt: "4PfUtC_U1qA", duration: "45:49", mat: "Detalles finales y sombrero tejido." },
       { id: "cant4", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
 
-      // OSOS Y PELUCHES
       { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera y ojitos 8mm." },
       { id: "oso2", title: "Osito Amigurumi Tierno Especial San Valentín", cat: "Amigurumis de osos y peluches", yt: "mXgH5500Ib4", duration: "1:29:59", mat: "Hilo acrílico beige, blanco hocico, ojitos 8mm, cinta roja y relleno." },
 
-      // PARA BEBÉS
       { id: "bebe1", title: "Cómo tejer un Sonajero de Bebé a Crochet Paso a Paso", cat: "Amigurumis para bebes", yt: "IiNzICXw9ME", duration: "24:30", mat: "Algodón hipoalergénico, aro de madera natural y sonajero interior." },
       { id: "bebe2", title: "Mantita de Apego Osito a Crochet (Primera Parte)", cat: "Amigurumis para bebes", yt: "8mUmlnFoBXQ", duration: "31:59", mat: "Hilaza suave para bebé, relleno siliconado y ojitos bordados." },
       { id: "bebe2_p2", title: "Mantita de Apego Osito a Crochet (Segunda Parte)", cat: "Amigurumis para bebes", yt: "4DGLdBUE2_0", duration: "31:15", mat: "Armado de la cabeza, ensamble sobre la manta y bordado final." },
 
-      // PROFESIONES
       { id: "prof1", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "1NIia8gAeJs", duration: "35:40", mat: "Lana blanca médica, celeste/rosa pastel, detalles bordados." },
 
-      // RELIGIOSOS
       { id: "rel1", title: "Virgen María Amigurumi - Tutorial Completo Paso a Paso", cat: "Amigurumis religiosos", yt: "UH-ghvSAHgc", duration: "42:15", mat: "Lana blanca perla, celeste cielo, color piel y corona dorada." },
 
-      // NAVIDEÑOS
       { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Lana roja carmín, blanca rizada, pompón y ojitos negros." },
 
-      // SUPERHÉROES
       { id: "super1", title: "Spider-Man Colgante para Auto a Crochet", cat: "Amigurumis de super heroes", yt: "IQY6ZP71wHo", duration: "32:00", mat: "Lana roja y azul francia, hilo negro para bordar la telaraña." }
     ];
 
@@ -2372,7 +2319,6 @@
         if (cG) cG.style.display = 'none';
       }
 
-      // AUTOCOMPLETADO AUTOMÁTICO DEL CORREO GUARDADO PREVIAMENTE
       const savedEmail = localStorage.getItem('last_entered_email') || localStorage.getItem('user_email');
       if (savedEmail) {
         const fInput = document.getElementById('freeEmailInput');
@@ -2501,7 +2447,6 @@
       }
     }
 
-    // CIERRE DE SESIÓN BLOQUEADO PARA USUARIOS PREMIUM (MÁXIMO PLAN)
     function handleLogout() {
       if (userPlan === 'premium') {
         alert('👑 Tienes activa tu membresía PREMIUM (Plan Máximo). Tu sesión permanece siempre abierta y protegida en la app.');
@@ -2560,7 +2505,6 @@
         updateBadgeUI(userPlan === 'free' ? 'PLAN GRATIS' : userPlan.toUpperCase(), 'badge-free');
       }
 
-      // Ocultar botón Salir para planes PREMIUM
       const btnLogout = document.getElementById('btnAppLogout');
       if (btnLogout) {
         btnLogout.style.display = (userPlan === 'premium') ? 'none' : 'block';
@@ -2582,12 +2526,21 @@
     }
 
     function isLessonLockedInCourse(course, lesson, totalLessons) {
-      if (course.isNew) {
-        return userPlan !== 'premium';
+      if (userPlan === 'premium') return false;
+
+      if (userPlan === 'pro') {
+        return course.isNew === true;
       }
-      if (userPlan === 'premium' || userPlan === 'pro') return false;
-      const freeLimit = Math.ceil(totalLessons / 2);
-      return lesson.order > freeLimit;
+
+      if (userPlan === 'free') {
+        if (course.id === 'reto_amigurumi') {
+          const freeLimit = Math.ceil(totalLessons / 2);
+          return lesson.order > freeLimit;
+        }
+        return true;
+      }
+
+      return true;
     }
 
     function isSingleVideoLocked(v) {
@@ -2609,7 +2562,6 @@
       if (el) { el.classList.toggle('open'); }
     }
 
-    // RENDERIZADO DE VIDEOS EN PRIMER LUGAR (GRATIS DE PRIMERO)
     function renderGalleries() {
       const container = document.getElementById('sectionsContainer');
       container.innerHTML = '';
@@ -2645,7 +2597,6 @@
       categories.forEach(catName => {
         let catVideos = filtered.filter(v => v.cat === catName);
 
-        // Gratis de primero, bloqueados al final
         catVideos.sort((a, b) => {
           const lockedA = isSingleVideoLocked(a);
           const lockedB = isSingleVideoLocked(b);
@@ -2691,7 +2642,6 @@
       });
     }
 
-    // RENDERIZADO DE CURSOS DE ÚLTIMO (CLASES GRATIS PRIMERO)
     function renderCourses() {
       const container = document.getElementById('coursesContainer');
       container.innerHTML = '';
@@ -2724,10 +2674,16 @@
         if (index === 0) { box.classList.add('open'); }
 
         let stateText = '';
-        if (course.isNew) {
-          stateText = userPlan === 'premium' ? '👑 100% Desbloqueado' : '🔒 Exclusivo Alumnas PREMIUM';
+        if (userPlan === 'premium') {
+          stateText = '👑 100% Desbloqueado';
+        } else if (userPlan === 'pro') {
+          stateText = course.isNew ? '🔒 Exclusivo Alumnas PREMIUM' : '100% Desbloqueado';
         } else {
-          stateText = (userPlan === 'free') ? `${freeLimit} libres (50%)` : '100% Desbloqueado';
+          if (course.id === 'reto_amigurumi') {
+            stateText = `${freeLimit} libres (50%)`;
+          } else {
+            stateText = '🔒 Bloqueado (Membresía)';
+          }
         }
 
         box.innerHTML = `
@@ -2772,6 +2728,8 @@
             if (isLocked) {
               if (course.isNew) {
                 alert('🔒 Este curso es NUEVO y exclusivo para el PLAN PREMIUM.\n\nMejora tu plan para acceder a todas las actualizaciones nuevas.');
+              } else if (userPlan === 'free') {
+                alert('🔒 Este curso completo requiere Plan PRO o PREMIUM.\n\nEl plan gratis solo incluye el Reto de 10 Días de Amigurumis.');
               }
               openPlansModal();
             } else {
@@ -2781,7 +2739,9 @@
 
           let lockLabel = '';
           if (isLocked) {
-            lockLabel = course.isNew ? '🔒 Exclusivo PREMIUM' : '🔒 Bloqueado (Mitad PRO)';
+            if (course.isNew) lockLabel = '🔒 Exclusivo PREMIUM';
+            else if (userPlan === 'free' && course.id !== 'reto_amigurumi') lockLabel = '🔒 Bloqueado (Membresía)';
+            else lockLabel = '🔒 Bloqueado (Mitad PRO)';
           }
 
           item.innerHTML = `
@@ -2854,6 +2814,7 @@
 
       const totalSecs = parseDurationInSeconds(v.duration);
       const isLongVideo = totalSecs >= 3600;
+      const savedTime = parseFloat(localStorage.getItem('resume_time_' + v.id) || '0');
 
       if (ytPlayer && ytPlayer.destroy) {
         ytPlayer.destroy();
@@ -2865,20 +2826,31 @@
 
       ytPlayer = new YT.Player('player', {
         videoId: v.yt,
-        playerVars: { autoplay: 1, rel: 0, modestbranding: 1 },
+        playerVars: { 
+          autoplay: 1, 
+          rel: 0, 
+          modestbranding: 1,
+          start: Math.floor(savedTime)
+        },
         events: {
           'onStateChange': (event) => {
-            if (event.data === YT.PlayerState.PLAYING && userPlan === 'free' && isLongVideo) {
+            if (event.data === YT.PlayerState.PLAYING) {
               clearInterval(timeCheckInterval);
               timeCheckInterval = setInterval(() => {
                 const current = ytPlayer.getCurrentTime();
-                const limit = totalSecs * 0.8;
-                if (current >= limit) {
-                  ytPlayer.pauseVideo();
-                  clearInterval(timeCheckInterval);
-                  document.getElementById('timeLockCurtain').style.display = 'flex';
+                localStorage.setItem('resume_time_' + v.id, current);
+
+                if (userPlan === 'free' && isLongVideo) {
+                  const limit = totalSecs * 0.8;
+                  if (current >= limit) {
+                    ytPlayer.pauseVideo();
+                    clearInterval(timeCheckInterval);
+                    document.getElementById('timeLockCurtain').style.display = 'flex';
+                  }
                 }
               }, 1000);
+            } else {
+              clearInterval(timeCheckInterval);
             }
           }
         }
@@ -2925,7 +2897,10 @@
     function closeModal() {
       document.getElementById('videoModal').style.display = 'none';
       clearInterval(timeCheckInterval);
-      if (ytPlayer && ytPlayer.stopVideo) { ytPlayer.stopVideo(); }
+      if (ytPlayer && ytPlayer.getCurrentTime && currentVideo) {
+        localStorage.setItem('resume_time_' + currentVideo.id, ytPlayer.getCurrentTime());
+        if (ytPlayer.stopVideo) ytPlayer.stopVideo();
+      }
     }
 
     function openPlansModal() {
