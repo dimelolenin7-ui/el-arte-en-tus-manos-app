@@ -1342,7 +1342,7 @@
       <div class="plans-modal-body">
         <span class="promo-banner-badge" style="background:#fdf4ff; color:#86198f; border-color:#f0abfc;">👑 Beneficio Exclusivo Alumnas Premium</span>
         <h3>Sugerir Nuevo Video o Curso</h3>
-        <p>¿Qué te gustaría aprender a continuación? Escribe el tema o el enlace de YouTube y nuestro equipo de soporte lo evaluará para añadirlo como nuevo a la academia.</p>
+        <p>¿Qué te gustaría aprender a continuación? Escribe el tema o el enlace de YouTube y se enviará de inmediato al chat directo del equipo de soporte.</p>
         <div id="suggestAlert" class="alert-msg"></div>
         <div class="input-group">
           <label>Tema, técnica o enlace de YouTube:</label>
@@ -1724,7 +1724,7 @@
           { id: "vn2", order: 2, title: "Clase 2: Faroles y fanales decorativos para Nochebuena", yt: "n6TIeFBgN_Q", duration: "14:25", mat: "Parafina translúcida, molde cilíndrico, hojas secas de pino y escarcha." },
           { id: "vn3", order: 3, title: "Clase 3: Velas aromáticas con canela, naranja y clavo navideño", yt: "ePx3dxAl3ls", duration: "11:40", mat: "Cera de vaso, ramas de canela aromática, rodajas de naranja deshidratada." },
           { id: "vn4", order: 4, title: "Clase 4: Diseños de velas con efecto nieve y pino escarchado", yt: "cIqjB4eN44M", duration: "10:50", mat: "Cera batida espumosa, brillantina fina blanca y mecha encerada." },
-          { id: "vn5", order: 5, title: "Clase 5: Velas en recipientes de cristal con lazos y decoraciones festivas", yt: "W2dIamEhjr0", duration: "13:15", mat: "Vasos de vidrio, etiquetas navideñas, cintas decorativas y mecha con chapeta." },
+          { id: "vn5", order: 15, title: "Clase 5: Velas en recipientes de cristal con lazos y decoraciones festivas", yt: "W2dIamEhjr0", duration: "13:15", mat: "Vasos de vidrio, etiquetas navideñas, cintas decorativas y mecha con chapeta." },
           { id: "vn6", order: 6, title: "Clase 6: Centros de mesa con velas flotantes navideñas", yt: "SeUS9ut2AHc", duration: "09:30", mat: "Moldes pequeños de flores/estrellas, colorante dorado y agua para flotación." },
           { id: "vn7", order: 7, title: "Clase 7: Empaque, presentación y combos de regalo navideño", yt: "Yr4nVT1Izcg", duration: "15:05", mat: "Cajas de cartón kraft, viruta de madera, papel celofán y tarjetas de felicitación." }
         ]
@@ -2242,6 +2242,7 @@
       document.getElementById('suggestModal').style.display = 'none';
     }
 
+    // ENVÍO DE SUGERENCIAS DIRECTO AL CHAT DE WHATSAPP Y RESPALDO EN FIREBASE
     async function sendCourseSuggestion() {
       const input = document.getElementById('suggestInput');
       const text = input.value.trim();
@@ -2254,7 +2255,7 @@
       }
 
       btn.disabled = true;
-      btn.innerText = 'Enviando a soporte...';
+      btn.innerText = 'Abriendo WhatsApp...';
 
       try {
         await db.collection("sugerencias").add({
@@ -2262,18 +2263,19 @@
           sugerencia: text,
           fecha: firebase.firestore.FieldValue.serverTimestamp()
         });
-        showAlert(alertBox, '¡Gracias! Tu sugerencia fue enviada a soporte. Si está disponible, la agregaremos con la etiqueta NUEVO.', 'success');
-        setTimeout(() => {
-          btn.disabled = false;
-          btn.innerText = 'Enviar Sugerencia a Soporte';
-          closeSuggestModal();
-        }, 2200);
       } catch (err) {
-        console.error("Error al sugerir:", err);
-        showAlert(alertBox, 'Error al enviar. Inténtalo de nuevo.', 'error');
+        console.error("Error al guardar respaldo:", err);
+      }
+
+      const mensaje = encodeURIComponent(`¡Hola! Soy usuaria del PLAN PREMIUM de El Arte en Tus Manos (${currentUserEmail}) y deseo sugerir este video/curso para la academia:\n\n"${text}"`);
+      window.open(`https://wa.me/573218641539?text=${mensaje}`, '_blank');
+
+      showAlert(alertBox, '¡Conectando con WhatsApp! Tu mensaje ha sido preparado para enviarse a soporte.', 'success');
+      setTimeout(() => {
         btn.disabled = false;
         btn.innerText = 'Enviar Sugerencia a Soporte';
-      }
+        closeSuggestModal();
+      }, 1500);
     }
 
     function closeLoginCloud() {
@@ -3048,7 +3050,6 @@
         await batch.commit();
 
         userPlan = planAsignado;
-        localStorage.setItem('user_email', currentUserEmail);
         localStorage.setItem('user_plan_' + currentUserEmail, planAsignado);
         showAlert(alertBox, `¡Membresía ${planAsignado.toUpperCase()} activada por ${diasDuracion} días!`, 'success');
         
