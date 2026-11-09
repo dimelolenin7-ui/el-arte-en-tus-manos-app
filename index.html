@@ -613,7 +613,53 @@
       font-size: 1.05rem;
       color: var(--text);
     }
-
+    
+    /* ESTILOS CALCULADORA DE COSTOS PREMIUM */
+    .calculator-card {
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      border: 2px solid #f59e0b;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-md);
+      
+    }
+    .calculator-card h3 {
+      font-size: 1.15rem;
+      color: #92400e;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    @media (max-width: 480px) {
+      .calc-grid { grid-template-columns: 1fr; }
+    }
+    .calc-results-box {
+      background: #fff;
+      border: 1.5px solid #fde68a;
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 14px;
+      text-align: center;
+    }
+    .calc-res-item {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .calc-res-val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    
     .carousel {
       display: flex;
       gap: 12px;
