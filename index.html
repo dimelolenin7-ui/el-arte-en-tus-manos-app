@@ -1517,11 +1517,13 @@
   <!-- REPRODUCTOR MODAL & CONTADOR -->
   <div id="videoModal" class="modal">
     <div class="modal-content">
-      <div class="video-frame-container">
+   <div class="video-frame-container" onclick="togglePlayPause()" style="position: relative;">
         <div id="player"></div>
-        <!-- BOTÓN DE PANTALLA COMPLETA FLOTANTE (OPCIÓN B LIMPIA) -->
-        <button type="button" class="btn-fullscreen-floating" onclick="togglePlayerFullscreen()">⛶ Pantalla Completa</button>
+        <!-- CAPA TÁCTICA PROTECTORA (EVITA SALIR A YOUTUBE Y CONTROLA PAUSA/PLAY) -->
+        <div style="position: absolute; inset: 0; z-index: 5; background: transparent; cursor: pointer;"></div>
 
+        <!-- BOTÓN DE PANTALLA COMPLETA FLOTANTE (OPCIÓN B LIMPIA) -->
+        <button type="button" class="btn-fullscreen-floating" onclick="event.stopPropagation(); togglePlayerFullscreen()" style="z-index: 20;">⛶ Pantalla Completa</button>
         <div id="timeLockCurtain" class="time-lock-curtain">
           <div style="font-size: 2.2rem; margin-bottom: 6px;">🔒</div>
           <h4>Llegaste al límite gratuito</h4>
@@ -1719,6 +1721,15 @@
   </div>
 
   <script>
+        function togglePlayPause() {
+      if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
+      const state = ytPlayer.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        ytPlayer.pauseVideo();
+      } else {
+        ytPlayer.playVideo();
+      }
+
     const firebaseConfig = {
       apiKey: "AIzaSyB1HEIr7bK8erNQ64_Ln78MeNxIJlVI_1E",
       authDomain: "el-arte-en-tus-manos.firebaseapp.com",
