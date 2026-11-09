@@ -85,6 +85,26 @@
 
     .btn-install-banner:active { transform: scale(0.98); }
 
+    .btn-brave-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff5722, #ff9800);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 87, 34, 0.25);
+      margin-bottom: 14px;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-brave-banner:active { transform: scale(0.98); }
+
     .onboarding-cloud-box {
       background: #fff;
       border: 2px solid var(--primary);
@@ -94,12 +114,6 @@
       position: relative;
       box-shadow: 0 6px 18px rgba(179, 90, 56, 0.15);
       text-align: left;
-      animation: floatCloud 3s ease-in-out infinite;
-    }
-
-    @keyframes floatCloud {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
     }
 
     .cloud-title {
@@ -560,7 +574,7 @@
       align-items: center;
       gap: 12px;
       padding: 10px;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 10px;
       margin-bottom: 8px;
       background: #faf8f5;
@@ -618,7 +632,7 @@
       background: #fff;
       border-radius: 14px;
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       cursor: pointer;
       scroll-snap-align: start;
       position: relative;
@@ -762,7 +776,6 @@
 
     #player { width: 100%; height: 100%; }
 
-    /* BOTÓN FLOTANTE DE PANTALLA COMPLETA */
     .btn-fullscreen-floating {
       position: absolute;
       bottom: 12px;
@@ -870,7 +883,7 @@
 
     .materials-box {
       background: #faf8f5;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 10px;
       padding: 12px;
       margin-bottom: 14px;
@@ -893,7 +906,7 @@
       display: inline-block;
       background: #fef3c7;
       color: #b45309;
-      border: 1px solid #fde68a;
+      border: 1.5px solid #fde68a;
       padding: 4px 12px;
       border-radius: 20px;
       font-size: 0.74rem;
@@ -919,7 +932,7 @@
       display: flex;
       gap: 4px;
       background: #faf8f5;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 12px;
       padding: 4px;
       margin-bottom: 16px;
@@ -1078,7 +1091,7 @@
       background: #faf8f5;
       padding: 4px;
       border-radius: 10px;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
     }
 
     .admin-nav-btn {
@@ -1101,7 +1114,7 @@
 
     .admin-codes-box {
       background: #faf8f5;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 10px;
       padding: 12px;
       max-height: 180px;
@@ -1116,7 +1129,7 @@
     .users-table-wrapper {
       max-height: 320px;
       overflow-y: auto;
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border);
       border-radius: 10px;
       background: #fff;
       margin: 12px 0;
@@ -1132,7 +1145,7 @@
     .users-table th {
       background: #faf8f5;
       padding: 8px 10px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1.5px solid var(--border);
       color: var(--text-muted);
       font-weight: 700;
       position: sticky;
@@ -1238,6 +1251,10 @@
       <button type="button" class="btn-install-banner" id="btnInstallAppLogin" onclick="triggerPwaInstall()">
         📲 Instalar App en tu Celular
       </button>
+
+      <button type="button" class="btn-brave-banner" onclick="openBraveGuideModal()">
+        🦁 Ver Clases sin Anuncios (Navegador Brave)
+      </button>
       
       <div class="auth-tabs">
         <button type="button" class="auth-tab-btn active" id="tabBtnFree" onclick="switchAuthTab('free')">⚪ Acceso Gratis</button>
@@ -1299,6 +1316,10 @@
       <button type="button" class="btn-install-banner" id="btnInstallAppMain" onclick="triggerPwaInstall()">
         📲 Instalar App en tu Celular (Acceso Directo)
       </button>
+
+      <button type="button" class="btn-brave-banner" onclick="openBraveGuideModal()">
+        🦁 Activa el Modo Sin Anuncios (Ver Guía Brave)
+      </button>
       
       <div id="vipBanner" class="vip-upgrade-card" style="display:none;">
         <div>
@@ -1343,6 +1364,33 @@
 
     </div>
   </main>
+
+  <!-- MODAL DE GUÍA BRAVE / ANTI-ANUNCIOS -->
+  <div id="braveGuideModal" class="modal">
+    <div class="modal-content">
+      <div class="plans-modal-body" style="text-align: left;">
+        <div style="text-align:center; font-size:2rem; margin-bottom:4px;">🦁</div>
+        <h3 style="text-align:center;">Ver Clases 100% Sin Anuncios</h3>
+        <p style="text-align:center; margin-bottom:14px;">Usa el navegador gratuito <strong>Brave</strong> para bloquear toda la publicidad de YouTube y evitar clics accidentales.</p>
+
+        <div style="background:#faf8f5; border:1.5px solid var(--border); border-radius:12px; padding:12px; margin-bottom:14px; font-size:0.8rem;">
+          <strong style="color:var(--primary); display:block; margin-bottom:6px;">📲 Paso 1: Descarga la app gratis</strong>
+          Toca el botón inferior para descargar Brave desde la tienda oficial de tu celular.
+          <div style="margin-top:8px;">
+            <a href="https://brave.com/es/download/" target="_blank" class="btn-main" style="text-decoration:none; text-align:center; padding:10px; font-size:0.82rem; display:block;">📥 Descargar Navegador Brave</a>
+          </div>
+        </div>
+
+        <div style="background:#faf8f5; border:1.5px solid var(--border); border-radius:12px; padding:12px; margin-bottom:14px; font-size:0.8rem;">
+          <strong style="color:var(--primary); display:block; margin-bottom:6px;">⚙️ Paso 2: Ponlo como predeterminado (Opcional)</strong>
+          • <strong>En Android:</strong> Ajustes ➔ Aplicaciones ➔ Aplicaciones predeterminadas ➔ App de navegador ➔ Selecciona <strong>Brave</strong>.<br>
+          • <strong>En iPhone (iOS):</strong> Ajustes ➔ Baja hasta <strong>Brave</strong> ➔ Aplicación de navegador predeterminada ➔ Selecciona <strong>Brave</strong>.
+        </div>
+
+        <button class="btn-action-outline" style="width:100%;" onclick="closeBraveGuideModal()">¡Entendido, volver a la academia!</button>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL DE SUGERENCIAS (EXCLUSIVO PREMIUM) -->
   <div id="suggestModal" class="modal">
@@ -1548,8 +1596,8 @@
           </div>
 
           <div style="display:flex; gap:8px; margin-bottom:12px;">
-            <input type="text" id="adminPrefix" value="PREM365" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Prefijo">
-            <input type="number" id="adminQty" value="5" min="1" max="50" style="width:50%; padding:10px; border-radius:10px; border:1px solid var(--border); font-weight:700;" placeholder="Cantidad">
+            <input type="text" id="adminPrefix" value="PREM365" style="width:50%; padding:10px; border-radius:10px; border:1.5px solid var(--border); font-weight:700;" placeholder="Prefijo">
+            <input type="number" id="adminQty" value="5" min="1" max="50" style="width:50%; padding:10px; border-radius:10px; border:1.5px solid var(--border); font-weight:700;" placeholder="Cantidad">
           </div>
 
           <button class="btn-main" id="btnAdminGen" onclick="handleAdminGenerate()">Generar Códigos en Firebase</button>
@@ -1561,7 +1609,7 @@
         </div>
 
         <div id="adminUsersSection" style="display:none;">
-          <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." onkeyup="filterUsersTable()" style="width:100%; padding:9px 12px; border-radius:8px; border:1px solid var(--border); font-size:0.8rem; margin-bottom:8px;">
+          <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." onkeyup="filterUsersTable()" style="width:100%; padding:9px 12px; border-radius:10px; border:1.5px solid var(--border); font-size:0.8rem; margin-bottom:8px;">
           
           <div class="users-table-wrapper">
             <table class="users-table">
@@ -1864,7 +1912,7 @@
           { id: "ry18", order: 18, title: "Clase 18: Corrección de poros abiertos y masillado de imperfecciones", yt: "Q-SMnLbyntA", duration: "12:10", mat: "Barbotina de yeso fino con espátula flexible y lijado de pulido." },
           { id: "ry19", order: 19, title: "Clase 19: Compatibilidad de yeso cerámico con marmolina fina", yt: "5qJp1G_AXc4", duration: "13:45", mat: "Polvo de mármol blanco para dar textura pétrea y mayor peso." },
           { id: "ry20", order: 20, title: "Clase 20: Protección final antimanchas y tacto cerámico sedoso", yt: "3f7GY7wmAsY", duration: "11:30", mat: "Cera microcristalina o laca poliuretánica al agua satinada." },
-          { id: "ry21", order: 21, title: "Clase 21: Montaje completo de vela aromática directa en el contenedor de yeso", yt: "vCJ-tLpAzFI", duration: "19:05", mat: "Contenedor sealado, pabilo encerado centrado y vertido de cera de soja." },
+          { id: "ry21", order: 21, title: "Clase 21: Montaje completo de vela aromática directa en el contenedor de yeso", yt: "vCJ-tLpAzFI", duration: "19:05", mat: "Contenedor sellado, pabilo encerado centrado y vertido de cera de soja." },
           { id: "ry22", order: 22, title: "Clase 22: Desmoldado y armado paso a paso de joyeros porta vela con flores", yt: "c_spL76QYpI", duration: "39:30", mat: "Técnica con tornillo de soporte interior, sellado con pegamento blanco y ensamble con velas de flor." }
         ]
       },
@@ -2240,6 +2288,15 @@
         alert('🔒 El soporte prioritario y pedidos directos por WhatsApp es un beneficio exclusivo del PLAN PREMIUM.\n\nMejora tu membresía para hablar directamente con nosotros.');
         openPlansModal();
       }
+    }
+
+    function openBraveGuideModal() {
+      document.getElementById('braveGuideModal').style.display = 'block';
+      history.pushState({ modalOpen: true }, '');
+    }
+
+    function closeBraveGuideModal() {
+      document.getElementById('braveGuideModal').style.display = 'none';
     }
 
     function openSuggestModal() {
@@ -3017,6 +3074,7 @@
       const adminM = document.getElementById('adminModal');
       const tourM = document.getElementById('tourModal');
       const suggestM = document.getElementById('suggestModal');
+      const braveM = document.getElementById('braveGuideModal');
 
       let modalAbierto = false;
 
@@ -3038,6 +3096,10 @@
       }
       if (suggestM && suggestM.style.display === 'block') {
         closeSuggestModal();
+        modalAbierto = true;
+      }
+      if (braveM && braveM.style.display === 'block') {
+        closeBraveGuideModal();
         modalAbierto = true;
       }
 
