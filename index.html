@@ -63,7 +63,8 @@
       padding: 14px;
       width: 100%;
     }
-
+    <div class="container">
+    
     .btn-install-banner {
       display: flex;
       align-items: center;
@@ -1357,8 +1358,52 @@
       </div>
     </header>
 
-    <div class="container">
+<div class="container">
 
+      <!-- ACCESO RÁPIDO CALCULADORA DE COSTOS (EXCLUSIVO PREMIUM) -->
+      <div class="calculator-card">
+        <span class="promo-banner-badge" style="background:#fef3c7; color:#b45309; border-color:#fde68a;">👑 Exclusivo Plan Premium</span>
+        <h3>🧮 Calculadora de Costos y Precios</h3>
+        <p style="font-size:0.82rem; color:#78350f; margin-bottom:12px;">Calcula automáticamente el costo de producción y tu precio de venta sugerido con 30% de ganancia.</p>
+        
+        <div class="calc-grid">
+          <div class="input-group" style="margin:0;">
+            <label style="color:#78350f;">Costo Ovillo (COP)</label>
+            <input type="number" id="calcOvillo" placeholder="Ej: 8000" style="background:#fff;">
+          </div>
+          <div class="input-group" style="margin:0;">
+            <label style="color:#78350f;">Gramos Usados</label>
+            <input type="number" id="calcGramos" placeholder="Ej: 45" style="background:#fff;">
+          </div>
+          <div class="input-group" style="margin:0;">
+            <label style="color:#78350f;">Accesorios (Ojos/Relleno)</label>
+            <input type="number" id="calcAccesorios" placeholder="Ej: 2500" style="background:#fff;">
+          </div>
+          <div class="input-group" style="margin:0;">
+            <label style="color:#78350f;">Horas de Trabajo</label>
+            <input type="number" id="calcHoras" placeholder="Ej: 4" style="background:#fff;">
+          </div>
+          <div class="input-group" style="margin:0; grid-column: span 2;">
+            <label style="color:#78350f;">Valor Hora de Trabajo (COP)</label>
+            <input type="number" id="calcValorHora" placeholder="Ej: 5000" style="background:#fff;">
+          </div>
+        </div>
+
+        <button type="button" class="btn-main" onclick="calcularPrecioAmigurumi()">Calcular Costo y Precio Sugerido</button>
+
+        <div class="calc-results-box" id="calcResultsBox" style="display:none;">
+          <div class="calc-res-item">Costo Total de Producción:</div>
+          <div id="resCostoProd" style="font-size: 1.1rem; font-weight: 700; color: #78350f; margin-bottom: 8px;">$0 COP</div>
+          <div class="calc-res-item">Precio de Venta Sugerido (+30% Ganancia):</div>
+          <div class="calc-res-val" id="resPrecioVenta">$0 COP</div>
+        </div>
+        
+        <div class="container">
+          
+      </div>
+
+      <button type="button" class="btn-install-banner" id="btnInstallAppMain" onclick="triggerPwaInstall()">
+        
       <button type="button" class="btn-install-banner" id="btnInstallAppMain" onclick="triggerPwaInstall()">
         📲 Instalar App en tu Celular (Acceso Directo)
       </button>
