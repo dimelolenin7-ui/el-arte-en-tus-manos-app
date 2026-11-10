@@ -1730,7 +1730,25 @@
         ytPlayer.playVideo();
       }
     }
+    function calcularPrecioAmigurumi() {
+      const costoOvillo = parseFloat(document.getElementById('calcOvillo').value) || 0;
+      const gramosUsados = parseFloat(document.getElementById('calcGramos').value) || 0;
+      const accesorios = parseFloat(document.getElementById('calcAccesorios').value) || 0;
+      const horasTrabajo = parseFloat(document.getElementById('calcHoras').value) || 0;
+      const valorHora = parseFloat(document.getElementById('calcValorHora').value) || 0;
 
+      const costoMaterialUsado = (costoOvillo / 100) * gramosUsados;
+      const costoManoDeObra = horasTrabajo * valorHora;
+      
+      const costoTotalProduccion = costoMaterialUsado + accesorios + costoManoDeObra;
+      const precioVentaSugerido = costoTotalProduccion * 1.30;
+
+      document.getElementById('resCostoProd').innerText = '$' + Math.round(costoTotalProduccion).toLocaleString('es-CO') + ' COP';
+      document.getElementById('resPrecioVenta').innerText = '$' + Math.round(precioVentaSugerido).toLocaleString('es-CO') + ' COP';
+      
+      document.getElementById('calcResultsBox').style.display = 'block';
+        }
+     
     const firebaseConfig = {
       apiKey: "AIzaSyB1HEIr7bK8erNQ64_Ln78MeNxIJlVI_1E",
       authDomain: "el-arte-en-tus-manos.firebaseapp.com",
