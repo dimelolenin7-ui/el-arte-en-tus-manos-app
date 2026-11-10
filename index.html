@@ -1719,9 +1719,9 @@
       </div>
     </div>
   </div>
-
-  <script>
-        function togglePlayPause() {
+  
+   <script>
+    function togglePlayPause() {
       if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
       const state = ytPlayer.getPlayerState();
       if (state === YT.PlayerState.PLAYING) {
@@ -1729,6 +1729,7 @@
       } else {
         ytPlayer.playVideo();
       }
+    }
 
     const firebaseConfig = {
       apiKey: "AIzaSyB1HEIr7bK8erNQ64_Ln78MeNxIJlVI_1E",
@@ -2267,7 +2268,7 @@
       { id: "chavo3_p2", title: "La Chilindrina Amigurumi - Segunda Parte (Final)", cat: "Amigurumis del chavo del 8", yt: "tcrcMNkfuzM", duration: "45:58", mat: "Cuerpo, vestido, ensamble, colitas y lentes." },
       { id: "chavo4", title: "Quico Amigurumi a Crochet - Tutorial Completo", cat: "Amigurumis del chavo del 8", yt: "vB-USTjNTXM", duration: "2:41:29", mat: "Lana negra, corbata roja, gorra tricolor y cachetes inflados." },
 
-      // MARIO BROS (CON AMBAS PARTES DE TOAD Y MARIO)
+      // MARIO BROS
       { id: "mario1", title: "Super Mario Bros Amigurumi Completo Paso a Paso", cat: "Amigurumis de mario bross", yt: "uyMWUmX5bCY", duration: "38:00", mat: "Lana roja, azul rey, blanco, tono piel y bigote negro." },
       { id: "mario2", title: "Luigi Amigurumi Tutorial - Super Mario Bros Paso a Paso", cat: "Amigurumis de mario bross", yt: "WEumJ70l_tg", duration: "58:08", mat: "Lana verde bosque, azul overol, botones amarillos y bigote." },
       { id: "mario3", title: "Yoshi Mario Bros - Crochet Amigurumi Tutorial", cat: "Amigurumis de mario bross", yt: "qeF2roklz8s", duration: "25:29", mat: "Lana verde manzana, blanco pecho, montura roja y botas." },
@@ -2280,7 +2281,7 @@
       { id: "cant3", title: "Michael Jackson Smooth Criminal Amigurumi (Parte 2/2)", cat: "Amigurumis de cantantes", yt: "4PfUtC_U1qA", duration: "45:49", mat: "Detalles finales y sombrero tejido." },
       { id: "cant4", title: "Freddie Mercury Amigurumi Tutorial Completo", cat: "Amigurumis de cantantes", yt: "dchRf6hoDHI", duration: "52:46", mat: "Lana blanca para pantalón, chaqueta amarilla y micrófono." },
 
-      // OSOS Y PELUCHES (CON EL OSITO CON FRANJAS UBICADO AQUÍ)
+      // OSOS Y PELUCHES
       { id: "oso1", title: "Oso Amigurumi Tierno Paso a Paso para Principiantes", cat: "Amigurumis de osos y peluches", yt: "5Jes1sXWetM", duration: "32:40", mat: "Lana acrílica o algodón café claro, aguja lanera y ojitos 8mm." },
       { id: "oso2", title: "Osito Amigurumi Tierno Especial San Valentín", cat: "Amigurumis de osos y peluches", yt: "mXgH5500Ib4", duration: "1:29:59", mat: "Hilo acrílico beige, blanco hocico, ojitos 8mm, cinta roja y relleno." },
       { id: "oso3", title: "Oso con Franjas Amigurumi Paso a Paso", cat: "Amigurumis de osos y peluches", yt: "ZVetSIM8Jx0", duration: "41:56", mat: "Lana marrón, mostaza, blanco y ojos de seguridad 10mm." },
@@ -2292,7 +2293,7 @@
       { id: "oso9", title: "Jirafa de Peluche Amigurumi - Parte 2/2 (Final)", cat: "Amigurumis de osos y peluches", yt: "UWdtQBc6MH8", duration: "56:54", mat: "Ensamble del cuerpo, cuello largo erguido y detalles finales." },
       { id: "oso10", title: "Dinosaurio Rayco de Peluche Completo", cat: "Amigurumis de osos y peluches", yt: "Ob3vG8AQC54", duration: "1:10:51", mat: "Lana verde oliva, blanco para cresta dorsal y ganchillo 3.0mm." },
 
-      // PARA BEBÉS (9 VIDEOS)
+      // PARA BEBÉS
       { id: "beb1", title: "Tortuga Marina sin Costuras para Bebé", cat: "Amigurumis para bebes", yt: "UoTaGQo5y7Y", duration: "49:33", mat: "Hilaza de algodón suave, verde agua y beige, ojitos bordados." },
       { id: "beb2", title: "Pulpo de Apego Sensorial para Recién Nacidos", cat: "Amigurumis para bebes", yt: "I-LwY3JNGSw", duration: "34:51", mat: "Algodón 100% hipoalergénico, tentáculos en espiral y relleno lavable." },
       { id: "beb3", title: "Sonajero de Oso y Conejo 2 en 1", cat: "Amigurumis para bebes", yt: "dToYVfglD9A", duration: "42:07", mat: "Aro de madera natural sin barniz, cápsula de sonajero y hebras suaves." },
@@ -2303,7 +2304,7 @@
       { id: "beb8", title: "Mini Conejita Amigurumi de Apego", cat: "Amigurumis para bebes", yt: "amrkIRmnw4M", duration: "1:45:59", mat: "Algodón extra suave hipoalergénico, facciones bordadas a mano." },
       { id: "beb9", title: "Sonajero Jirafa con Agarradera para Bebé", cat: "Amigurumis para bebes", yt: "NW0bOa0gnyA", duration: "51:56", mat: "Hilaza amarilla y marrón, aro mordedor de madera y caja de sonido." },
 
-      // PROFESIONES (11 VIDEOS)
+      // PROFESIONES
       { id: "prof1", title: "Oficial de Policía Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "erl2UcTM8ak", duration: "46:06", mat: "Hilaza verde oliva/azul, negro para botas y cinturón, dorado para insignia." },
       { id: "prof2", title: "Médico Doctor Amigurumi Chibi a Crochet", cat: "Amigurumis de profesiones", yt: "5UgEOUH7AoI", duration: "36:21", mat: "Hilaza blanca para bata, celeste para ambo quirúrgico y estetoscopio." },
       { id: "prof3", title: "Graduado Universitario con Toga y Birrete", cat: "Amigurumis de profesiones", yt: "Dv6k8WhmNNM", duration: "1:29:07", mat: "Hilaza negra para toga y birrete, blanco para camisa, borla dorada y diploma." },
@@ -2316,7 +2317,7 @@
       { id: "prof10", title: "Pintor Artista con Boina y Paleta de Colores", cat: "Amigurumis de profesiones", yt: "Hd-lsEmSEbI", duration: "54:56", mat: "Lana azul ocre, boina bohemia, pincel miniatura y paleta de madera." },
       { id: "prof11", title: "Doctora o Enfermera Amigurumi Paso a Paso", cat: "Amigurumis de profesiones", yt: "-k49gojQcRQ", duration: "59:49", mat: "Hilaza blanca o aguamarina para uniforme, cofia con cruz roja y zapatos blancos." },
 
-      // NAVIDEÑOS (11 VIDEOS)
+      // NAVIDEÑOS
       { id: "nav1", title: "Cómo tejer a Papá Noel a Crochet Paso a Paso", cat: "Amigurumis navideños", yt: "9BNzqgGQ-Ws", duration: "35:10", mat: "Hilaza roja, blanca rizada para barba, color piel, vellón y ganchillo 2.5mm." },
       { id: "nav2", title: "Pino o Árbol Navideño en Relieve a Crochet", cat: "Amigurumis navideños", yt: "-WCEdp58xsI", duration: "42:18", mat: "Lana verde pino, mostacillas de colores como esferas, hilo dorado y relleno." },
       { id: "nav3", title: "Duende o Elfo Navideño Tierno Amigurumi", cat: "Amigurumis navideños", yt: "n5jFe9Refak", duration: "39:53", mat: "Hilaza verde manzana, rojo, blanco para rayas, cascabel y ojitos 8mm." },
@@ -2329,7 +2330,7 @@
       { id: "nav10", title: "Muñeco Galleta de Jengibre Tejido a Crochet", cat: "Amigurumis navideños", yt: "FLL7R6Ok65Y", duration: "32:38", mat: "Lana tono caramelo tostado, hilo blanco para glasé, botones y ojitos." },
       { id: "nav11", title: "Cascanueces Amigurumi Navideño Paso a Paso", cat: "Amigurumis navideños", yt: "lcK8A5igHIU", duration: "48:13", mat: "Hilos rojo escarlata, azul marino, dorado para detalles militares y negro." },
 
-      // SUPERHÉROES (11 VIDEOS)
+      // SUPERHÉROES
       { id: "sup1", title: "Spider-Man Amigurumi Crochet Tutorial", cat: "Amigurumis de super heroes", yt: "KuKnvZNaA9E", duration: "18:49", mat: "Hilaza roja, azul rey, hilo negro para telaraña y ojos bordados en fieltro." },
       { id: "sup2", title: "Spider-Man de Pie Amigurumi Paso a Paso", cat: "Amigurumis de super heroes", yt: "wIb7DTRvwSc", duration: "35:32", mat: "Hilos rojo y azul de 4 hebras, ganchillo 2.5mm, aguja lanera y vellón." },
       { id: "sup3", title: "Batman El Caballero de la Noche a Crochet", cat: "Amigurumis de super heroes", yt: "pUX77li9w1c", duration: "42:13", mat: "Hilaza negra, gris oscuro, amarillo para cinturón e insignia, y capa tejida." },
@@ -3064,7 +3065,7 @@
           autoplay: 1, 
           rel: 0, 
           modestbranding: 1,
-          controls: 0, /* Opción B: Reproductor limpio sin barra de YouTube */
+          controls: 0,
           iv_load_policy: 3,
           start: Math.floor(savedTime)
         },
@@ -3093,7 +3094,6 @@
       });
     }
 
-    // FUNCIÓN PARA EXPANDIR A PANTALLA COMPLETA
     function togglePlayerFullscreen() {
       const container = document.querySelector('.video-frame-container');
       if (!document.fullscreenElement) {
@@ -3539,6 +3539,6 @@
     }
 
     window.onload = init;
-  </script>
+  </script>  
 </body>
 </html>
