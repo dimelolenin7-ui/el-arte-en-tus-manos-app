@@ -1729,7 +1729,7 @@
       } else {
         ytPlayer.playVideo();
       }
-        function calcularPrecioAmigurumi() {
+            function calcularPrecioAmigurumi() {
       if (userPlan !== 'premium') {
         alert('🔒 La Calculadora de Costos y Precios es un beneficio exclusivo del PLAN PREMIUM.\n\nMejora tu membresía para calcular tus costos y ganancias automáticamente.');
         openPlansModal();
@@ -1748,12 +1748,12 @@
       const costoTotalProduccion = costoMaterialUsado + accesorios + costoManoDeObra;
       const precioVentaSugerido = costoTotalProduccion * 1.30;
 
-      document.getElementById('resCostoProd').innerText = '$' + Math.round(CostoTotalProduccion).toLocaleString('es-CO') + ' COP';
+      document.getElementById('resCostoProd').innerText = '$' + Math.round(costoTotalProduccion).toLocaleString('es-CO') + ' COP';
       document.getElementById('resPrecioVenta').innerText = '$' + Math.round(precioVentaSugerido).toLocaleString('es-CO') + ' COP';
       
       document.getElementById('calcResultsBox').style.display = 'block';
-        }
-     
+            }
+      
     const firebaseConfig = {
       apiKey: "AIzaSyB1HEIr7bK8erNQ64_Ln78MeNxIJlVI_1E",
       authDomain: "el-arte-en-tus-manos.firebaseapp.com",
