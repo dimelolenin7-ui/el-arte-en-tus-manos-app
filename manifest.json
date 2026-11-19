@@ -1,6 +1,6 @@
 {
-  "name": "El Arte en Tus Manos",
-  "short_name": "Arte en Manos",
+  "name": "EL ARTE EN TUS MANOS",
+  "short_name": "EL ARTE EN TUS MANOS",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#fbf8f4",
