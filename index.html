@@ -2024,9 +2024,6 @@
 
         <div class="period-selector">
           <button type="button" class="period-btn active" onclick="setPlanPeriod('1m', this)">1 Mes</button>
-          <button type="button" class="period-btn" onclick="setPlanPeriod('3m', this)">3 Meses (-10%)</button>
-          <button type="button" class="period-btn" onclick="setPlanPeriod('6m', this)">6 Meses (-20%)</button>
-          <button type="button" class="period-btn" onclick="setPlanPeriod('1y', this)">1 Año (-45%)</button>
         </div>
 
         <div class="plans-cards-grid">
@@ -2035,7 +2032,7 @@
             <div class="plan-header-row">
               <span class="plan-title-txt">🔵 Plan PRO</span>
               <div class="plan-price-wrapper">
-                <div class="plan-price-cop" id="proPriceCOP">$10.000 COP</div>
+                <div class="plan-price-cop"><span style="text-decoration:line-through;color:#999;font-size:0.8em;margin-right:6px;font-weight:400;">$20.000</span><span id="proPriceCOP">$10.000 COP</span></div>
                 <div class="plan-price-usd" id="proPriceUSD">$2.50 USD</div>
               </div>
             </div>
@@ -2049,8 +2046,9 @@
             </ul>
             <div class="checkout-buttons-row">
               <a id="payProWompi" href="https://checkout.wompi.co/l/uAhc1k" target="_blank" rel="noopener" class="btn-pay-gateway btn-wompi">🇨🇴 Wompi · Colombia ($10.000 COP)</a>
-              <a id="payProPayPal" href="https://paypal.me/DLCOMPANYTECNOLOGY/2.50USD" target="_blank" rel="noopener" class="btn-pay-gateway btn-paypal">🌎 PayPal · Internacional ($2.50 USD)</a>
+              <a id="payProPayPal" href="https://www.paypal.com/ncp/payment/GXQ58QVVNPH8N" target="_blank" rel="noopener" class="btn-pay-gateway btn-paypal">🌎 PayPal · Internacional ($2.50 USD)</a>
             </div>
+            <div style="text-align:center;margin-top:6px;"><span class="btn-view-plans-link" style="font-size:0.72rem;" onclick="handleLoginPaymentSupportClick()">💬 ¿Problema con el pago? Soporte WhatsApp</span></div>
           </div>
 
           <!-- PLAN PREMIUM ($20.000 COP) -->
@@ -2059,7 +2057,7 @@
             <div class="plan-header-row">
               <span class="plan-title-txt">👑 Plan PREMIUM (Alumnas)</span>
               <div class="plan-price-wrapper">
-                <div class="plan-price-cop" id="premPriceCOP">$20.000 COP</div>
+                <div class="plan-price-cop"><span style="text-decoration:line-through;color:#999;font-size:0.8em;margin-right:6px;font-weight:400;">$40.000</span><span id="premPriceCOP">$20.000 COP</span></div>
                 <div class="plan-price-usd" id="premPriceUSD">$5.00 USD</div>
               </div>
             </div>
@@ -2074,8 +2072,9 @@
             </ul>
             <div class="checkout-buttons-row">
               <a id="payPremWompi" href="https://checkout.wompi.co/l/5CQyNR" target="_blank" rel="noopener" class="btn-pay-gateway btn-wompi">🇨🇴 Wompi · Colombia ($20.000 COP)</a>
-              <a id="payPremPayPal" href="https://paypal.me/DLCOMPANYTECNOLOGY/5.00USD" target="_blank" rel="noopener" class="btn-pay-gateway btn-paypal">🌎 PayPal · Internacional ($5.00 USD)</a>
+              <a id="payPremPayPal" href="https://www.paypal.com/ncp/payment/PREDPBT2GDEYY" target="_blank" rel="noopener" class="btn-pay-gateway btn-paypal">🌎 PayPal · Internacional ($5.00 USD)</a>
             </div>
+            <div style="text-align:center;margin-top:6px;"><span class="btn-view-plans-link" style="font-size:0.72rem;" onclick="handleLoginPaymentSupportClick()">💬 ¿Problema con el pago? Soporte WhatsApp</span></div>
           </div>
         </div>
 
@@ -2988,10 +2987,7 @@
     let deferredPrompt = null;
 
     const pricing = {
-      '1m': { proCOP: "$10.000 COP", proUSD: "$2.50 USD", premCOP: "$20.000 COP", premUSD: "$5.00 USD" },
-      '3m': { proCOP: "$27.000 COP", proUSD: "$6.75 USD", premCOP: "$54.000 COP", premUSD: "$13.50 USD" },
-      '6m': { proCOP: "$48.000 COP", proUSD: "$12.00 USD", premCOP: "$96.000 COP", premUSD: "$24.00 USD" },
-      '1y': { proCOP: "$66.000 COP", proUSD: "$16.50 USD", premCOP: "$132.000 COP", premUSD: "$33.00 USD" }
+      '1m': { proCOP: "$10.000 COP", proUSD: "$2.50 USD", premCOP: "$20.000 COP", premUSD: "$5.00 USD" }
     };
 
     function setPlanPeriod(period, btn) {
@@ -3007,23 +3003,11 @@
     // ENLACES DE PAGO POR PERIODO. Si un enlace está vacío (''), el botón
     // ofrece pedir el enlace por WhatsApp en lugar de cobrar un monto equivocado.
     const WA_NUMBER = '573218641539';
-    const PERIOD_LABELS = { '1m': '1 mes', '3m': '3 meses', '6m': '6 meses', '1y': '1 año' };
+    const PERIOD_LABELS = { '1m': '1 mes' };
     const payLinks = {
       '1m': {
-        pro:  { wompi: 'https://checkout.wompi.co/l/uAhc1k', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/2.50USD' },
-        prem: { wompi: 'https://checkout.wompi.co/l/5CQyNR', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/5.00USD' }
-      },
-      '3m': {
-        pro:  { wompi: 'https://checkout.wompi.co/l/9pUqch', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/6.75USD' },
-        prem: { wompi: 'https://checkout.wompi.co/l/IwD8ZN', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/13.50USD' }
-      },
-      '6m': {
-        pro:  { wompi: 'https://checkout.wompi.co/l/OseYfE', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/12.00USD' },
-        prem: { wompi: 'https://checkout.wompi.co/l/lInvMe', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/24.00USD' }
-      },
-      '1y': {
-        pro:  { wompi: 'https://checkout.wompi.co/l/Z0kCuD', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/16.50USD' },
-        prem: { wompi: 'https://checkout.wompi.co/l/jsOjq0', paypal: 'https://paypal.me/DLCOMPANYTECNOLOGY/33.00USD' }
+        pro:  { wompi: 'https://checkout.wompi.co/l/uAhc1k', paypal: 'https://www.paypal.com/ncp/payment/GXQ58QVVNPH8N' },
+        prem: { wompi: 'https://checkout.wompi.co/l/5CQyNR', paypal: 'https://www.paypal.com/ncp/payment/PREDPBT2GDEYY' }
       }
     };
     let currentPlanPeriod = '1m';
