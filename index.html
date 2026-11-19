@@ -1485,64 +1485,45 @@
     .status-expired { background: #ffebee; color: #c62828; }
     .status-free { background: #f3f4f6; color: #4b5563; }
 
-    #tourModal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(28, 20, 16, 0.75);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      backdrop-filter: blur(4px);
-    }
-
-    .tour-bubble-card {
-      background: #fff;
-      border-radius: 20px;
-      max-width: 420px;
-      width: 100%;
-      padding: 22px 18px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      border: 2px solid var(--primary-soft);
-      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes popIn {
-      0% { transform: scale(0.85); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .tour-step-badge {
-      display: inline-block;
-      background: var(--primary-soft);
-      color: var(--primary);
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    .tour-bubble-card h3 {
-      font-size: 1.15rem;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-
-    .tour-bubble-card p {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-      margin-bottom: 18px;
-    }
-
-    .tour-actions-row {
-      display: flex;
-      gap: 8px;
-    }
+    /* ==========================================
+       GUÍA INTERACTIVA (resalta elementos reales de la app)
+       ========================================== */
+    #guideLayer { display: none; }
+    #guideLayer.open { display: block; }
+    .guide-block { position: fixed; inset: 0; z-index: 15000; background: transparent; touch-action: none; }
+    #guideLayer.dim .guide-block { background: rgba(45, 38, 33, 0.78); }
+    .guide-hole { position: fixed; z-index: 15001; pointer-events: none; border-radius: 14px; border: 2px solid var(--primary);
+      box-shadow: 0 0 0 9999px rgba(45, 38, 33, 0.78), 0 0 16px rgba(179, 90, 56, 0.55); animation: guidePulse 1.6s ease-in-out infinite; }
+    @keyframes guidePulse { 0%,100% { box-shadow: 0 0 0 9999px rgba(45,38,33,.78), 0 0 10px rgba(179,90,56,.4);} 50% { box-shadow: 0 0 0 9999px rgba(45,38,33,.78), 0 0 22px rgba(179,90,56,.75);} }
+    .guide-hole.hidden { display: none; }
+    .guide-card { position: fixed; z-index: 15002; width: min(360px, calc(100vw - 24px)); box-sizing: border-box; background: #fff; color: var(--text);
+      border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px 16px; box-shadow: 0 18px 50px rgba(45,23,16,.35); opacity: 0; }
+    .guide-card.show { animation: guideIn .22s ease forwards; }
+    @keyframes guideIn { from { opacity:0; transform: translateY(6px);} to { opacity:1; transform: translateY(0);} }
+    .guide-card.centered { left: 50% !important; top: 50% !important; width: min(340px, calc(100vw - 32px)) !important; text-align: center; transform: translate(-50%, -50%); }
+    .guide-card.centered.show { animation: guideInC .25s ease forwards; }
+    @keyframes guideInC { from { opacity:0; transform: translate(-50%,-50%) scale(.92);} to { opacity:1; transform: translate(-50%,-50%) scale(1);} }
+    .guide-voice { position: absolute; top: 8px; right: 8px; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); font-size: 16px; cursor: pointer; line-height: 1; }
+    .guide-voice.off { opacity: .6; }
+    .guide-voice.hidden { display: none; }
+    .guide-card .guide-count, .guide-card .guide-title { padding-right: 36px; }
+    .guide-card.centered .guide-count, .guide-card.centered .guide-title { padding-right: 0; }
+    .guide-emoji { font-size: 48px; line-height: 1; margin: 4px 0 8px; }
+    .guide-emoji.hidden { display: none; }
+    .guide-count { font-size: 10.5px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: var(--primary); }
+    .guide-title { font-size: 16px; font-weight: 900; margin: 4px 0 4px; color: var(--text); }
+    .guide-text { font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+    .guide-text b { color: var(--text); }
+    .guide-actions { display: flex; align-items: center; gap: 6px; margin-top: 12px; }
+    .guide-skip { background: none; border: none; color: var(--text-muted); font-size: 12px; font-weight: 800; cursor: pointer; padding: 8px 4px; font-family: inherit; }
+    .guide-skip.hidden { visibility: hidden; }
+    .guide-prev { width: 40px; height: 38px; border-radius: 11px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 22px; font-weight: 900; cursor: pointer; font-family: inherit; line-height: 1; }
+    .guide-prev:disabled { opacity: .35; cursor: default; }
+    .guide-next { height: 38px; padding: 0 16px; border-radius: 11px; border: none; background: var(--primary); color: #fff; font-size: 13px; font-weight: 900; cursor: pointer; font-family: inherit; }
+    .guide-card.centered .guide-actions { justify-content: center; }
+    .guide-dots { display: flex; justify-content: center; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+    .guide-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: all .2s; }
+    .guide-dots i.on { width: 16px; border-radius: 4px; background: var(--primary); }
   </style>
 </head>
 <body>
@@ -1617,6 +1598,8 @@
       <button type="button" class="btn-action-outline" style="width:100%; margin-top:14px;" onclick="handleGoogleLogin()">🔵 Continuar con Google</button>
 
       <span class="btn-view-plans-link" onclick="openPlansModal()">¿Quieres conocer los planes y precios en oferta? Ver aquí</span>
+
+      <p style="text-align:center;margin:10px 0 0"><button type="button" class="btn-view-plans-link" style="background:none;border:none;cursor:pointer;font:inherit" onclick="showLoginGuide()">❔ ¿Cómo ingreso?</button></p>
 
       <button type="button" class="btn-whatsapp" onclick="handleLoginPaymentSupportClick()">
         <span>💬 ¿Problemas con tu pago? Soporte WhatsApp</span>
@@ -1786,18 +1769,7 @@
     </div>
   </div>
 
-  <!-- TOUR GUIADO INTERACTIVO -->
-  <div id="tourModal">
-    <div class="tour-bubble-card">
-      <span class="tour-step-badge" id="tourStepBadge">Paso 1 de 4</span>
-      <h3 id="tourTitle">¡Bienvenida a la Academia!</h3>
-      <p id="tourText">Aquí podrás aprender paso a paso todas las técnicas de amigurumis y manualidades.</p>
-      <div class="tour-actions-row">
-        <button type="button" class="btn-action-outline" onclick="skipTour()">Omitir</button>
-        <button type="button" class="btn-main" id="tourNextBtn" onclick="nextTourStep()">Siguiente</button>
-      </div>
-    </div>
-  </div>
+  <!-- La guía interactiva (#guideLayer) se crea dinámicamente por JS; ver guideEnsureDom() -->
 
   <footer class="dl-footer">
     <img src="dl-company-logo.png" alt="DL COMPANY -TECHNOLOGY-" class="dl-footer-logo">
@@ -3014,7 +2986,6 @@
     function onYouTubeIframeAPIReady() { ytApiReady = true; }
     let allUsersList = [];
     let deferredPrompt = null;
-    let currentTourStep = 1;
 
     const pricing = {
       '1m': { proCOP: "$10.000 COP", proUSD: "$2.50 USD", premCOP: "$20.000 COP", premUSD: "$5.00 USD" },
@@ -3169,64 +3140,365 @@
       localStorage.setItem('login_cloud_seen', 'true');
     }
 
-    const tourData = [
-      {
-        badge: "Paso 1 de 4",
-        title: "📚 Cursos Completos Plegables",
-        text: "Cada técnica (Amigurumis, Velas, Jabones, Yeso, Resina, Porcelana) está organizada en módulos. Toca la barra de cualquier curso para desplegar sus clases ordenadas paso a paso."
-      },
-      {
-        badge: "Paso 2 de 4",
-        title: "🔍 Categorías y Buscador",
-        text: "Usa los botones temáticos (🌸 Flores, 🐾 Animales, 👑 Princesas, 🍓 Comida) o la barra superior para encontrar tutoriales específicos al instante."
-      },
-      {
-        badge: "Paso 3 de 4",
-        title: "🛠️ Herramientas en cada Video",
-        text: "Al abrir una clase encontrarás tu Contador de Vueltas para no perder puntos al tejer, la lista sugerida de materiales y el botón para marcar la clase como completada."
-      },
-      {
-        badge: "Paso 4 de 4",
-        title: "👑 Novedades y Sugerencias Premium",
-        text: "Las alumnas Premium disfrutan de los cursos marcados como 'NUEVO', botón para sugerir tutoriales al equipo de soporte y atención directa por WhatsApp."
+    // ==========================================
+    // GUÍA INTERACTIVA
+    // Para cambiar o agregar pasos, edita GUIDES. Cada paso:
+    //   targets: [{ sel: 'selector CSS', menu: 'video' }]  → se usa el primero que esté visible
+    //   title, text (usa **negrita**), emoji (pasos centrados sin recuadro)
+    //   textFn(): texto dinámico   ·   finalLabel/finalAction: botón del último paso
+    // ==========================================
+    const GUIDES = {
+      login: [
+        { targets: [{ sel: '#tabBtnFree' }], title: '🔑 Iniciar sesión', text: 'Si ya tienes cuenta, entra con tu **correo** y **contraseña**.' },
+        { targets: [{ sel: '#tabBtnCode' }], title: '✨ Crear cuenta', text: '¿Eres nueva? **Regístrate gratis**, verifica tu correo y entra. También puedes usar **Continuar con Google**.' }
+      ],
+      inicio: [
+        { emoji: '👋', title: '¡Bienvenida a El Arte en Tus Manos!', textFn: () => `Tu plan actual es **${guidePlanName()}**. Te muestro en un minuto cómo usar la app.` },
+        { targets: [{ sel: '#searchInput' }], title: 'Buscador', text: 'Escribe el nombre de un amigurumi, técnica o categoría para encontrarlo al instante.' },
+        { targets: [{ sel: '#pillsContainer' }], title: 'Categorías', text: 'Filtra por temas: **🌸 Flores, 🐾 Animalitos, 👑 Princesas, 🍓 Comida** y muchos más.' },
+        { targets: [{ sel: '.course-header-toggle' }], title: '📚 Cursos completos', text: 'Toca la barra de cualquier curso para **desplegar sus clases**, ordenadas paso a paso.' },
+        { targets: [{ sel: '.video-card:not(.locked-card)' }, { sel: '.video-card' }], title: 'Tus tutoriales', text: 'Toca cualquier video para **abrirlo** y empezar a aprender.' },
+        { targets: [{ sel: '.row-counter', menu: 'video' }], title: 'Contador de vueltas', text: 'Usa **+ y −** para contar tus vueltas mientras tejes, sin perder el hilo.' },
+        { targets: [{ sel: '.materials-box', menu: 'video' }], title: 'Materiales sugeridos', text: 'Aquí ves qué necesitas para hacer este proyecto.' },
+        { targets: [{ sel: '#btnMarkDone', menu: 'video' }], title: 'Marcar como visto', text: 'Lleva el control de las clases que ya **completaste**.' },
+        { targets: [{ sel: '#btnFavModal', menu: 'video' }], title: 'Favorito', text: 'Guárdalo en **Favoritos ❤️** para encontrarlo rápido después.' },
+        { targets: [{ sel: '#btnFavFilter' }], title: 'Tus favoritos', text: 'Toca aquí para ver **solo** los tutoriales que guardaste.' },
+        { targets: [{ sel: '.btn-suggest-nav' }], title: 'Sugerir curso', text: '¿Quieres aprender algo que no está? **Sugiérelo** al equipo de soporte.' },
+        { targets: [{ sel: '.btn-plans-nav' }], title: 'Planes', textFn: () => 'Con **PRO** o **PREMIUM** desbloqueas más clases, sin anuncios de espera y beneficios exclusivos.' + (guidePlan() === 'free' ? ' Tu plan actual permite el contenido **gratuito**.' : '') },
+        { targets: [{ sel: '.calculator-card' }], title: '🧮 Calculadora de costos', text: 'Calcula el costo de tu amigurumi y el **precio de venta sugerido** con 30% de ganancia.', skipIfHidden: true },
+        { targets: [{ sel: '.btn-admin' }], title: 'Administración', text: 'Panel para gestionar cursos y usuarias.' },
+        { targets: [{ sel: '#btnAppLogout' }], title: 'Cerrar sesión', text: 'Toca aquí cuando termines de usar la app.' },
+        { emoji: '✅', title: '¡Lista para crear!', text: 'Ya conoces lo básico. Puedes repetir esta guía cuando quieras desde **❓ Ayuda**.', finalLabel: 'Buscar mi primer tutorial', finalAction: () => { const s = document.getElementById('searchInput'); if (s) { s.scrollIntoView({ behavior: 'smooth', block: 'center' }); s.focus(); } } }
+      ]
+    };
+
+    let guide = null; // { name, steps, i, dir, menu, histPushed }
+
+    function guidePlan() { return userPlan || 'free'; }
+    function guidePlanName() { return guidePlan() === 'premium' ? 'PREMIUM' : (guidePlan() === 'pro' ? 'PRO' : 'GRATIS'); }
+    function guideKey(name) { return 'arte_guia_' + name + '_' + ((auth && auth.currentUser && auth.currentUser.uid) || 'local'); }
+    function guideMd(t) { return String(t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+    function guideVisible(el) {
+      if (!el || !el.getClientRects().length) return false;
+      const r = el.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) return false;
+      const cs = getComputedStyle(el);
+      return cs.visibility !== 'hidden' && cs.display !== 'none';
+    }
+    function guideBlocked() {
+      return [...document.querySelectorAll('.modal')].some(m => getComputedStyle(m).display !== 'none' && m.id !== 'videoModal');
+    }
+    function guideOpenMenu(menu) {
+      if (menu === 'video') {
+        const card = [...document.querySelectorAll('.video-card')].find(c => guideVisible(c) && !c.querySelector('.lock-overlay-badge'));
+        if (card) card.click();
       }
-    ];
-
-    function startAppTour(force = false) {
-      if (!force && localStorage.getItem('app_tour_completed') === 'true') return;
-      currentTourStep = 1;
-      renderTourStep();
-      const modal = document.getElementById('tourModal');
-      if (modal) modal.style.display = 'flex';
+    }
+    function guideCloseMenu(menu) {
+      if (menu === 'video' && typeof closeModal === 'function') closeModal();
     }
 
-    function renderTourStep() {
-      const data = tourData[currentTourStep - 1];
-      document.getElementById('tourStepBadge').innerText = data.badge;
-      document.getElementById('tourTitle').innerText = data.title;
-      document.getElementById('tourText').innerText = data.text;
-      const nextBtn = document.getElementById('tourNextBtn');
-      if (currentTourStep === tourData.length) {
-        nextBtn.innerText = "¡Comenzar a Crear!";
-      } else {
-        nextBtn.innerText = "Siguiente";
+    // Elige el objetivo de un paso; abre el menú si hace falta.
+    // `guide` puede volverse null o cambiar mientras esta función espera
+    // (clic rápido en Siguiente/Saltar/Atrás) — se revalida tras cada await.
+    async function guideResolve(step) {
+      if (!guide) return null;
+      if (!step.targets) {
+        if (guide.menu) { guideCloseMenu(guide.menu); guide.menu = null; }
+        return { center: true };
       }
-    }
-
-    function nextTourStep() {
-      if (currentTourStep < tourData.length) {
-        currentTourStep++;
-        renderTourStep();
-      } else {
-        skipTour();
+      for (const t of step.targets) {
+        if (!guide) return null;
+        if (t.menu) {
+          if (guide.menu && guide.menu !== t.menu) { guideCloseMenu(guide.menu); guide.menu = null; }
+          if (guide && guide.menu !== t.menu) {
+            guideOpenMenu(t.menu);
+            guide.menu = t.menu;
+            await new Promise(r => setTimeout(r, 280));
+            if (!guide) return null;
+          }
+        } else if (guide.menu) {
+          guideCloseMenu(guide.menu); guide.menu = null;
+          await new Promise(r => setTimeout(r, 150));
+          if (!guide) return null;
+        }
+        const els = [...document.querySelectorAll(t.sel)].filter(guideVisible);
+        if (els.length) return { els };
       }
+      if (guide && guide.menu) { guideCloseMenu(guide.menu); guide.menu = null; }
+      return null;
     }
 
-    function skipTour() {
-      const modal = document.getElementById('tourModal');
-      if (modal) modal.style.display = 'none';
-      localStorage.setItem('app_tour_completed', 'true');
+    function guideEnsureDom() {
+      if (document.getElementById('guideLayer')) return;
+      const layer = document.createElement('div');
+      layer.id = 'guideLayer';
+      layer.innerHTML = `
+        <div class="guide-block"></div>
+        <div id="guideHole" class="guide-hole hidden"></div>
+        <div id="guideCard" class="guide-card" role="dialog" aria-live="polite">
+          <button type="button" id="guideVoiceBtn" class="guide-voice" onclick="guideToggleVoice()" aria-label="Voz de la guía"></button>
+          <div id="guideEmoji" class="guide-emoji hidden"></div>
+          <div id="guideCount" class="guide-count"></div>
+          <div id="guideTitle" class="guide-title"></div>
+          <div id="guideText" class="guide-text"></div>
+          <div class="guide-actions">
+            <button type="button" class="guide-skip" onclick="endGuide(true)">Saltar guía</button>
+            <span style="flex:1"></span>
+            <button type="button" id="guidePrev" class="guide-prev" onclick="guideGo(-1)" aria-label="Paso anterior">‹</button>
+            <button type="button" id="guideNext" class="guide-next" onclick="guideGo(1)">Siguiente ›</button>
+          </div>
+          <div id="guideDots" class="guide-dots"></div>
+        </div>`;
+      document.body.appendChild(layer);
     }
+
+    function startGuide(name, manual) {
+      const steps = GUIDES[name];
+      if (!steps || guide) return;
+      guideEnsureDom();
+      guide = { name, steps, i: 0, dir: 1, menu: null, histPushed: false };
+      document.getElementById('guideLayer').classList.add('open');
+      try { history.pushState({ dlGuide: true }, ''); guide.histPushed = true; } catch (e) {}
+      guideShow();
+    }
+
+    async function guideShow() {
+      if (!guide) return;
+      const g = guide;
+      const step = g.steps[g.i];
+      const skip = step.skipIfHidden && step.targets && ![...document.querySelectorAll(step.targets[0].sel)].some(guideVisible);
+      const res = skip ? null : await guideResolve(step);
+      if (guide !== g) return;
+      if (!res) {
+        const ni = g.i + g.dir;
+        if (ni < 0) { g.dir = 1; g.i = 0; return guideShow(); }
+        if (ni >= g.steps.length) return endGuide(false);
+        g.i = ni;
+        return guideShow();
+      }
+      g.res = res;
+      if (res.els) {
+        res.els[0].scrollIntoView({ block: 'center', inline: 'nearest' });
+        await new Promise(r => setTimeout(r, 200));
+        if (guide !== g) return;
+      }
+      const card = document.getElementById('guideCard');
+      const emoji = document.getElementById('guideEmoji');
+      emoji.classList.toggle('hidden', !step.emoji);
+      emoji.textContent = step.emoji || '';
+      document.getElementById('guideCount').textContent = `Guía · ${g.i + 1} de ${g.steps.length}`;
+      document.getElementById('guideTitle').textContent = step.title;
+      document.getElementById('guideText').innerHTML = guideMd(step.textFn ? step.textFn() : step.text);
+      const last = g.i === g.steps.length - 1;
+      document.getElementById('guidePrev').disabled = g.i === 0;
+      document.getElementById('guideNext').textContent = last ? (step.finalLabel || 'Entendido ✓') : 'Siguiente ›';
+      document.querySelector('#guideCard .guide-skip').classList.toggle('hidden', last);
+      document.getElementById('guideDots').innerHTML = g.steps.map((_, k) => `<i class="${k === g.i ? 'on' : ''}"></i>`).join('');
+      card.classList.toggle('centered', !!res.center);
+      card.classList.remove('show');
+      void card.offsetWidth;
+      card.classList.add('show');
+      guidePlace();
+      guideVoiceBtnUpdate();
+      guideSpeak(step);
+      setTimeout(() => { if (guide === g) guidePlace(); }, 380);
+    }
+
+    function guidePlace() {
+      if (!guide || !guide.res) return;
+      const hole = document.getElementById('guideHole');
+      const card = document.getElementById('guideCard');
+      const vw = window.innerWidth, vh = window.innerHeight;
+      document.getElementById('guideLayer').classList.toggle('dim', !!guide.res.center);
+      if (guide.res.center) {
+        hole.classList.add('hidden');
+        card.style.left = ''; card.style.top = '';
+        return;
+      }
+      const rects = guide.res.els.filter(guideVisible).map(e => e.getBoundingClientRect());
+      if (!rects.length) { guideShow(); return; }
+      const pad = 6;
+      let l = Math.min(...rects.map(r => r.left)) - pad, t = Math.min(...rects.map(r => r.top)) - pad;
+      let r = Math.max(...rects.map(r => r.right)) + pad, b = Math.max(...rects.map(r => r.bottom)) + pad;
+      l = Math.max(4, l); t = Math.max(4, t); r = Math.min(vw - 4, r); b = Math.min(vh - 4, b);
+      hole.classList.remove('hidden');
+      Object.assign(hole.style, { left: l + 'px', top: t + 'px', width: (r - l) + 'px', height: Math.max(8, b - t) + 'px' });
+      const cw = Math.min(360, vw - 24);
+      card.style.width = cw + 'px';
+      const ch = card.offsetHeight;
+      const gap = 12;
+      let top;
+      if (b + gap + ch <= vh - 8) top = b + gap;
+      else if (t - gap - ch >= 8) top = t - gap - ch;
+      else top = Math.max(8, Math.min(vh - ch - 8, (vh - ch) / 2));
+      let left = (l + r) / 2 - cw / 2;
+      left = Math.max(12, Math.min(vw - cw - 12, left));
+      card.style.left = left + 'px';
+      card.style.top = top + 'px';
+    }
+
+    function guideGo(d) {
+      if (!guide) return;
+      const step = guide.steps[guide.i];
+      if (d > 0 && guide.i === guide.steps.length - 1) {
+        const action = step.finalAction;
+        endGuide(false);
+        if (action) setTimeout(action, 200);
+        return;
+      }
+      const ni = guide.i + d;
+      if (ni < 0 || ni >= guide.steps.length) return;
+      guide.i = ni;
+      guide.dir = d > 0 ? 1 : -1;
+      guideShow();
+    }
+
+    function endGuide(skipped, fromPopstate) {
+      if (!guide) return;
+      const g = guide;
+      guide = null;
+      guideSilence();
+      if (g.menu) guideCloseMenu(g.menu);
+      try { localStorage.setItem(guideKey(g.name), skipped ? 'saltada' : 'vista'); } catch (e) {}
+      const layer = document.getElementById('guideLayer');
+      if (layer) layer.classList.remove('open');
+      if (g.histPushed && !fromPopstate) { try { history.back(); } catch (e) {} }
+    }
+
+    // El cierre de la guía con el botón atrás se maneja en el popstate centralizado más abajo (junto con los demás modales).
+    window.addEventListener('resize', () => { if (guide) requestAnimationFrame(guidePlace); });
+    window.addEventListener('orientationchange', () => { if (guide) setTimeout(guidePlace, 300); });
+    window.addEventListener('scroll', () => { if (guide) requestAnimationFrame(guidePlace); }, true);
+    document.addEventListener('keydown', e => {
+      if (!guide) return;
+      if (e.key === 'Escape') endGuide(true);
+      else if (e.key === 'ArrowRight') guideGo(1);
+      else if (e.key === 'ArrowLeft') guideGo(-1);
+    });
+
+    // ---------- Voz de la guía (lectura en voz alta del navegador) ----------
+    let guideVoicePending = false;
+    let guideVoiceCache = null;
+    function guideVoiceOn() {
+      try { return localStorage.getItem('arte_guia_voz') !== 'off'; } catch (e) { return true; }
+    }
+    function guideVoiceSupported() {
+      return 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+    }
+    function guidePickVoice() {
+      if (guideVoiceCache) return guideVoiceCache;
+      const voices = speechSynthesis.getVoices() || [];
+      const es = voices.filter(v => /^es/i.test(v.lang));
+      const pref = ['es-CO', 'es-419', 'es-MX', 'es-US', 'es-AR', 'es-CL', 'es-PE', 'es-ES'];
+      for (const code of pref) {
+        const list = es.filter(v => v.lang.replace('_', '-').toLowerCase() === code.toLowerCase());
+        const v = list.find(x => /google/i.test(x.name)) || list[0];
+        if (v) return (guideVoiceCache = v);
+      }
+      return (guideVoiceCache = es[0] || null);
+    }
+    if (guideVoiceSupported()) {
+      speechSynthesis.onvoiceschanged = () => { guideVoiceCache = null; };
+    }
+    function guideSpeechText(step) {
+      const div = document.createElement('div');
+      div.innerHTML = guideMd(step.textFn ? step.textFn() : step.text);
+      let t = `${step.title}${/[.!?]$/.test(step.title) ? '' : '.'} ${div.textContent}`;
+      t = t.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}️]/gu, '').replace(/\bPRO\b/g, 'Pro').replace(/\bPREMIUM\b/g, 'Premium').replace(/\bGRATIS\b/g, 'Gratis');
+      return t.replace(/\s+/g, ' ').trim();
+    }
+    let guideSpeakToken = 0, guideAutoTimer = null;
+    function guideAutoNext(token) {
+      if (token !== guideSpeakToken || !guide) return;
+      guideSpeakToken++;
+      clearTimeout(guideAutoTimer);
+      if (guide.i >= guide.steps.length - 1) return;
+      const g = guide, i = guide.i;
+      guideAutoTimer = setTimeout(() => { if (guide === g && guide.i === i) guideGo(1); }, 900);
+    }
+    function guideSilence() {
+      guideSpeakToken++;
+      clearTimeout(guideAutoTimer);
+      guideVoicePending = false;
+      try { if (guideVoiceSupported()) speechSynthesis.cancel(); } catch (e) {}
+    }
+    function guideSpeak(step) {
+      if (!guideVoiceSupported() || !guideVoiceOn() || !step) return;
+      try {
+        speechSynthesis.cancel();
+        clearTimeout(guideAutoTimer);
+        const text = guideSpeechText(step);
+        const token = ++guideSpeakToken;
+        const u = new SpeechSynthesisUtterance(text);
+        u.onend = () => guideAutoNext(token);
+        const words = text.split(' ').length;
+        setTimeout(() => guideAutoNext(token), 4000 + words * 520);
+        const v = guidePickVoice();
+        try { if (v) u.voice = v; } catch (e) {}
+        u.lang = v ? v.lang : 'es-CO';
+        u.rate = 1;
+        u.pitch = 1;
+        u.onerror = e => {
+          if (e.error === 'not-allowed') { guideVoicePending = true; if (token === guideSpeakToken) guideSpeakToken++; }
+        };
+        guideVoicePending = false;
+        speechSynthesis.speak(u);
+        if (navigator.userActivation && !navigator.userActivation.hasBeenActive) { guideVoicePending = true; guideSpeakToken++; }
+      } catch (e) {}
+    }
+    function guideVoiceBtnUpdate() {
+      const b = document.getElementById('guideVoiceBtn');
+      if (!b) return;
+      b.classList.toggle('hidden', !guideVoiceSupported());
+      const on = guideVoiceOn();
+      b.textContent = on ? '🔊' : '🔇';
+      b.title = on ? 'Apagar la voz' : 'Prender la voz';
+      b.classList.toggle('off', !on);
+    }
+    function guideToggleVoice() {
+      const on = !guideVoiceOn();
+      try { localStorage.setItem('arte_guia_voz', on ? 'on' : 'off'); } catch (e) {}
+      guideVoiceBtnUpdate();
+      if (on && guide) guideSpeak(guide.steps[guide.i]);
+      else guideSilence();
+    }
+    document.addEventListener('pointerdown', e => {
+      if (!guide || !guideVoicePending) return;
+      if (e.target.closest && e.target.closest('#guideNext, #guidePrev, #guideVoiceBtn, .guide-skip')) return;
+      guideVoicePending = false;
+      guideSpeak(guide.steps[guide.i]);
+    }, true);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) guideSilence(); });
+
+    // ¿Qué guía toca mostrar ahora?
+    let guideTimer = null, guideTries = 0;
+    function scheduleGuides() {
+      clearTimeout(guideTimer);
+      guideTries = 0;
+      guideTimer = setTimeout(guideTick, 1200);
+    }
+    function guideTick() {
+      if (guide) return;
+      if (guideBlocked()) {
+        if (++guideTries < 40) guideTimer = setTimeout(guideTick, 1500);
+        return;
+      }
+      const authOn = document.getElementById('authScreen').style.display !== 'none';
+      if (authOn) {
+        let seen = null;
+        try { seen = localStorage.getItem('arte_guia_login_dispositivo'); } catch (e) {}
+        if (!seen) { try { localStorage.setItem('arte_guia_login_dispositivo', '1'); } catch (e) {} startGuide('login'); }
+        return;
+      }
+      if (!currentUserEmail) return;
+      if (!localStorage.getItem(guideKey('inicio'))) startGuide('inicio');
+    }
+    function startAppTour(force) {
+      if (force) { startGuide('inicio', true); return; }
+      scheduleGuides();
+    }
+    function showLoginGuide() { startGuide('login', true); }
 
     async function checkPaymentRedirectActivation(userEmail) {
       // Seguridad: la membresía ya NO se activa por parámetros de la URL.
@@ -3439,6 +3711,7 @@
       const saved = localStorage.getItem('last_entered_email');
       const fInput = document.getElementById('freeEmailInput');
       if (saved && fInput && !fInput.value) fInput.value = saved;
+      scheduleGuides();
     }
 
     auth.onAuthStateChanged(async (user) => {
@@ -4019,12 +4292,15 @@
       const videoM = document.getElementById('videoModal');
       const plansM = document.getElementById('plansModal');
       const adminM = document.getElementById('adminModal');
-      const tourM = document.getElementById('tourModal');
       const suggestM = document.getElementById('suggestModal');
       const braveM = document.getElementById('braveGuideModal');
 
       let modalAbierto = false;
 
+      if (guide) {
+        endGuide(true, true);
+        modalAbierto = true;
+      }
       if (videoM && videoM.style.display === 'block') {
         closeModal();
         modalAbierto = true;
@@ -4035,10 +4311,6 @@
       }
       if (adminM && adminM.style.display === 'block') {
         closeAdminModal();
-        modalAbierto = true;
-      }
-      if (tourM && tourM.style.display === 'flex') {
-        skipTour();
         modalAbierto = true;
       }
       if (suggestM && suggestM.style.display === 'block') {
