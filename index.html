@@ -1441,6 +1441,14 @@
       white-space: pre-wrap;
     }
 
+    .users-summary { font-size: 0.75rem; font-weight: 700; color: #8a6d55; margin: 0 0 8px; text-align: left; }
+    .users-list { max-height: 360px; overflow-y: auto; border: 1.5px solid var(--border); border-radius: 12px; margin-bottom: 10px; text-align: left; }
+    .users-empty { text-align: center; padding: 15px; color: #888; font-size: 0.8rem; }
+    .user-card { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.74rem; line-height: 1.45; color: #6b5444; }
+    .user-card:last-child { border-bottom: 0; }
+    .user-card:nth-child(even) { background: #fcfaf7; }
+    .user-card .u-mail { font-weight: 800; font-size: 0.82rem; color: #3d2b1f; word-break: break-all; margin-bottom: 2px; }
+    .user-card b { color: #3d2b1f; }
     .users-table-wrapper {
       max-height: 320px;
       overflow-y: auto;
@@ -2146,22 +2154,12 @@
         </div>
 
         <div id="adminUsersSection" style="display:none;">
-          <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." onkeyup="filterUsersTable()" style="width:100%; padding:9px 12px; border-radius:10px; border:1.5px solid var(--border); font-size:0.8rem; margin-bottom:8px;">
-          
-          <div class="users-table-wrapper">
-            <table class="users-table">
-              <thead>
-                <tr>
-                  <th>Correo</th>
-                  <th>Plan</th>
-                  <th>Estado / Restante</th>
-                </tr>
-              </thead>
-              <tbody id="usersTableBody">
-                <tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Cargando usuarias...</td></tr>
-              </tbody>
-            </table>
+          <div id="usersSummary" class="users-summary"></div>
+          <div style="display:flex; gap:8px; margin-bottom:8px;">
+            <input type="text" id="adminSearchUser" placeholder="Buscar por correo..." oninput="filterUsersTable()" style="flex:1; min-width:0; padding:9px 12px; border-radius:10px; border:1.5px solid var(--border); font-size:0.8rem;">
+            <button type="button" class="btn-action-outline" id="btnUsersExcel" onclick="exportUsersExcel()" style="white-space:nowrap; padding:8px 12px;">📊 Excel</button>
           </div>
+          <div class="users-list" id="usersTableBody"><div class="users-empty">Cargando usuarias...</div></div>
           <button class="btn-action-outline" style="width:100%;" onclick="fetchRegisteredUsers()">🔄 Actualizar lista</button>
         </div>
 
@@ -4561,74 +4559,97 @@
       }
     }
 
-    async function fetchRegisteredUsers() {
-      const tbody = document.getElementById('usersTableBody');
-      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">Consultando base de datos...</td></tr>';
+    const fechaU = (ts, conHora) => {
+      if (!ts) return '—';
+      const d = typeof ts.toDate === 'function' ? ts.toDate() : new Date(ts);
+      if (isNaN(d)) return '—';
+      return d.toLocaleString('es-CO', conHora ? { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' } : { day: 'numeric', month: 'short', year: 'numeric' });
+    };
+    const tsMs = ts => !ts ? 0 : (typeof ts.toDate === 'function' ? ts.toDate().getTime() : new Date(ts).getTime()) || 0;
+    const escU = x => String(x == null ? '' : x).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    function estadoUsuaria(u) {
+      const ahora = Date.now();
+      if (!u.plan || u.plan === 'free') return { plan: 'GRATIS', activo: false, estado: 'Gratis', dias: 0 };
+      const exp = tsMs(u.expira);
+      if (exp && exp > ahora) return { plan: u.plan.toUpperCase(), activo: true, estado: 'Activo', dias: Math.ceil((exp - ahora) / 864e5) };
+      return { plan: u.plan.toUpperCase(), activo: false, estado: exp ? 'Vencido' : 'Sin fecha', dias: 0 };
+    }
 
+    async function fetchRegisteredUsers() {
+      const box = document.getElementById('usersTableBody');
+      box.innerHTML = '<div class="users-empty">Consultando base de datos...</div>';
       try {
         const snap = await db.collection("usuarios").get();
         allUsersList = [];
-        const ahora = new Date();
-
-        snap.forEach(doc => {
-          const u = doc.data();
-          allUsersList.push(u);
-        });
-
+        snap.forEach(doc => { const u = doc.data(); if (!u.email) u.email = doc.id; allUsersList.push(u); });
+        allUsersList.sort((a, b) => tsMs(b.creado) - tsMs(a.creado));
         document.getElementById('userCountBadge').innerText = allUsersList.length;
+        const act = allUsersList.map(estadoUsuaria);
+        document.getElementById('usersSummary').innerText = `${allUsersList.length} usuarias · Gratis ${act.filter(x => x.plan === 'GRATIS').length} · PRO activas ${act.filter(x => x.activo && x.plan === 'PRO').length} · PREMIUM activas ${act.filter(x => x.activo && x.plan === 'PREMIUM').length} · Vencidas ${act.filter(x => x.estado === 'Vencido').length}`;
         renderUsersTable(allUsersList);
-
       } catch (err) {
         console.error("Error al cargar usuarias:", err);
-        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#c62828;">Error al leer usuarios de Firestore.</td></tr>';
+        box.innerHTML = '<div class="users-empty" style="color:#c62828;">Error al leer usuarios de Firestore.</div>';
       }
     }
 
     function renderUsersTable(users) {
-      const tbody = document.getElementById('usersTableBody');
-      tbody.innerHTML = '';
-
-      if (users.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding:15px; color:#888;">No hay registros en la base de datos.</td></tr>';
-        return;
-      }
-
-      const ahora = new Date();
-
-      users.forEach(u => {
-        let planTag = `<span class="user-status-pill status-free">GRATIS</span>`;
-        let statusTag = `<span style="color:#888;">Sin vencimiento</span>`;
-
-        if (u.plan && u.plan !== 'free') {
-          const isPremium = u.plan === 'premium';
-          planTag = `<span class="user-status-pill ${isPremium ? 'status-active' : 'status-free'}" style="${isPremium ? 'background:#f3e4d3; color:#8a5a2b;' : 'background:#e0f2fe; color:#0369a1;'}">${u.plan.toUpperCase()}</span>`;
-
-          if (u.expira) {
-            const expDate = u.expira.toDate();
-            if (expDate > ahora) {
-              const dias = Math.ceil((expDate - ahora) / (1000 * 60 * 60 * 24));
-              statusTag = `<span class="user-status-pill status-active">Activo (${dias}d)</span>`;
-            } else {
-              statusTag = `<span class="user-status-pill status-expired">Vencido</span>`;
-            }
-          }
-        }
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td style="font-weight:600; word-break:break-all;"></td>
-          <td>${planTag}</td>
-          <td>${statusTag}</td>
-        `;
-        tr.firstElementChild.textContent = u.email;
-        tbody.appendChild(tr);
-      });
+      const box = document.getElementById('usersTableBody');
+      if (!users.length) { box.innerHTML = '<div class="users-empty">No hay registros en la base de datos.</div>'; return; }
+      box.innerHTML = users.map(u => {
+        const e = estadoUsuaria(u), isPrem = e.plan === 'PREMIUM';
+        const pill = e.plan === 'GRATIS' ? '<span class="user-status-pill status-free">GRATIS</span>'
+          : `<span class="user-status-pill" style="${isPrem ? 'background:#f3e4d3; color:#8a5a2b;' : 'background:#e0f2fe; color:#0369a1;'}">${e.plan}</span>`;
+        const est = e.plan === 'GRATIS' ? '' : e.activo ? ` <span class="user-status-pill status-active">Activo (${e.dias}d)</span>` : ` <span class="user-status-pill status-expired">${e.estado}</span>`;
+        return `<div class="user-card"><div class="u-mail">${escU(u.email)}</div>
+          <div>📅 Cuenta creada: <b>${fechaU(u.creado, true)}</b></div>
+          <div>🕑 Último ingreso: ${fechaU(u.ultimoAcceso, true)}</div>
+          <div>${pill}${est}${u.plan && u.plan !== 'free' ? ` · adquirido el <b>${fechaU(u.activadoEl, true)}</b>${u.expira ? ` · vence ${fechaU(u.expira)}` : ''}` : ''}</div>
+          ${u.codigoCanjeado && u.plan !== 'free' ? `<div>🎟️ Código: ${escU(u.codigoCanjeado)}</div>` : ''}</div>`;
+      }).join('');
     }
 
     function filterUsersTable() {
       const q = document.getElementById('adminSearchUser').value.toLowerCase();
-      const filtered = allUsersList.filter(u => u.email.toLowerCase().includes(q));
-      renderUsersTable(filtered);
+      renderUsersTable(allUsersList.filter(u => (u.email || '').toLowerCase().includes(q)));
+    }
+
+    let _xlsLib = null;
+    function cargarExcelJS() {
+      if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
+      return _xlsLib || (_xlsLib = new Promise((ok, no) => { const sc = document.createElement('script'); sc.src = 'https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js'; sc.onload = () => ok(window.ExcelJS); sc.onerror = () => { _xlsLib = null; no(new Error('Sin conexión para generar el Excel')); }; document.head.appendChild(sc); }));
+    }
+    async function exportUsersExcel() {
+      const btn = document.getElementById('btnUsersExcel');
+      if (!allUsersList.length) { showAppAlert('Todavía no hay usuarias para exportar.', { icon: 'ℹ️', title: 'Sin registros' }); return; }
+      btn.disabled = true;
+      try {
+        const XL = await cargarExcelJS(), wb = new XL.Workbook();
+        const CAFE = 'FF3D2B1F', ORO = 'FFD9B38C', LINE = 'FFE8DCCD';
+        const ws = wb.addWorksheet('Usuarias', { pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 } });
+        const fill = c => ({ type: 'pattern', pattern: 'solid', fgColor: { argb: c } });
+        const bd = { top: { style: 'thin', color: { argb: LINE } }, bottom: { style: 'thin', color: { argb: LINE } }, left: { style: 'thin', color: { argb: LINE } }, right: { style: 'thin', color: { argb: LINE } } };
+        const heads = ['Correo', 'Cuenta creada', 'Último ingreso', 'Plan', 'Estado', 'Días restantes', 'Plan adquirido el', 'Vence', 'Código usado'];
+        ws.columns = [32, 18, 18, 11, 11, 13, 18, 13, 22].map(w => ({ width: w }));
+        ws.mergeCells(1, 1, 1, heads.length); const t = ws.getCell(1, 1); t.value = 'EL ARTE EN TUS MANOS · REGISTRO DE USUARIAS'; t.font = { bold: true, size: 15, color: { argb: ORO } }; t.fill = fill(CAFE); ws.getRow(1).height = 28;
+        ws.mergeCells(2, 1, 2, heads.length); const t2 = ws.getCell(2, 1); t2.value = `${allUsersList.length} usuarias · generado el ${new Date().toLocaleString('es-CO')} · DL COMPANY -TECHNOLOGY-`; t2.font = { size: 10, color: { argb: 'FFFFFFFF' } }; t2.fill = fill(CAFE);
+        const hr = ws.getRow(4); heads.forEach((h, i) => { const c = hr.getCell(i + 1); c.value = h; c.font = { bold: true, color: { argb: CAFE } }; c.fill = fill(ORO); c.border = bd; c.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; }); hr.height = 28;
+        const off = new Date().getTimezoneOffset() * 60000;
+        const fd = ts => { const ms = tsMs(ts); return ms ? new Date(ms - off) : null; }; // hora local en Excel
+        allUsersList.forEach((u, k) => {
+          const e = estadoUsuaria(u), pago = u.plan && u.plan !== 'free';
+          const v = [u.email, fd(u.creado), fd(u.ultimoAcceso), e.plan, e.estado, e.activo ? e.dias : null, pago ? fd(u.activadoEl) : null, pago ? fd(u.expira) : null, pago ? (u.codigoCanjeado || '') : ''];
+          const r = ws.getRow(5 + k);
+          v.forEach((x, i) => { const c = r.getCell(i + 1); c.value = x; c.border = bd; if (x instanceof Date) c.numFmt = i === 7 ? 'dd/mm/yyyy' : 'dd/mm/yyyy hh:mm'; if (k % 2) c.fill = fill('FFFCFAF7'); });
+        });
+        ws.autoFilter = { from: { row: 4, column: 1 }, to: { row: 4 + allUsersList.length, column: heads.length } };
+        ws.views = [{ state: 'frozen', ySplit: 4 }];
+        const blob = new Blob([await wb.xlsx.writeBuffer()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Usuarias El Arte en Tus Manos ' + new Date().toISOString().slice(0, 10) + '.xlsx';
+        document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+      } catch (err) {
+        showAppAlert(err.message || 'No se pudo crear el Excel', { icon: '⚠️', title: 'Error' });
+      } finally { btn.disabled = false; }
     }
 
     function armarCandadoHistorial() {
