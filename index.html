@@ -3029,7 +3029,7 @@
           el.href = link;
           el.innerText = (r.gw === 'wompi' ? '🇨🇴 Wompi · Colombia' : '🌎 PayPal · Internacional') + ' (' + r.price + ')';
         } else {
-          const msg = encodeURIComponent(`¡Hola! Quiero pagar el Plan ${r.planName} por ${PERIOD_LABELS[period]} (${r.price}) con ${names[r.gw]}.${correo} ¿Me envías el enlace de pago?`);
+          const msg = encodeURIComponent(`¡Hola DL Company! 👋 Vengo de la app EL ARTE EN TUS MANOS. Quiero pagar el Plan ${r.planName} por ${PERIOD_LABELS[period]} (${r.price}) con ${names[r.gw]}.${correo} ¿Me envías el enlace de pago?`);
           el.href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
           el.innerText = names[r.gw] + ': pedir enlace (' + r.price + ')';
         }
@@ -3038,18 +3038,18 @@
 
     function sendPaymentProofWhatsApp() {
       const correo = currentUserEmail || '(escribe tu correo aquí)';
-      const mensaje = encodeURIComponent("¡Hola! Ya realicé mi pago en El Arte en Tus Manos. Mi correo es: " + correo + ". Adjunto mi comprobante para recibir mi código de activación. Plan y periodo que pagué: ");
+      const mensaje = encodeURIComponent("¡Hola DL Company! 👋 Vengo de la app EL ARTE EN TUS MANOS. Ya realicé mi pago en El Arte en Tus Manos. Mi correo es: " + correo + ". Adjunto mi comprobante para recibir mi código de activación. Plan y periodo que pagué: ");
       window.open(`https://wa.me/${WA_NUMBER}?text=${mensaje}`, '_blank');
     }
 
     function handleLoginPaymentSupportClick() {
-      const mensaje = encodeURIComponent("¡Hola! Tengo problemas con mi pago en El Arte en Tus Manos y requiero asistencia.");
+      const mensaje = encodeURIComponent("¡Hola DL Company! 👋 Vengo de la app EL ARTE EN TUS MANOS. Tengo problemas con mi pago en El Arte en Tus Manos y requiero asistencia.");
       window.open(`https://wa.me/${WA_NUMBER}?text=${mensaje}`, '_blank');
     }
 
     function handleWhatsAppSupportClick() {
       if (userPlan === 'premium') {
-        const mensaje = encodeURIComponent("¡Hola! Soy usuaria del PLAN PREMIUM de El Arte en Tus Manos y requiero asistencia.");
+        const mensaje = encodeURIComponent("¡Hola DL Company! 👋 Vengo de la app EL ARTE EN TUS MANOS. Soy usuaria del PLAN PREMIUM de El Arte en Tus Manos y requiero asistencia.");
         window.open(`https://wa.me/${WA_NUMBER}?text=${mensaje}`, '_blank');
       } else {
         showAppAlert('El soporte prioritario y pedidos directos por WhatsApp es un beneficio exclusivo del PLAN PREMIUM.\n\nMejora tu membresía para hablar directamente con nosotros.', { icon: '🔒', title: 'Función Premium' });
@@ -3105,7 +3105,7 @@
         console.error("Error al guardar respaldo:", err);
       }
 
-      const mensaje = encodeURIComponent(`¡Hola! Soy usuaria del PLAN PREMIUM de El Arte en Tus Manos (${currentUserEmail}) y deseo sugerir este video/curso para la academia:\n\n"${text}"`);
+      const mensaje = encodeURIComponent(`¡Hola DL Company! 👋 Vengo de la app EL ARTE EN TUS MANOS. Soy usuaria del PLAN PREMIUM de El Arte en Tus Manos (${currentUserEmail}) y deseo sugerir este video/curso para la academia:\n\n"${text}"`);
       window.open(`https://wa.me/${WA_NUMBER}?text=${mensaje}`, '_blank');
 
       showAlert(alertBox, '¡Conectando con WhatsApp! Tu mensaje ha sido preparado para enviarse a soporte.', 'success');

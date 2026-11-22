@@ -1,5 +1,5 @@
 // Service Worker oficial de El Arte en Tus Manos
-const CACHE_NAME = 'arte-en-tus-manos-v3';
+const CACHE_NAME = 'arte-en-tus-manos-v4';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
