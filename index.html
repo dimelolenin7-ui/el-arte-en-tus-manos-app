@@ -3607,7 +3607,7 @@
 
     const auth = firebase.auth();
     auth.languageCode = 'es';
-    const ADMIN_EMAIL = 'd.l.company.2026@gmail.com';
+    const ADMIN_EMAILS = ['d.l.company.2026@gmail.com', 'wendis.1152@hotmail.com'];
 
     function authErrorMsg(err) {
       const m = {
@@ -3707,7 +3707,7 @@
     async function enterApp(user) {
       currentUserEmail = user.email.toLowerCase();
       localStorage.setItem('last_entered_email', currentUserEmail);
-      const isAdmin = currentUserEmail === ADMIN_EMAIL;
+      const isAdmin = ADMIN_EMAILS.includes(currentUserEmail);
       document.querySelectorAll('.btn-admin').forEach(b => { b.style.display = isAdmin ? '' : 'none'; });
       document.getElementById('authScreen').style.display = 'none';
       document.getElementById('appScreen').style.display = 'block';
@@ -4499,7 +4499,7 @@
 
     function openAdminModal() {
       const u = auth.currentUser;
-      if (!u || !u.emailVerified || (u.email || '').toLowerCase() !== ADMIN_EMAIL) {
+      if (!u || !u.emailVerified || !ADMIN_EMAILS.includes((u.email || '').toLowerCase())) {
         showAppAlert('Esta sección es solo para el administrador de la academia.', { icon: '🔐', title: 'Acceso restringido' });
         return;
       }
