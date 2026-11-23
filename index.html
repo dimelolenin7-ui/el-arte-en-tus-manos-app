@@ -1546,6 +1546,28 @@
     .guide-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: all .2s; }
     .guide-dots i.on { width: 16px; border-radius: 4px; background: var(--primary); }
   </style>
+<style id="dlf-style">
+footer.dlf{background:#0b0d11!important;color:#cbd5e1!important;text-align:center!important;padding-top:34px!important;padding-left:20px!important;padding-right:20px!important;border-top:1px solid #1f2937!important;margin-top:28px!important;display:block!important}
+footer.dlf .dlf-logo{width:120px;height:120px;border-radius:18px;object-fit:cover;display:block;margin:0 auto 16px;box-shadow:0 10px 30px rgba(0,0,0,.6);border:1px solid #1f2937}
+footer.dlf .dlf-by{font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:#94a3b8;margin:0 0 10px;line-height:1.6}
+footer.dlf .dlf-by strong{color:#fff;font-weight:900;letter-spacing:1.2px;display:inline-block;white-space:nowrap}
+footer.dlf .dlf-tag{display:inline-block;margin:0 0 12px;padding:6px 12px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#fde68a;background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.3)}
+footer.dlf .dlf-slogan{text-transform:none;margin:4px auto 12px;max-width:520px;font-size:17px;font-weight:900;line-height:1.3;color:#fff;letter-spacing:-.2px}
+footer.dlf .dlf-slogan span{background:linear-gradient(90deg,#7dd3fc,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+footer.dlf .dlf-desc{text-transform:none;letter-spacing:normal;font-size:12.5px;line-height:1.65;color:#94a3b8;max-width:620px;margin:0 auto 16px}
+footer.dlf .dlf-desc b{color:#e2e8f0}
+footer.dlf .dlf-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+footer.dlf .dlf-btns a,footer.dlf .dlf-btns button{display:inline-flex;align-items:center;gap:6px;padding:10px 16px!important;border-radius:999px;border:1.5px solid #38bdf8;background:rgba(56,189,248,.1);color:#38bdf8!important;font:inherit;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;text-decoration:none!important;line-height:1;cursor:pointer;transition:transform .15s}
+footer.dlf .dlf-btns a:active,footer.dlf .dlf-btns button:active{transform:scale(.95)}
+footer.dlf .dlf-btns a.dlf-site{border-color:#a78bfa;color:#c4b5fd!important;background:rgba(167,139,250,.1)}
+footer.dlf .dlf-apps{max-width:620px;margin:0 auto 18px;padding:14px 12px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid #1f2937}
+footer.dlf .dlf-apps p{margin:0 0 10px;font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#64748b}
+footer.dlf .dlf-apps div{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+footer.dlf .dlf-apps a{padding:7px 12px;border-radius:10px;background:#111827;border:1px solid #1f2937;color:#e2e8f0!important;font-size:11px;font-weight:800;letter-spacing:.6px;text-decoration:none!important}
+footer.dlf .dlf-legal{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 18px;margin:0 0 16px}
+footer.dlf .dlf-legal a,footer.dlf .dlf-legal button{background:none;border:0;padding:0;font:inherit;color:#38bdf8!important;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;text-decoration:underline!important;text-underline-offset:3px;cursor:pointer}
+footer.dlf .dlf-copy{font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:#64748b;margin:0;line-height:1.6}
+</style>
 </head>
 <body>
 
@@ -1793,15 +1815,17 @@
 
   <!-- La guía interactiva (#guideLayer) se crea dinámicamente por JS; ver guideEnsureDom() -->
 
-  <footer class="dl-footer">
-    <div class="dev-mini"><img src="dl-company-logo.png" alt="DL COMPANY -TECHNOLOGY-"><span>Desarrollado por<b>DL COMPANY -TECHNOLOGY-</b></span></div>
-    <div class="foot-btns">
-      <button type="button" onclick="openTermsModal()">📄 Términos</button>
-      <button type="button" onclick="openPrivacyModal()">🔒 Privacidad</button>
-      <button type="button" onclick="openRefundsModal()">💸 Reembolsos</button>
-    </div>
-    <p class="dev-copy">El Arte en Tus Manos · Plataforma oficial de capacitación · &copy; 2026</p>
-  </footer>
+  <footer class="dlf dl-footer">
+  <img class="dlf-logo" src="dl-company-logo.png" alt="DL COMPANY -TECHNOLOGY-" onerror="this.style.display='none'">
+  <p class="dlf-by">Desarrollado y administrado por <strong>DL COMPANY -TECHNOLOGY-</strong></p>
+  <p class="dlf-slogan">Transformamos problemas reales en <span>soluciones tecnológicas.</span></p>
+  <span class="dlf-tag">🇨🇴 Empresa colombiana</span>
+  <p class="dlf-desc"><b>El Arte en Tus Manos</b> es una plataforma de capacitación creada a la medida por <b>DL COMPANY -TECHNOLOGY-</b>, empresa colombiana dedicada al desarrollo de aplicaciones y soluciones digitales. Aprende amigurumis, porcelana fría y manualidades con cursos en video paso a paso, guarda tus favoritos, sigue tu avance y calcula el precio de tus creaciones para emprender desde casa.</p>
+  <div class="dlf-btns"><a href="https://wa.me/573218641539?text=%C2%A1Hola%20DL%20Company%21%20%F0%9F%91%8B%20Vengo%20de%20la%20app%20EL%20ARTE%20EN%20TUS%20MANOS.%20Necesito%20ayuda." target="_blank" rel="noopener">💬 Soporte por WhatsApp</a><a class="dlf-site" href="https://dl-company-technology.github.io/" target="_blank" rel="noopener">🌐 Conoce DL COMPANY</a></div>
+  <div class="dlf-apps"><p>Conoce las apps de DL COMPANY</p><div><a href="https://dl-company-technology.github.io/dl-finanzas/" target="_blank" rel="noopener">DL FINANZAS</a><a href="https://dl-company-technology.github.io/dl-stock-pro/" target="_blank" rel="noopener">DL STOCK PRO</a><a href="https://dl-company-technology.github.io/dl-cuadra-pro/" target="_blank" rel="noopener">DL CUADRA PRO</a><a href="https://dl-company-technology.github.io/dl-comanda-pro/" target="_blank" rel="noopener">DL COMANDA PRO</a></div></div>
+  <div class="dlf-legal"><button type="button" onclick="openTermsModal()">📄 Términos</button><button type="button" onclick="openPrivacyModal()">🔒 Privacidad</button><button type="button" onclick="openRefundsModal()">💸 Reembolsos</button></div>
+  <p class="dlf-copy">El Arte en Tus Manos · Plataforma oficial de capacitación · &copy; 2026</p>
+</footer>
 
   <!-- MODAL: TÉRMINOS Y CONDICIONES DE USO -->
   <div id="termsModal" class="modal">
