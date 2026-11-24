@@ -1568,6 +1568,8 @@ footer.dlf .dlf-legal{display:flex;justify-content:center;flex-wrap:wrap;gap:8px
 footer.dlf .dlf-legal a,footer.dlf .dlf-legal button{background:none;border:0;padding:0;font:inherit;color:#38bdf8!important;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;text-decoration:underline!important;text-underline-offset:3px;cursor:pointer}
 footer.dlf .dlf-copy{font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:#64748b;margin:0;line-height:1.6}
 </style>
+<style id="ios-fix">@supports (-webkit-touch-callout:none){input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),select,textarea{font-size:16px!important}}</style>
+<style id="pseudo-fs-css">.video-frame-container.pseudo-fs{position:fixed!important;inset:0!important;width:100vw!important;height:100%!important;max-width:none!important;z-index:99990!important;background:#000!important;border-radius:0!important;margin:0!important;padding:0!important;aspect-ratio:auto!important}.video-frame-container.pseudo-fs iframe,.video-frame-container.pseudo-fs #player{width:100%!important;height:100%!important}#pseudoFsClose{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;z-index:99999;width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.7);color:#fff;font-size:20px;cursor:pointer}</style>
 </head>
 <body>
 
@@ -3722,6 +3724,9 @@ footer.dlf .dlf-copy{font-size:10.5px;letter-spacing:1.2px;text-transform:upperc
       try {
         await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
       } catch (err) {
+        if (err && (err.code === 'auth/popup-blocked' || err.code === 'auth/operation-not-supported-in-this-environment' || err.code === 'auth/popup-closed-by-browser')) {
+          try { await auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()); return; } catch (e2) { showAlert(alertBox, authErrorMsg(e2), 'error'); return; }
+        }
         showAlert(alertBox, authErrorMsg(err), 'error');
       }
     }
@@ -3766,6 +3771,7 @@ footer.dlf .dlf-copy{font-size:10.5px;letter-spacing:1.2px;text-transform:upperc
       scheduleGuides();
     }
 
+    try { auth.getRedirectResult().catch(() => {}); } catch (e) {}
     auth.onAuthStateChanged(async (user) => {
       if (user && user.email && user.emailVerified) {
         if (currentUserEmail === user.email.toLowerCase()) { hideSplash(); return; }
@@ -4276,6 +4282,17 @@ footer.dlf .dlf-copy{font-size:10.5px;letter-spacing:1.2px;text-transform:upperc
           container.requestFullscreen();
         } else if (container.webkitRequestFullscreen) {
           container.webkitRequestFullscreen();
+        } else {
+          // iPhone: no permite pantalla completa en un recuadro; usamos una vista a pantalla completa propia
+          const on = container.classList.toggle('pseudo-fs');
+          let x = document.getElementById('pseudoFsClose');
+          if (on && !x) {
+            x = document.createElement('button');
+            x.id = 'pseudoFsClose'; x.type = 'button'; x.textContent = '✕'; x.setAttribute('aria-label', 'Salir de pantalla completa');
+            x.onclick = togglePlayerFullscreen;
+            document.body.appendChild(x);
+          } else if (!on && x) { x.remove(); }
+          return;
         }
       } else {
         if (document.exitFullscreen) {
